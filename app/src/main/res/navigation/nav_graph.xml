@@ -8,11 +8,11 @@
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.zarisa.ezmart.CategoriesFragment"
-        android:label="fragment_categories"
+        android:label="Categories"
         tools:layout="@layout/fragment_categories" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.zarisa.ezmart.HomeFragment"
-        android:label="fragment_home"
+        android:label="EZmart"
         tools:layout="@layout/fragment_home" />
 </navigation>
