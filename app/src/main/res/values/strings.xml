@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EZmart</string>
+    <string name="home_title">EZmart</string>
+    <string name="categories_title">Categories</string>
 </resources>
