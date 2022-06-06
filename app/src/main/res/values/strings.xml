@@ -2,4 +2,5 @@
     <string name="app_name">EZmart</string>
     <string name="home_title">EZmart</string>
     <string name="categories_title">Categories</string>
+    <string name="ez_description">"An image consist letters E and Z "</string>
 </resources>
