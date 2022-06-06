@@ -1,8 +1,8 @@
 package com.zarisa.ezmart
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -21,9 +21,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpSplashScreen() {
+//        val decorView: View = window.decorView
+//        val uiOptions = arrayListOf(View.SYSTEM_UI_FLAG_LAYOUT_STABLE,View.SYSTEM_UI_FLAG_FULLSCREEN)
+//
+//        decorView.systemUiVisibility = uiOptions[1]
+
+
+        window.statusBarColor =  resources.getColor(R.color.golden)
         binding.iconSplashScreen.let {
             it.alpha = 0f
             it.animate().setDuration(1500).alpha(1f).withEndAction {
+
+
+//                decorView.systemUiVisibility = uiOptions[0]
+
+                window.statusBarColor = resources.getColor(R.color.navy_blue)
+                actionBar?.show()
+                binding.root.setBackgroundColor(android.R.attr.windowBackground)
                 binding.viewMainContent.root.visibility = View.VISIBLE
                 binding.iconSplashScreen.visibility = View.GONE
                 supportActionBar?.show()
