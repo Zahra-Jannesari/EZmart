@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/categoriesFragment"
-        android:name="com.zarisa.ezmart.CategoriesFragment"
+        android:name="com.zarisa.ezmart.ui.category.CategoriesFragment"
         android:label="Categories"
         tools:layout="@layout/fragment_categories" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.zarisa.ezmart.HomeFragment"
+        android:name="com.zarisa.ezmart.ui.home.HomeFragment"
         android:label="EZmart"
         tools:layout="@layout/fragment_home" />
 </navigation>

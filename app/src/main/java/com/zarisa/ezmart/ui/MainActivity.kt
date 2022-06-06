@@ -1,4 +1,4 @@
-package com.zarisa.ezmart
+package com.zarisa.ezmart.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
