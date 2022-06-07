@@ -30,11 +30,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
                 <ImageView
                     android:layout_width="194dp"
                     android:layout_height="194dp"
-                    android:scaleType="center"
+                    android:scaleType="fitCenter"
                     app:imageUrl="@{productImageSrc}" />
 
                 <LinearLayout
@@ -47,10 +46,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="1"
-                        android:singleLine="true"
+                        android:maxLines="2"
+                        android:minLines="2"
                         android:text="@{product.name}"
                         android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textSize="15sp"
                         tools:text="product name" />
 
                     <TextView
@@ -60,7 +60,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:text="@{product.price}"
+                        android:text="@{product.price+` تومان`}"
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary" />
 
