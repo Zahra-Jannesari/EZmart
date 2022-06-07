@@ -8,14 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zarisa.ezmart.databinding.ProductListItemBinding
 import com.zarisa.ezmart.model.Product
 
-class RecyclerViewAdapter() :
-    ListAdapter<Product, RecyclerViewAdapter.ViewHolder>(DiffCallback) {
+typealias OnItemClick=(Int)->Unit
+class ProductRecyclerViewAdapter(val onItemClick: OnItemClick) :
+    ListAdapter<Product, ProductRecyclerViewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
         private var binding: ProductListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.product = product
             binding.productImageSrc = product.images[0].src
+            binding.root.setOnClickListener{onItemClick(product.id)}
             binding.executePendingBindings()
         }
     }

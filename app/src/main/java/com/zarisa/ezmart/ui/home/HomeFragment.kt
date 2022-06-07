@@ -5,10 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentHomeBinding
-import com.zarisa.ezmart.ui.components.RecyclerViewAdapter
+import com.zarisa.ezmart.ui.components.ProductRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
+
+const val PRODUCT_ID="id"
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -32,10 +37,13 @@ class HomeFragment : Fragment() {
     private fun bindView() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.rvNewest.adapter = RecyclerViewAdapter()
-        binding.rvMostSeen.adapter = RecyclerViewAdapter()
-        binding.rvHighRates.adapter = RecyclerViewAdapter()
+        binding.rvNewest.adapter = ProductRecyclerViewAdapter { id -> onProductItemClick(id) }
+        binding.rvMostSeen.adapter = ProductRecyclerViewAdapter { id -> onProductItemClick(id) }
+        binding.rvHighRates.adapter = ProductRecyclerViewAdapter { id -> onProductItemClick(id) }
     }
 
-
+    private fun onProductItemClick(id: Int) {
+        val bundle= bundleOf(PRODUCT_ID to id)
+        findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment,bundle)
+    }
 }
