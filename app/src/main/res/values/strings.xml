@@ -3,4 +3,7 @@
     <string name="home_title">EZmart</string>
     <string name="categories_title">Categories</string>
     <string name="ez_description">"An image consist letters E and Z "</string>
+    <string name="newest">تازه ها</string>
+    <string name="most_seen">محصولات پربازدید</string>
+    <string name="high_rates">بهترین ها</string>
 </resources>

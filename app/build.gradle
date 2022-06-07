@@ -72,6 +72,14 @@ dependencies {
     //interceptor
     implementation "com.squareup.okhttp3:logging-interceptor:4.7.2"
 
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+
+    def lifecycle_version = "2.5.0-rc01"
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    //for using by viewModels()
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
