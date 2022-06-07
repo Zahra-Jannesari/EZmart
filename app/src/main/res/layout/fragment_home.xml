@@ -1,120 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.home.HomeFragment">
+<layout>
 
-    <ScrollView
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.zarisa.ezmart.ui.home.HomeViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.home.HomeFragment">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:minHeight="150dp">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="?attr/colorSecondaryVariant"
+                    android:minHeight="150dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="@string/newest"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp"
-                        android:layoutDirection="rtl"
-                        android:orientation="horizontal"
-                        android:scrollbars="vertical|horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="?attr/colorPrimary"
-                android:minHeight="150dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/newest"
+                            android:textColor="@color/navy_blue"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
-                <LinearLayout
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_newest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="20dp"
+                            android:layoutDirection="rtl"
+                            android:orientation="horizontal"
+                            android:scrollbars="vertical|horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:listData="@{viewModel.newestProductsList}"
+                            tools:listitem="@layout/product_list_item" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:minHeight="150dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="@string/most_seen"
-                        android:textColor="@color/golden"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp"
-                        android:layoutDirection="rtl"
-                        android:orientation="horizontal"
-                        android:scrollbars="vertical|horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:minHeight="150dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/most_seen"
+                            android:textColor="@color/golden"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
-                <LinearLayout
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_mostSeen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="20dp"
+                            android:layoutDirection="rtl"
+                            android:orientation="horizontal"
+                            android:scrollbars="vertical|horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:listData="@{viewModel.mostSeenProductsList}"
+                            tools:listitem="@layout/product_list_item" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="?attr/colorSecondaryVariant"
+                    android:minHeight="150dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="@string/high_rates"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp"
-                        android:layoutDirection="rtl"
-                        android:orientation="horizontal"
-                        android:scrollbars="vertical|horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-    </ScrollView>
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/high_rates"
+                            android:textColor="@color/navy_blue"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
-</LinearLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_highRates"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="20dp"
+                            android:layoutDirection="rtl"
+                            android:orientation="horizontal"
+                            android:scrollbars="vertical|horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:listData="@{viewModel.highRateProductsList}"
+                            tools:listitem="@layout/product_list_item" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>
