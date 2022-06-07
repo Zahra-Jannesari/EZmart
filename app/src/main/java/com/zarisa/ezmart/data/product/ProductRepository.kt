@@ -20,4 +20,8 @@ class ProductRepository @Inject constructor(private val productRemoteDataSource:
     suspend fun getListOfHighRatedProducts(): List<Product> {
         return getListOfProducts(OrderByEnum.RATING)
     }
+
+    suspend fun getProductById(id: Int): Product {
+        return productRemoteDataSource.getProductById(id)
+    }
 }
