@@ -2,9 +2,11 @@ package com.zarisa.ezmart.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.zarisa.ezmart.data.product.ProductRepository
 import com.zarisa.ezmart.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,22 +17,25 @@ class HomeViewModel @Inject constructor(private val productRepository: ProductRe
     val mostSeenProductsList = MutableLiveData<List<Product>>()
     val highRateProductsList = MutableLiveData<List<Product>>()
 
-    fun getMainLists() {
-        getNewestProducts()
-        getMostSeenProducts()
-        getHighRateProducts()
+    fun getMainProductsLists() {
+        viewModelScope.launch {
+            getNewestProducts()
+            getMostSeenProducts()
+            getHighRateProducts()
+        }
+
     }
 
-    private fun getHighRateProducts() {
-        TODO("Not yet implemented")
+    private suspend fun getHighRateProducts() {
+        highRateProductsList.value = productRepository.getListOfHighRatedProducts()
     }
 
-    private fun getMostSeenProducts() {
-        TODO("Not yet implemented")
+    private suspend fun getMostSeenProducts() {
+        mostSeenProductsList.value = productRepository.getListOfMostSeenProducts()
     }
 
-    private fun getNewestProducts() {
-        TODO("Not yet implemented")
+    private suspend fun getNewestProducts() {
+        newestProductsList.value = productRepository.getListOfNewestProducts()
     }
 }
 
