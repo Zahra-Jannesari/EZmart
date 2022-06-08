@@ -28,6 +28,12 @@ fun bindProductRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
     adapter.submitList(data)
 }
 
+@BindingAdapter("productByCategoryListData")
+fun bindProductByCategoryRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
+    val adapter = recyclerView.adapter as ProductByCategoryListAdapter
+    adapter.submitList(data)
+}
+
 @BindingAdapter("categoryList")
 fun setCategories(textView: TextView, categoryList: List<Category>?) {
     if (!categoryList.isNullOrEmpty()) {

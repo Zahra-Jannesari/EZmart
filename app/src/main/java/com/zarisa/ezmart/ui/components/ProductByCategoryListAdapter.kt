@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zarisa.ezmart.databinding.ProductListItemBinding
+import com.zarisa.ezmart.databinding.ProductByCategoryItemBinding
 import com.zarisa.ezmart.model.OnItemClick
 import com.zarisa.ezmart.model.Product
 
-class ProductRecyclerViewAdapter(val onItemClick: OnItemClick) :
-    ListAdapter<Product, ProductRecyclerViewAdapter.ViewHolder>(DiffCallback) {
+class ProductByCategoryListAdapter(val onItemClick: OnItemClick) :
+    ListAdapter<Product, ProductByCategoryListAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
-        private var binding: ProductListItemBinding
+        private var binding: ProductByCategoryItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.product = product
@@ -27,7 +27,7 @@ class ProductRecyclerViewAdapter(val onItemClick: OnItemClick) :
         viewType: Int
     ): ViewHolder {
         return ViewHolder(
-            ProductListItemBinding.inflate(LayoutInflater.from(parent.context))
+            ProductByCategoryItemBinding.inflate(LayoutInflater.from(parent.context))
         )
     }
 

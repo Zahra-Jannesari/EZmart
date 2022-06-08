@@ -1,8 +1,6 @@
 package com.zarisa.ezmart.data.network
 
-enum class OrderByEnum {
-    DATE, POPULARITY, RATING
-}
+import com.zarisa.ezmart.model.OrderByEnum
 
 class NetworkParams {
     companion object {

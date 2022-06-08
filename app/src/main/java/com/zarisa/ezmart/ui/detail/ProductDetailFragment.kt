@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.zarisa.ezmart.databinding.FragmentProductDetailBinding
-import com.zarisa.ezmart.ui.home.PRODUCT_ID
+import com.zarisa.ezmart.model.ITEM_ID
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,7 +34,7 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun getCurrentProduct() {
-        viewModel.getProductById(requireArguments().getInt(PRODUCT_ID))
+        viewModel.getProductById(requireArguments().getInt(ITEM_ID))
     }
 
 }
