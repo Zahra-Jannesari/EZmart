@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.specific_category.CategoryFragment">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
 
-</FrameLayout>
+        <variable
+            name="viewModel"
+            type="com.zarisa.ezmart.ui.specific_category.CategoryViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.specific_category.CategoryFragment">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@{viewModel.categoryName}"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="?attr/colorPrimary"
+            tools:text="Category name" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_categoryProducts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:productByCategoryListData="@{viewModel.listOfProductsByCategory}"
+            tools:listitem="@layout/product_by_category_item" />
+    </LinearLayout>
+</layout>
