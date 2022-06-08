@@ -7,25 +7,44 @@
     android:background="@color/golden"
     tools:context=".ui.MainActivity">
 
-    <include
-        android:id="@+id/view_main_content"
-        layout="@layout/app_bar_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
-
     <ImageView
         android:id="@+id/icon_splash_screen"
         android:layout_width="288dp"
         android:layout_height="288dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:contentDescription="@string/ez_description"
         android:src="@drawable/ez_main_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/ez_description" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_highLevelViews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/view_main_content"
+            layout="@layout/app_bar_main"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/menu_bottom_nav" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

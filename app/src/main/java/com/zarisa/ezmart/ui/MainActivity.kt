@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             it.animate().setDuration(1500).alpha(1f).withEndAction {
                 window.statusBarColor = ContextCompat.getColor(this, R.color.navy_blue)
                 binding.root.setBackgroundColor(android.R.attr.windowBackground)
-                binding.viewMainContent.root.visibility = View.VISIBLE
+                binding.layoutHighLevelViews.visibility = View.VISIBLE
                 binding.iconSplashScreen.visibility = View.GONE
                 overridePendingTransition(
                     android.R.anim.fade_in,
@@ -54,5 +54,22 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.categoriesFragment -> showHighLevelViews()
+                R.id.homeFragment -> showHighLevelViews()
+                else -> hideHighLevelViews()
+            }
+        }
+    }
+
+    private fun showHighLevelViews() {
+        binding.bottomNav.visibility = View.VISIBLE
+        binding.viewMainContent.toolbar.visibility = View.VISIBLE
+    }
+
+    private fun hideHighLevelViews() {
+        binding.bottomNav.visibility = View.GONE
+        binding.viewMainContent.toolbar.visibility = View.GONE
     }
 }
