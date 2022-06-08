@@ -2,7 +2,7 @@ package com.zarisa.ezmart.data.product
 
 import com.zarisa.ezmart.data.network.ApiService
 import com.zarisa.ezmart.data.network.NetworkParams
-import com.zarisa.ezmart.data.network.OrderByEnum
+import com.zarisa.ezmart.model.OrderByEnum
 import com.zarisa.ezmart.model.Product
 import javax.inject.Inject
 
