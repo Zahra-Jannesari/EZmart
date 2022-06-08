@@ -1,4 +1,4 @@
-package com.zarisa.ezmart.ui.category
+package com.zarisa.ezmart.ui.all_categories
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoryViewModel @Inject constructor(private val categoryRepository: CategoryRepository) :
+class CategoriesViewModel @Inject constructor(private val categoryRepository: CategoryRepository) :
     ViewModel() {
     val categoryList = MutableLiveData<List<Category>>()
 

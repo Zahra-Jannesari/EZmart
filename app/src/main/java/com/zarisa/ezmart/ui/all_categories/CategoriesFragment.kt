@@ -1,4 +1,4 @@
-package com.zarisa.ezmart.ui.category
+package com.zarisa.ezmart.ui.all_categories
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CategoriesFragment : Fragment() {
     lateinit var binding: FragmentCategoriesBinding
-    val viewModel: CategoryViewModel by viewModels()
+    val viewModel: CategoriesViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
