@@ -5,4 +5,4 @@ data class Category(
     val name: String,
     val image: Image?
 )
-//val slug: String,
+//val slug: String
