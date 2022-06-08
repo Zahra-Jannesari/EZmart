@@ -1,14 +1,17 @@
 package com.zarisa.ezmart.ui.components
 
+import android.text.Html
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.model.Category
 import com.zarisa.ezmart.model.Product
+import com.zarisa.ezmart.model.Tag
 
 
 @BindingAdapter("imageUrl")
@@ -43,6 +46,15 @@ fun setCategories(textView: TextView, categoryList: List<Category>?) {
     }
 }
 
+@BindingAdapter("tagList")
+fun setTags(textView: TextView, tagList: List<Tag>?) {
+    if (!tagList.isNullOrEmpty()) {
+        textView.text = "#${tagList[0].name}"
+        for (i in 1 until tagList.size)
+            textView.text = "${textView.text}/${tagList[i].name}"
+    }
+}
+
 @BindingAdapter("setRate")
 fun setRatingBarRate(ratingBar: RatingBar, rate: String?) {
     if (!rate.isNullOrBlank()) {
@@ -54,4 +66,13 @@ fun setRatingBarRate(ratingBar: RatingBar, rate: String?) {
 fun bindCategoryRecyclerView(recyclerView: RecyclerView, data: List<Category>?) {
     val adapter = recyclerView.adapter as CategoryListRecyclerView
     adapter.submitList(data)
+}
+
+@BindingAdapter("setDescription")
+fun setDescription(textView: TextView, description: String?) {
+    textView.text =
+        if (!description.isNullOrBlank())
+            HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        else
+            "توضیحات بیشتری برای این محصول وجود ندارد."
 }
