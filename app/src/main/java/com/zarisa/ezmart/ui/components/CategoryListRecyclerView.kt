@@ -7,14 +7,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.zarisa.ezmart.databinding.CategoryListItemBinding
 import com.zarisa.ezmart.model.Category
+import com.zarisa.ezmart.model.OnItemClick
 
-class CategoryListRecyclerView() :
+class CategoryListRecyclerView(var onItemClick: OnItemClick) :
     ListAdapter<Category, CategoryListRecyclerView.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
         private var binding: CategoryListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category) {
             binding.category = category
+            binding.root.setOnClickListener { onItemClick(category.id) }
             binding.executePendingBindings()
         }
     }

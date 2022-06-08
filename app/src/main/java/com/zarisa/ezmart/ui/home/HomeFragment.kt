@@ -10,10 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentHomeBinding
+import com.zarisa.ezmart.model.ITEM_ID
 import com.zarisa.ezmart.ui.components.ProductRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
-
-const val PRODUCT_ID="id"
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -43,7 +42,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onProductItemClick(id: Int) {
-        val bundle= bundleOf(PRODUCT_ID to id)
-        findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment,bundle)
+        val bundle = bundleOf(ITEM_ID to id)
+        findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment, bundle)
     }
 }

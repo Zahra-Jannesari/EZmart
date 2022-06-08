@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.zarisa.ezmart.databinding.ProductListItemBinding
+import com.zarisa.ezmart.model.OnItemClick
 import com.zarisa.ezmart.model.Product
 
-typealias OnItemClick=(Int)->Unit
 class ProductRecyclerViewAdapter(val onItemClick: OnItemClick) :
     ListAdapter<Product, ProductRecyclerViewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
@@ -17,7 +17,7 @@ class ProductRecyclerViewAdapter(val onItemClick: OnItemClick) :
         fun bind(product: Product) {
             binding.product = product
             binding.productImageSrc = product.images[0].src
-            binding.root.setOnClickListener{onItemClick(product.id)}
+            binding.root.setOnClickListener { onItemClick(product.id) }
             binding.executePendingBindings()
         }
     }
