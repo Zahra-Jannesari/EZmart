@@ -1,10 +1,13 @@
 package com.zarisa.ezmart.ui.components
 
 import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zarisa.ezmart.R
+import com.zarisa.ezmart.model.Category
 import com.zarisa.ezmart.model.Product
 
 
@@ -18,8 +21,26 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .into(imgView)
     }
 }
+
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
     val adapter = recyclerView.adapter as ProductRecyclerViewAdapter
     adapter.submitList(data)
+}
+
+@BindingAdapter("categoryList")
+fun setCategories(textView: TextView, categoryList: List<Category>?) {
+    if (!categoryList.isNullOrEmpty()) {
+        textView.text = categoryList[0].name
+        for (i in 1 until categoryList.size)
+            textView.text = "${textView.text}/${categoryList[i].name}"
+    }
+}
+
+@BindingAdapter("setRate")
+fun setRatingBarRate(ratingBar: RatingBar, rate: String?) {
+    if (!rate.isNullOrBlank()) {
+//        Float.parseFloat()
+        ratingBar.rating = 4F
+    } else ratingBar.rating = 2F
 }
