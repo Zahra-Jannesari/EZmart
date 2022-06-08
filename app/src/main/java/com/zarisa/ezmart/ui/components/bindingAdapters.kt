@@ -5,6 +5,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zarisa.ezmart.R
+import com.zarisa.ezmart.model.Category
 import com.zarisa.ezmart.model.Product
 
 
@@ -18,8 +19,15 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .into(imgView)
     }
 }
-@BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
+
+@BindingAdapter("productListData")
+fun bindProductRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
     val adapter = recyclerView.adapter as RecyclerViewAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("categoryListData")
+fun bindCategoryRecyclerView(recyclerView: RecyclerView, data: List<Category>?) {
+    val adapter = recyclerView.adapter as CategoryListRecyclerView
     adapter.submitList(data)
 }

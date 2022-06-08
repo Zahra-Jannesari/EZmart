@@ -11,7 +11,7 @@ class NetworkParams {
         private const val CONSUMER_SECRET = "cs_5de453d21f1ff46c90f7412f9e441882574d9af2"
         private const val ORDER_BY = "orderby"
 
-        private fun getBaseOptions(): Map<String, String> {
+        fun getBaseOptions(): Map<String, String> {
             val baseOptionsHashMap = HashMap<String, String>()
             baseOptionsHashMap["consumer_key"] = CONSUMER_KEY
             baseOptionsHashMap["consumer_secret"] = CONSUMER_SECRET
