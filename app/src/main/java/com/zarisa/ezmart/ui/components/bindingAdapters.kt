@@ -40,7 +40,6 @@ fun setCategories(textView: TextView, categoryList: List<Category>?) {
 @BindingAdapter("setRate")
 fun setRatingBarRate(ratingBar: RatingBar, rate: String?) {
     if (!rate.isNullOrBlank()) {
-//        Float.parseFloat()
-        ratingBar.rating = 4F
-    } else ratingBar.rating = 2F
+        ratingBar.rating = rate.toFloat()
+    } else ratingBar.rating = 0F
 }
