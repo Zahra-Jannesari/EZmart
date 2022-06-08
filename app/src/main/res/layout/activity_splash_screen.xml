@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSecondaryVariant"
+    android:gravity="center"
+    tools:context=".ui.splash.SplashActivity">
+
+    <ImageView
+        android:id="@+id/icon_splash_screen"
+        android:layout_width="288dp"
+        android:layout_height="288dp"
+        android:contentDescription="@string/ez_description"
+        android:src="@drawable/ez_main_icon" />
+</LinearLayout>

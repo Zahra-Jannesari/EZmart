@@ -20,26 +20,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupSplashScreen()
-        setSupportActionBar(binding.viewMainContent.toolbar)
+        setupActionBar()
         setupNavigationComponents()
     }
 
-    private fun setupSplashScreen() {
-        window.statusBarColor = ContextCompat.getColor(this, R.color.golden)
-        binding.iconSplashScreen.let {
-            it.alpha = 0f
-            it.animate().setDuration(1500).alpha(1f).withEndAction {
-                window.statusBarColor = ContextCompat.getColor(this, R.color.navy_blue)
-                binding.root.setBackgroundColor(android.R.attr.windowBackground)
-                binding.layoutHighLevelViews.visibility = View.VISIBLE
-                binding.iconSplashScreen.visibility = View.GONE
-                overridePendingTransition(
-                    android.R.anim.fade_in,
-                    android.R.anim.fade_out
-                )
-            }
-        }
+    private fun setupActionBar() {
+        window.statusBarColor = ContextCompat.getColor(this, R.color.navy_blue)
+        setSupportActionBar(binding.viewMainContent.toolbar)
     }
 
     private fun setupNavigationComponents() {
