@@ -81,6 +81,9 @@ dependencies {
     //for using by viewModels()
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
 
+    //circle indicator
+    implementation 'me.relex:circleindicator:2.1.6'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

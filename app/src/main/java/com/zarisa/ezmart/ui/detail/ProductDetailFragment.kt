@@ -1,10 +1,10 @@
 package com.zarisa.ezmart.ui.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentProductDetailBinding
@@ -12,6 +12,7 @@ import com.zarisa.ezmart.model.ITEM_ID
 import com.zarisa.ezmart.model.NetworkStatus
 import com.zarisa.ezmart.ui.components.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import me.relex.circleindicator.CircleIndicator
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
@@ -62,12 +63,15 @@ class ProductDetailFragment : Fragment() {
     private fun bindView() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        adaptImageListToViewPager()
+        bindViewPager()
     }
 
-    private fun adaptImageListToViewPager() {
-        viewModel.currentProduct.observe(viewLifecycleOwner) {
-            binding.productImgViewPager.adapter = ViewPagerAdapter(it.images, requireContext())
+    private fun bindViewPager() {
+        viewModel.currentProduct.observe(viewLifecycleOwner) { product ->
+            binding.productImgViewPager.let { viewPager ->
+                viewPager.adapter = ViewPagerAdapter(product.images, requireContext())
+                (binding.circleIndicator as CircleIndicator).setViewPager(viewPager)
+            }
         }
     }
 
