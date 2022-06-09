@@ -10,6 +10,7 @@ import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentProductDetailBinding
 import com.zarisa.ezmart.model.ITEM_ID
 import com.zarisa.ezmart.model.NetworkStatus
+import com.zarisa.ezmart.ui.components.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,6 +62,13 @@ class ProductDetailFragment : Fragment() {
     private fun bindView() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        adaptImageListToViewPager()
+    }
+
+    private fun adaptImageListToViewPager() {
+        viewModel.currentProduct.observe(viewLifecycleOwner) {
+            binding.productImgViewPager.adapter = ViewPagerAdapter(it.images, requireContext())
+        }
     }
 
     private fun getCurrentProduct() {

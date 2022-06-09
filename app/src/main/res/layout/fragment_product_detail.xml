@@ -42,8 +42,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/product_imgView"
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/product_imgViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="190dp"
                     android:backgroundTint="@color/white"
@@ -52,6 +52,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@tools:sample/backgrounds/scenic" />
+
 
                 <TextView
                     android:layout_width="match_parent"
