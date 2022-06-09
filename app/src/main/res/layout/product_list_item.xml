@@ -23,7 +23,8 @@
             android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,10 +51,12 @@
                         android:minLines="2"
                         android:text="@{product.name}"
                         android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textColor="@color/black"
                         android:textSize="15sp"
                         tools:text="product name" />
 
                     <TextView
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -62,7 +65,7 @@
                         android:singleLine="true"
                         android:text="@{product.price+` تومان`}"
                         android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary" />
+                        android:textColor="@color/black" />
 
                     <TextView
 
@@ -74,7 +77,7 @@
                         android:singleLine="true"
                         android:text="@{product.short_description}"
                         android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary" />
+                        android:textColor="@color/black" />
 
                 </LinearLayout>
 

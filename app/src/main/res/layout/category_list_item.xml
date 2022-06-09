@@ -17,9 +17,9 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:backgroundTint="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                     android:layout_width="194dp"
                     android:layout_height="194dp"
                     android:padding="8dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     app:imageUrl="@{category.image.src}" />
 
                 <TextView
@@ -41,6 +41,7 @@
                     android:maxLines="1"
                     android:padding="8dp"
                     android:text="@{category.name}"
+                    android:textColor="@color/black"
                     android:textSize="15sp"
                     tools:text="product name" />
             </LinearLayout>
