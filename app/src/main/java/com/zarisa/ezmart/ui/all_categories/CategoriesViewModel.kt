@@ -14,20 +14,16 @@ import javax.inject.Inject
 class CategoriesViewModel @Inject constructor(private val categoryRepository: CategoryRepository) :
     ViewModel() {
     val categoryList = MutableLiveData<List<Category>>()
-    val networkStatusLiveDatac = MutableLiveData<NetworkStatus>()
+    val networkStatusLiveData = MutableLiveData<NetworkStatus>()
     fun getCategoriesList() {
-        networkStatusLiveDatac.value = NetworkStatus.LOADING
+        networkStatusLiveData.value = NetworkStatus.LOADING
         viewModelScope.launch {
             try {
                 categoryList.value = categoryRepository.getCategoriesList()
-                networkStatusLiveDatac.value = NetworkStatus.SUCCESSFUL
+                networkStatusLiveData.value = NetworkStatus.SUCCESSFUL
             } catch (e: Exception) {
-                networkStatusLiveDatac.value = NetworkStatus.ERROR
+                networkStatusLiveData.value = NetworkStatus.ERROR
             }
         }
     }
-
-//    override fun setNetworkStatus(networkStatus: NetworkStatus) {
-//        super.setNetworkStatus(networkStatus)
-//    }
 }

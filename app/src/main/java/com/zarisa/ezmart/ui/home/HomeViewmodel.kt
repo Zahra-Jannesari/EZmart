@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zarisa.ezmart.data.product.ProductRepository
+import com.zarisa.ezmart.model.NetworkStatus
 import com.zarisa.ezmart.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -12,18 +13,25 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val productRepository: ProductRepository) :
     ViewModel() {
+    val networkStatusLiveData = MutableLiveData<NetworkStatus>()
 
     val newestProductsList = MutableLiveData<List<Product>>()
     val mostSeenProductsList = MutableLiveData<List<Product>>()
     val highRateProductsList = MutableLiveData<List<Product>>()
 
     fun getMainProductsLists() {
+        networkStatusLiveData.value = NetworkStatus.LOADING
         viewModelScope.launch {
-            getNewestProducts()
-            getMostSeenProducts()
-            getHighRateProducts()
-        }
+            try {
+                getNewestProducts()
+                getMostSeenProducts()
+                getHighRateProducts()
+                networkStatusLiveData.value = NetworkStatus.SUCCESSFUL
+            } catch (e: Exception) {
+                networkStatusLiveData.value = NetworkStatus.ERROR
+            }
 
+        }
     }
 
     private suspend fun getHighRateProducts() {
@@ -38,4 +46,5 @@ class HomeViewModel @Inject constructor(private val productRepository: ProductRe
         newestProductsList.value = productRepository.getListOfNewestProducts()
     }
 }
+
 

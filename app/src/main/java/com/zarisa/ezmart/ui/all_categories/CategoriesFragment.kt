@@ -33,7 +33,11 @@ class CategoriesFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.rvCategories.adapter = CategoryListRecyclerView { id -> onCategoryClick(id) }
-        viewModel.networkStatusLiveDatac.observe(viewLifecycleOwner) {
+        statusObserver()
+    }
+
+    private fun statusObserver() {
+        viewModel.networkStatusLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 NetworkStatus.LOADING -> {
                     binding.rvCategories.visibility = View.GONE
