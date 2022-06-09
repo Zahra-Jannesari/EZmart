@@ -17,20 +17,23 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white">
+            android:layout_margin="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="194dp"
-                    android:layout_height="194dp"
-                    android:padding="8dp"
-                    android:scaleType="fitXY"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:foregroundGravity="center"
+                    android:scaleType="fitCenter"
                     app:imageUrl="@{category.image.src}" />
 
                 <TextView
@@ -41,7 +44,6 @@
                     android:maxLines="1"
                     android:padding="8dp"
                     android:text="@{category.name}"
-                    android:textColor="@color/black"
                     android:textSize="15sp"
                     tools:text="product name" />
             </LinearLayout>

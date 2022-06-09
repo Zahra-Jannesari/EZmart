@@ -74,5 +74,5 @@ fun setDescription(textView: TextView, description: String?) {
         if (!description.isNullOrBlank())
             HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_LEGACY)
         else
-            "توضیحات بیشتری برای این محصول وجود ندارد."
+            "جزییات بیشتری ثبت نشده است.."
 }
