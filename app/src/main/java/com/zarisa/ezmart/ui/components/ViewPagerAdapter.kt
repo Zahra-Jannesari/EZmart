@@ -24,13 +24,14 @@ class ViewPagerAdapter(private val sliderImgList: List<Image>, val context: Cont
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val imageView = ImageView(context).apply {
             this.scaleType = ImageView.ScaleType.FIT_CENTER
-            sliderImgList[position].src.let {
-                Glide.with(this)
-                    .load(it)
-                    .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.error_image)
-                    .into(this)
-            }
+            if (sliderImgList.isNotEmpty())
+                sliderImgList[position].src.let {
+                    Glide.with(this)
+                        .load(it)
+                        .placeholder(R.drawable.loading_animation)
+                        .error(R.drawable.error_image)
+                        .into(this)
+                }
         }
         container.addView(imageView, 0)
         return imageView

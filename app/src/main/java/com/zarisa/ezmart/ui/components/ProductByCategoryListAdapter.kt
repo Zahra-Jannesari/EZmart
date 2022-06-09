@@ -16,7 +16,7 @@ class ProductByCategoryListAdapter(val onItemClick: OnItemClick) :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.product = product
-            binding.productImageSrc = product.images[0].src
+            binding.productImageSrc = if (product.images.isNotEmpty()) product.images[0].src else ""
             binding.root.setOnClickListener { onItemClick(product.id) }
             binding.executePendingBindings()
         }
