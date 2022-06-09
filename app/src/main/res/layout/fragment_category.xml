@@ -12,6 +12,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
         tools:context=".ui.specific_category.CategoryFragment">
 
@@ -21,7 +22,7 @@
             android:padding="10dp"
             android:text="@{viewModel.categoryName}"
             android:textAppearance="?attr/textAppearanceHeadline4"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="@color/navy_blue"
             tools:text="Category name" />
 
         <androidx.recyclerview.widget.RecyclerView
