@@ -26,12 +26,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupActionBar() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.navy_blue)
-        setSupportActionBar(binding.viewMainContent.toolbar)
+        setSupportActionBar(binding.toolbar)
     }
 
     private fun setupNavigationComponents() {
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         findViewById<BottomNavigationView>(R.id.bottom_nav)
             .setupWithNavController(navController)
@@ -52,11 +52,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun showHighLevelViews() {
         binding.bottomNav.visibility = View.VISIBLE
-        binding.viewMainContent.toolbar.visibility = View.VISIBLE
+        binding.toolbar.visibility = View.VISIBLE
     }
 
     private fun hideHighLevelViews() {
         binding.bottomNav.visibility = View.GONE
-        binding.viewMainContent.toolbar.visibility = View.GONE
+        binding.toolbar.visibility = View.GONE
     }
 }
