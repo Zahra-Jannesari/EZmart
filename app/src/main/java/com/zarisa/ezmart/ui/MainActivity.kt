@@ -18,16 +18,16 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    val viewModel: ParentViewModel by viewModels()
+//    val viewModel: ParentViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupActionBar()
         setupNavigationComponents()
-        bindNetworkStatusView()
+//        bindNetworkStatusView()
     }
-
+/*
     private fun bindNetworkStatusView() {
         viewModel.networkStatusLiveData.observe(this) {
             when (it) {
@@ -60,6 +60,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+ */
+
 
     private fun setupActionBar() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.navy_blue)

@@ -10,19 +10,28 @@
             type="com.zarisa.ezmart.ui.all_categories.CategoriesViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorPrimary"
         tools:context=".ui.all_categories.CategoriesFragment">
-
+        <include
+            android:id="@+id/l_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/layout_network_status"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCategories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:categoryListData="@{viewModel.categoryList}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:spanCount="2"
             tools:listitem="@layout/category_list_item" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
