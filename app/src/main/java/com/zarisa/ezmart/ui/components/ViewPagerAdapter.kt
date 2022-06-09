@@ -40,5 +40,4 @@ class ViewPagerAdapter(private val sliderImgList: List<Image>, val context: Cont
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as ImageView)
     }
-
 }
