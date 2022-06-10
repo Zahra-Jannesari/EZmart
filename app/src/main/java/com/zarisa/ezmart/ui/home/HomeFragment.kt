@@ -12,6 +12,7 @@ import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentHomeBinding
 import com.zarisa.ezmart.model.ITEM_ID
 import com.zarisa.ezmart.model.NetworkStatus
+import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
 import com.zarisa.ezmart.ui.components.ProductRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,28 +38,7 @@ class HomeFragment : Fragment() {
 
     private fun statusObserver() {
         viewModel.networkStatusLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                NetworkStatus.LOADING -> {
-                    binding.scrollViewLists.visibility = View.GONE
-                    binding.lStatus.tvNetworkStatus.visibility = View.GONE
-                    binding.lStatus.imageViewNetworkStatus.let { imageView ->
-                        imageView.visibility = View.VISIBLE
-                        imageView.setImageResource(R.drawable.loading_animation)
-                    }
-                }
-                NetworkStatus.ERROR -> {
-                    binding.scrollViewLists.visibility = View.GONE
-                    binding.lStatus.tvNetworkStatus.visibility = View.VISIBLE
-                    binding.lStatus.imageViewNetworkStatus.let { imageView ->
-                        imageView.visibility = View.VISIBLE
-                        imageView.setImageResource(R.drawable.network_error)
-                    }
-                }
-                else -> {
-                    binding.scrollViewLists.visibility = View.VISIBLE
-                    binding.lStatus.root.visibility = View.GONE
-                }
-            }
+            NetworkStatusViewHandler(it,binding.scrollViewLists,binding.lStatus)
         }
     }
 

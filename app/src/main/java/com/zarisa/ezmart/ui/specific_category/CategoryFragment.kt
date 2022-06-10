@@ -12,6 +12,7 @@ import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentCategoryBinding
 import com.zarisa.ezmart.model.ITEM_ID
 import com.zarisa.ezmart.model.NetworkStatus
+import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
 import com.zarisa.ezmart.ui.components.ProductByCategoryListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,28 +37,7 @@ class CategoryFragment : Fragment() {
 
     private fun statusObserver() {
         viewModel.networkStatusLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                NetworkStatus.LOADING -> {
-                    binding.lMain.visibility = View.GONE
-                    binding.lStatus.tvNetworkStatus.visibility = View.GONE
-                    binding.lStatus.imageViewNetworkStatus.let { imageView ->
-                        imageView.visibility = View.VISIBLE
-                        imageView.setImageResource(R.drawable.loading_animation)
-                    }
-                }
-                NetworkStatus.ERROR -> {
-                    binding.lMain.visibility = View.GONE
-                    binding.lStatus.tvNetworkStatus.visibility = View.VISIBLE
-                    binding.lStatus.imageViewNetworkStatus.let { imageView ->
-                        imageView.visibility = View.VISIBLE
-                        imageView.setImageResource(R.drawable.network_error)
-                    }
-                }
-                else -> {
-                    binding.lMain.visibility = View.VISIBLE
-                    binding.lStatus.root.visibility = View.GONE
-                }
-            }
+            NetworkStatusViewHandler(it, binding.lMain, binding.lStatus)
         }
     }
 
