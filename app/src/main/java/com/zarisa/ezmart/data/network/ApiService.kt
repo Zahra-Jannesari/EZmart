@@ -8,12 +8,14 @@ interface ApiService {
 
     @GET("products/")
     suspend fun getListOfProducts(
-        @QueryMap options: Map<String, String>
+        @QueryMap options: Map<String, String>,
+        @Query("per_page") perPage: Int = 100
     ): List<Product>
 
     @GET("products/categories")
     suspend fun getListOfAllCategories(
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("per_page") perPage: Int = 100
     ): List<Category>
 
     @GET("products/{id}")
@@ -32,6 +34,7 @@ interface ApiService {
     suspend fun getProductsByCategory(
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Query("category") categoryId: String,
-        @Query("page") page: Int = 1
+        @Query("page") page: Int = 1,
+        @Query("per_page") perPage: Int = 100
     ): List<Product>
 }

@@ -51,7 +51,7 @@ fun setTags(textView: TextView, tagList: List<Tag>?) {
     if (!tagList.isNullOrEmpty()) {
         textView.text = "#${tagList[0].name}"
         for (i in 1 until tagList.size)
-            textView.text = "${textView.text}/${tagList[i].name}"
+            textView.text = "${textView.text}#${tagList[i].name}"
     }
 }
 
