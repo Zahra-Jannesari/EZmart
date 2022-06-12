@@ -44,6 +44,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="8dp"
+                    android:textColor="@color/black"
                     android:text="@{category.name}"
                     android:textSize="15sp"
                     tools:text="product name" />
