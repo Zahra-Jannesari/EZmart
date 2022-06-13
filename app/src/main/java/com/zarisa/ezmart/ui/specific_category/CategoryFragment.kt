@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentCategoryBinding
 import com.zarisa.ezmart.model.ITEM_ID
-import com.zarisa.ezmart.model.NetworkStatus
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
 import com.zarisa.ezmart.ui.components.ProductByCategoryListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,14 +29,18 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.initCategory(requireArguments().getInt(ITEM_ID))
+        initCategoryDetail()
         bindView()
         statusObserver()
     }
 
+    private fun initCategoryDetail() {
+        viewModel.initCategory(requireArguments().getInt(ITEM_ID))
+    }
+
     private fun statusObserver() {
         viewModel.networkStatusLiveData.observe(viewLifecycleOwner) {
-            NetworkStatusViewHandler(it, binding.lMain, binding.lStatus)
+            NetworkStatusViewHandler(it, binding.lMain, binding.lStatus) { initCategoryDetail() }
         }
     }
 

@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentHomeBinding
 import com.zarisa.ezmart.model.ITEM_ID
-import com.zarisa.ezmart.model.NetworkStatus
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
 import com.zarisa.ezmart.ui.components.ProductRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,13 +31,21 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindView()
-        viewModel.getMainProductsLists()
+        getHomeLists()
         statusObserver()
+    }
+
+    private fun getHomeLists() {
+        viewModel.getMainProductsLists()
     }
 
     private fun statusObserver() {
         viewModel.networkStatusLiveData.observe(viewLifecycleOwner) {
-            NetworkStatusViewHandler(it,binding.scrollViewLists,binding.lStatus)
+            NetworkStatusViewHandler(
+                it,
+                binding.scrollViewLists,
+                binding.lStatus
+            ) { getHomeLists() }
         }
     }
 
