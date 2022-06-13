@@ -9,4 +9,5 @@
     <string name="product_description">جزئیات محصول:</string>
     <string name="slash">/</string>
     <string name="connection_check_error">لطفا اتصال اینترنت خود را چک کنید.</string>
+    <string name="see_details"><![CDATA[<< مشاهده جزئیات]]></string>
 </resources>

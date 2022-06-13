@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.zarisa.ezmart.ui.all_categories.CategoriesFragment"
-        android:label="Categories"
+        android:label="دسته‌بندی‌ها"
         tools:layout="@layout/fragment_categories">
         <action
             android:id="@+id/action_categoriesFragment_to_categoryFragment"

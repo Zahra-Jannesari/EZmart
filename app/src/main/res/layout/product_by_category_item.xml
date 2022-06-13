@@ -21,8 +21,7 @@
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginHorizontal="10dp"
+            android:layout_height="1dp"
             android:background="@color/navy_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,27 +61,61 @@
                 android:textSize="15sp"
                 tools:text="product name" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:layout_margin="8dp"
+                    android:layoutDirection="rtl"
+                    android:numStars="5"
+                    android:progressTint="@color/golden"
+                    android:stepSize="0.5"
+                    app:setRate="@{product.average_rating}"
+                    tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/slash" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@{product.rating_count+` رای`}" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{product.price+` تومان`}"
+                android:text="@{product.price!=``? product.price+` تومان`:``}"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                tools:text="20 هزار تومان" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/see_detail_clicker"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:minLines="2"
-                android:text="@{product.short_description}"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/black" />
+                android:layout_marginBottom="5dp"
+                android:text="@string/see_details"
+                android:textColor="@color/drawable_tint"
+                android:textDirection="ltr"
+                android:textSize="13sp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

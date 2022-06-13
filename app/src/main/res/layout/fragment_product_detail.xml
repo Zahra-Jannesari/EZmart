@@ -92,16 +92,18 @@
                     tools:text="product name" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="10dp"
+                    android:paddingHorizontal="5dp"
                     android:paddingVertical="2dp"
-                    android:text="@{viewModel.currentProduct.price+` تومان`}"
-                    tools:text="قیمت" />
+                    android:text="@{viewModel.currentProduct.price!=``? viewModel.currentProduct.price+` تومان`:``}"
+                    tools:text="20 هزار" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="4dp"
                     android:background="?android:attr/listDivider" />
 
                 <TextView
@@ -118,7 +120,7 @@
                     app:setDescription="@{viewModel.currentProduct.description}" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="7dp"
                     android:textSize="12sp"
@@ -127,6 +129,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="4dp"
                     android:background="?android:attr/listDivider" />
 
                 <LinearLayout
@@ -140,7 +144,8 @@
                         style="?android:attr/ratingBarStyleIndicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layoutDirection="ltr"
+                        android:layoutDirection="rtl"
+                        android:progressTint="@color/golden"
                         android:scaleX=".8"
                         android:scaleY=".8"
                         android:stepSize="0.5"

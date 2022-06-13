@@ -1,6 +1,5 @@
 package com.zarisa.ezmart.ui.components
 
-import android.text.Html
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -72,7 +71,16 @@ fun bindCategoryRecyclerView(recyclerView: RecyclerView, data: List<Category>?) 
 fun setDescription(textView: TextView, description: String?) {
     textView.text =
         if (!description.isNullOrBlank())
-            HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            removeParagraphTags(description)?.let {
+                HtmlCompat.fromHtml(
+                    it,
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
+            }
         else
-            "جزییات بیشتری ثبت نشده است.."
+            "جزییات بیشتری ثبت نشده است."
+}
+
+fun removeParagraphTags(input: String?): String? {
+    return input?.replace("<p>".toRegex(), "")?.replace("</p>".toRegex(), "")
 }
