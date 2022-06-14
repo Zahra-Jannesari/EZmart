@@ -38,137 +38,148 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.cardview.widget.CardView
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="?attr/colorSecondaryVariant"
-                    android:minHeight="150dp"
-                    app:layout_constraintBottom_toBottomOf="@id/guideline1"
+                    app:layout_constraintBottom_toTopOf="@id/guideline1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/specials_imgViewPager"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="0dp"
+                        android:backgroundTint="@color/white"
+                        android:scaleType="fitCenter"
+                        tools:src="@tools:sample/backgrounds/scenic" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:text="@string/newest"
-                            android:textColor="@color/navy_blue"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_newest"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="20dp"
-                            android:layoutDirection="rtl"
-                            android:orientation="horizontal"
-                            android:scrollbars="vertical|horizontal"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:productListData="@{viewModel.newestProductsList}"
-                            tools:listitem="@layout/product_list_item" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    <me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/circle_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="10dp"
+                        app:ci_drawable="@drawable/circle_radius"
+                        app:ci_drawable_unselected="@drawable/circle_radius" />
+                </FrameLayout>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.33" />
+                    app:layout_constraintGuide_percent="0.15" />
 
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="?attr/colorPrimary"
-                    android:minHeight="150dp"
-                    app:layout_constraintBottom_toTopOf="@id/guideline2"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/guideline1">
 
-                    <LinearLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:backgroundTint="?attr/colorSecondaryVariant">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:text="@string/most_seen"
-                            android:textColor="@color/golden"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_mostSeen"
-                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="20dp"
-                            android:layoutDirection="rtl"
-                            android:orientation="horizontal"
-                            android:scrollbars="vertical|horizontal"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:productListData="@{viewModel.mostSeenProductsList}"
-                            tools:listitem="@layout/product_list_item" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                            android:orientation="vertical">
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.66" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:text="@string/newest"
+                                android:textColor="@color/navy_blue"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="20dp"
-                    android:backgroundTint="?attr/colorSecondaryVariant"
-                    android:minHeight="150dp"
-                    app:layout_constraintBottom_toBottomOf="@id/guideline3"
-                    app:layout_constraintTop_toBottomOf="@id/guideline2">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_newest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layoutDirection="rtl"
+                                android:orientation="horizontal"
+                                android:scrollbars="vertical|horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                app:productListData="@{viewModel.newestProductsList}"
+                                tools:listitem="@layout/product_list_item" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
-                    <LinearLayout
+
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:backgroundTint="?attr/colorPrimary">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:text="@string/high_rates"
-                            android:textColor="@color/navy_blue"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_highRates"
-                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="20dp"
-                            android:layoutDirection="rtl"
-                            android:orientation="horizontal"
-                            android:scrollbars="vertical|horizontal"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:productListData="@{viewModel.highRateProductsList}"
-                            tools:listitem="@layout/product_list_item" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                            android:orientation="vertical">
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="1" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:text="@string/most_seen"
+                                android:textColor="@color/golden"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_mostSeen"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layoutDirection="rtl"
+                                android:orientation="horizontal"
+                                android:scrollbars="vertical|horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                app:productListData="@{viewModel.mostSeenProductsList}"
+                                tools:listitem="@layout/product_list_item" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:backgroundTint="?attr/colorSecondaryVariant">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:text="@string/high_rates"
+                                android:textColor="@color/navy_blue"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_highRates"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layoutDirection="rtl"
+                                android:orientation="horizontal"
+                                android:scrollbars="vertical|horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                app:productListData="@{viewModel.highRateProductsList}"
+                                tools:listitem="@layout/product_list_item" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

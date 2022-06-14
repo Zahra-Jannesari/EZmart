@@ -36,8 +36,8 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:scaleType="fitCenter"
                         app:imageUrl="@{productImageSrc}" />
 
@@ -60,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="10dp">
+                    android:padding="5dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                         android:maxLines="2"
                         android:minLines="2"
                         android:text="@{product.name}"
-                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textAppearance="?attr/textAppearanceHeadline3"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         tools:text="product name" />
@@ -78,14 +78,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="2dp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:singleLine="true"
-
                         android:text="@{product.price!=``? product.price+` تومان`:``}"
-                        android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="@color/black"
+                        android:textSize="12sp"
                         tools:ignore="RtlHardcoded"
                         tools:text="20 هزار" />
 
