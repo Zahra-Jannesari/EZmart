@@ -13,7 +13,9 @@ import com.zarisa.ezmart.databinding.FragmentHomeBinding
 import com.zarisa.ezmart.model.ITEM_ID
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
 import com.zarisa.ezmart.ui.components.ProductRecyclerViewAdapter
+import com.zarisa.ezmart.ui.components.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import me.relex.circleindicator.CircleIndicator
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -55,10 +57,20 @@ class HomeFragment : Fragment() {
         binding.rvNewest.adapter = ProductRecyclerViewAdapter { id -> onProductItemClick(id) }
         binding.rvMostSeen.adapter = ProductRecyclerViewAdapter { id -> onProductItemClick(id) }
         binding.rvHighRates.adapter = ProductRecyclerViewAdapter { id -> onProductItemClick(id) }
+        bindViewPager()
     }
 
     private fun onProductItemClick(id: Int) {
         val bundle = bundleOf(ITEM_ID to id)
         findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment, bundle)
+    }
+
+    private fun bindViewPager() {
+        viewModel.specialOffers.observe(viewLifecycleOwner) { product ->
+            binding.specialsImgViewPager.let { viewPager ->
+                viewPager.adapter = ViewPagerAdapter(product.images, requireContext())
+                (binding.circleIndicator as CircleIndicator).setViewPager(viewPager)
+            }
+        }
     }
 }

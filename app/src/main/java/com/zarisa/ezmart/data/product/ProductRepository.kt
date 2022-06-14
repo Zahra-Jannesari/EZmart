@@ -24,4 +24,8 @@ class ProductRepository @Inject constructor(private val productRemoteDataSource:
     suspend fun getProductById(id: Int): Product {
         return productRemoteDataSource.getProductById(id)
     }
+
+    suspend fun getSpecialOffers(): Product {
+        return productRemoteDataSource.getSpecialOffers()
+    }
 }

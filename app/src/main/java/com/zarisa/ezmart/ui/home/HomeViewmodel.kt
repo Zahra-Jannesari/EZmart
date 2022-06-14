@@ -18,6 +18,7 @@ class HomeViewModel @Inject constructor(private val productRepository: ProductRe
     val newestProductsList = MutableLiveData<List<Product>>()
     val mostSeenProductsList = MutableLiveData<List<Product>>()
     val highRateProductsList = MutableLiveData<List<Product>>()
+    val specialOffers = MutableLiveData<Product>()
 
     fun getMainProductsLists() {
         networkStatusLiveData.value = NetworkStatus.LOADING
@@ -26,12 +27,17 @@ class HomeViewModel @Inject constructor(private val productRepository: ProductRe
                 getNewestProducts()
                 getMostSeenProducts()
                 getHighRateProducts()
+                getSpecialOffers()
                 networkStatusLiveData.value = NetworkStatus.SUCCESSFUL
             } catch (e: Exception) {
                 networkStatusLiveData.value = NetworkStatus.ERROR
             }
 
         }
+    }
+
+    private suspend fun getSpecialOffers() {
+        specialOffers.value = productRepository.getSpecialOffers()
     }
 
     private suspend fun getHighRateProducts() {

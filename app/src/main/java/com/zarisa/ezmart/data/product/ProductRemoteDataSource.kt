@@ -19,4 +19,8 @@ class ProductRemoteDataSource @Inject constructor(private val apiService: ApiSer
     suspend fun getProductById(id: Int): Product {
         return apiService.getProductById(id)
     }
+
+    suspend fun getSpecialOffers(): Product {
+        return apiService.getProductById(NetworkParams.SPECIAL_OFFERS)
+    }
 }
