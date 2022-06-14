@@ -3,6 +3,7 @@ package com.zarisa.ezmart.ui.home
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
@@ -11,6 +12,9 @@ import androidx.navigation.fragment.findNavController
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentHomeBinding
 import com.zarisa.ezmart.model.ITEM_ID
+import com.zarisa.ezmart.model.SEARCH_IN_ALL
+import com.zarisa.ezmart.model.SEARCH_ORIGIN
+import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
 import com.zarisa.ezmart.ui.components.ProductRecyclerViewAdapter
 import com.zarisa.ezmart.ui.components.ViewPagerAdapter
@@ -26,8 +30,14 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setupAppbar()
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    private fun setupAppbar() {
+        (requireActivity() as MainActivity).supportActionBar?.show()
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,8 +79,19 @@ class HomeFragment : Fragment() {
         viewModel.specialOffers.observe(viewLifecycleOwner) { product ->
             binding.specialsImgViewPager.let { viewPager ->
                 viewPager.adapter = ViewPagerAdapter(product.images, requireContext())
-                (binding.circleIndicator as CircleIndicator).setViewPager(viewPager)
+                binding.circleIndicator.setViewPager(viewPager)
             }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_search -> {
+                val bundle = bundleOf(SEARCH_ORIGIN to SEARCH_IN_ALL)
+                findNavController().navigate(R.id.action_homeFragment_to_searchFragment, bundle)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_categoriesFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_categoriesFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -22,11 +25,14 @@
         <action
             android:id="@+id/action_homeFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.zarisa.ezmart.ui.detail.ProductDetailFragment"
-        android:label="fragment_product_detail"
+        android:label=""
         tools:layout="@layout/fragment_product_detail" />
     <fragment
         android:id="@+id/categoryFragment"
@@ -36,5 +42,13 @@
         <action
             android:id="@+id/action_categoryFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.zarisa.ezmart.ui.search.SearchFragment"
+        android:label=""
+        tools:layout="@layout/fragment_search" />
 </navigation>

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.zarisa.ezmart.databinding.FragmentProductDetailBinding
 import com.zarisa.ezmart.model.ITEM_ID
+import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
 import com.zarisa.ezmart.ui.components.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,8 +22,15 @@ class ProductDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setupAppbar()
         binding = FragmentProductDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    private fun setupAppbar() {
+        (requireActivity() as MainActivity).supportActionBar?.hide()
+        setHasOptionsMenu(false)
+        (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +60,7 @@ class ProductDetailFragment : Fragment() {
         viewModel.currentProduct.observe(viewLifecycleOwner) { product ->
             binding.productImgViewPager.let { viewPager ->
                 viewPager.adapter = ViewPagerAdapter(product.images, requireContext())
-                (binding.circleIndicator as CircleIndicator).setViewPager(viewPager)
+                binding.circleIndicator.setViewPager(viewPager)
             }
         }
     }

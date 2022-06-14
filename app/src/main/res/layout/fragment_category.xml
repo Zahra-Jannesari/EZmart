@@ -36,15 +36,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:context=".ui.specific_category.CategoryFragment">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@{viewModel.categoryName}"
-                android:textAppearance="?attr/textAppearanceHeadline4"
-                android:textColor="@color/navy_blue"
-                tools:text="Category name" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_categoryProducts"
                 android:layout_width="match_parent"
