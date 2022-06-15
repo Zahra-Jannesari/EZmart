@@ -50,6 +50,11 @@
         android:id="@+id/searchFragment"
         android:name="com.zarisa.ezmart.ui.search.SearchFragment"
         android:label=""
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/shoppingFragment"

@@ -32,11 +32,13 @@
             android:id="@+id/imageView"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:padding="10dp"
             android:scaleType="fitCenter"
             app:imageUrl="@{productImageSrc}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@color/drawable_tint" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -76,8 +78,8 @@
                     android:layout_margin="8dp"
                     android:layoutDirection="rtl"
                     android:numStars="5"
-                    android:progressTint="@color/golden"
                     android:stepSize="0.5"
+                    android:theme="@style/RatingBar"
                     app:setRate="@{product.average_rating}"
                     tools:ignore="RtlHardcoded" />
 
@@ -85,18 +87,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/slash" />
+                    android:text="@string/slash"
+                    android:textColor="@color/drawable_tint" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@{product.rating_count+` رای`}" />
+                    android:text="@{product.rating_count+` رای`}"
+                    android:textColor="@color/drawable_tint" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:ellipsize="end"

@@ -1,12 +1,15 @@
 package com.zarisa.ezmart.data.product
 
+import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.model.OrderByEnum
 import com.zarisa.ezmart.model.Product
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(private val productRemoteDataSource: ProductRemoteDataSource) {
     private suspend fun getListOfProducts(order: OrderByEnum): List<Product> {
-        return productRemoteDataSource.getProductsList(order)
+        return productRemoteDataSource.getProductsList(order).filter {
+            it.id != NetworkParams.SPECIAL_OFFERS
+        }
     }
 
     suspend fun getListOfNewestProducts(): List<Product> {

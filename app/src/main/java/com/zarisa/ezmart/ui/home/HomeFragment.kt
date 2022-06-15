@@ -16,7 +16,7 @@ import com.zarisa.ezmart.model.SEARCH_IN_ALL
 import com.zarisa.ezmart.model.SEARCH_ORIGIN
 import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
-import com.zarisa.ezmart.ui.components.ProductRecyclerViewAdapter
+import com.zarisa.ezmart.ui.components.ProductVerticalViewRecyclerViewAdapter
 import com.zarisa.ezmart.ui.components.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,9 +63,12 @@ class HomeFragment : Fragment() {
     private fun bindView() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.rvNewest.adapter = ProductRecyclerViewAdapter { id -> onProductItemClick(id) }
-        binding.rvMostSeen.adapter = ProductRecyclerViewAdapter { id -> onProductItemClick(id) }
-        binding.rvHighRates.adapter = ProductRecyclerViewAdapter { id -> onProductItemClick(id) }
+        binding.rvNewest.adapter =
+            ProductVerticalViewRecyclerViewAdapter { id -> onProductItemClick(id) }
+        binding.rvMostSeen.adapter =
+            ProductVerticalViewRecyclerViewAdapter { id -> onProductItemClick(id) }
+        binding.rvHighRates.adapter =
+            ProductVerticalViewRecyclerViewAdapter { id -> onProductItemClick(id) }
         bindViewPager()
     }
 

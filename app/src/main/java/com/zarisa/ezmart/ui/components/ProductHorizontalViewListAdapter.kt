@@ -9,8 +9,8 @@ import com.zarisa.ezmart.databinding.ProductByCategoryItemBinding
 import com.zarisa.ezmart.model.OnItemClick
 import com.zarisa.ezmart.model.Product
 
-class ProductByCategoryListAdapter(val onItemClick: OnItemClick) :
-    ListAdapter<Product, ProductByCategoryListAdapter.ViewHolder>(DiffCallback) {
+class ProductHorizontalViewListAdapter(val onItemClick: OnItemClick) :
+    ListAdapter<Product, ProductHorizontalViewListAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
         private var binding: ProductByCategoryItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
