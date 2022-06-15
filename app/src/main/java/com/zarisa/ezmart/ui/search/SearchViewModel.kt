@@ -36,7 +36,9 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
         viewModelScope.launch {
             if (searchText.isNotBlank())
                 listOfSearchMatchProducts.value =
-                    searchRepository.getListOfSearchMatches(categoryId, searchListOrder, searchText)
+                    searchRepository.getListOfSearchMatches(categoryId, searchListOrder, searchText).filter { product ->
+                        product.name.contains(searchText)
+                    }
         }
     }
 }
