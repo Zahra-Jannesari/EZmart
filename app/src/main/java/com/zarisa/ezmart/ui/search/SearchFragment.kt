@@ -77,10 +77,9 @@ class SearchFragment : Fragment() {
     private fun setupSpinnerOrder() {
         ArrayAdapter.createFromResource(
             requireContext(),
-            R.array.search_orders,
-            android.R.layout.simple_spinner_item
+            R.array.search_orders, R.layout.spinner_item
         ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             binding.spinnerSort.adapter = adapter
         }
         binding.spinnerSort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

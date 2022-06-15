@@ -50,7 +50,7 @@
                         android:id="@+id/product_imgViewPager"
                         android:layout_width="match_parent"
                         android:layout_height="190dp"
-                        android:backgroundTint="@color/white"
+                        android:background="@color/white"
                         android:scaleType="fitCenter"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

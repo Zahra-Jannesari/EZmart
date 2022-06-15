@@ -28,8 +28,10 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@color/drawable_tint"
             app:endIconDrawable="@drawable/ic_baseline_search_24"
             app:endIconMode="custom"
+            app:endIconTint="@color/black"
             app:hintAnimationEnabled="false"
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@{`جستجو در `+viewModel.categoryName}"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/black"
+                app:hintTextColor="@color/drawable_tint" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,6 +62,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:contentDescription="@string/app_name"
+                android:entries="@array/search_orders"
                 android:minHeight="48dp" />
 
             <TextView
@@ -66,7 +71,9 @@
                 android:layout_marginHorizontal="2dp"
                 android:gravity="center"
                 android:text="@string/sort"
-                app:drawableRightCompat="@drawable/ic_baseline_sort_24" />
+                android:textColor="@color/drawable_tint"
+                app:drawableRightCompat="@drawable/ic_baseline_sort_24"
+                app:drawableTint="@color/drawable_tint" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
