@@ -20,21 +20,21 @@ class NetworkParams {
         fun getDateOption(): Map<String, String> {
             val timeOptionsHashMap = HashMap<String, String>()
             timeOptionsHashMap.putAll(getBaseOptions())
-            timeOptionsHashMap[ORDER_BY] = OrderByEnum.DATE.toString().lowercase()
+            timeOptionsHashMap[ORDER_BY] = OrderByEnum.DATE.orderName
             return timeOptionsHashMap
         }
 
         fun getRateOption(): Map<String, String> {
             val timeOptionsHashMap = HashMap<String, String>()
             timeOptionsHashMap.putAll(getBaseOptions())
-            timeOptionsHashMap[ORDER_BY] = OrderByEnum.RATING.toString().lowercase()
+            timeOptionsHashMap[ORDER_BY] = OrderByEnum.RATING.orderName
             return timeOptionsHashMap
         }
 
         fun getPopularityOption(): Map<String, String> {
             val timeOptionsHashMap = HashMap<String, String>()
             timeOptionsHashMap.putAll(getBaseOptions())
-            timeOptionsHashMap[ORDER_BY] = OrderByEnum.POPULARITY.toString().lowercase()
+            timeOptionsHashMap[ORDER_BY] = OrderByEnum.POPULARITY.orderName
             return timeOptionsHashMap
         }
     }

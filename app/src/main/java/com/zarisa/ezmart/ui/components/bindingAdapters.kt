@@ -24,15 +24,15 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
-@BindingAdapter("productListData")
-fun bindProductRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
-    val adapter = recyclerView.adapter as ProductRecyclerViewAdapter
+@BindingAdapter("productVerticalViewListData")
+fun bindProductVerticalViewRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
+    val adapter = recyclerView.adapter as ProductVerticalViewRecyclerViewAdapter
     adapter.submitList(data)
 }
 
-@BindingAdapter("productByCategoryListData")
-fun bindProductByCategoryRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
-    val adapter = recyclerView.adapter as ProductByCategoryListAdapter
+@BindingAdapter("productHorizontalViewListData")
+fun bindProductHorizontalViewRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
+    val adapter = recyclerView.adapter as ProductHorizontalViewListAdapter
     adapter.submitList(data)
 }
 

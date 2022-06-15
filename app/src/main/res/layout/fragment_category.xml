@@ -12,7 +12,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.specific_category.CategoryFragment">
 
         <include
             android:id="@+id/l_status"
@@ -24,26 +26,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/l_main"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_categoryProducts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".ui.specific_category.CategoryFragment">
+            app:productHorizontalViewListData="@{viewModel.listOfProductsByCategory}"
+            tools:listitem="@layout/product_by_category_item" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_categoryProducts"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:productByCategoryListData="@{viewModel.listOfProductsByCategory}"
-                tools:listitem="@layout/product_by_category_item" />
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

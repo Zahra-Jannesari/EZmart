@@ -106,7 +106,7 @@
                                 android:orientation="horizontal"
                                 android:scrollbars="vertical|horizontal"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                app:productListData="@{viewModel.newestProductsList}"
+                                app:productVerticalViewListData="@{viewModel.newestProductsList}"
                                 tools:listitem="@layout/product_list_item" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -140,7 +140,7 @@
                                 android:orientation="horizontal"
                                 android:scrollbars="vertical|horizontal"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                app:productListData="@{viewModel.mostSeenProductsList}"
+                                app:productVerticalViewListData="@{viewModel.mostSeenProductsList}"
                                 tools:listitem="@layout/product_list_item" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -174,7 +174,7 @@
                                 android:orientation="horizontal"
                                 android:scrollbars="vertical|horizontal"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                app:productListData="@{viewModel.highRateProductsList}"
+                                app:productVerticalViewListData="@{viewModel.highRateProductsList}"
                                 tools:listitem="@layout/product_list_item" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>

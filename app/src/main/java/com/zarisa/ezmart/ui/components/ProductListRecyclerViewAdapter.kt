@@ -5,19 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.ProductListItemBinding
 import com.zarisa.ezmart.model.OnItemClick
 import com.zarisa.ezmart.model.Product
 
-class ProductRecyclerViewAdapter(val onItemClick: OnItemClick) :
-    ListAdapter<Product, ProductRecyclerViewAdapter.ViewHolder>(DiffCallback) {
+class ProductVerticalViewRecyclerViewAdapter(val onItemClick: OnItemClick) :
+    ListAdapter<Product, ProductVerticalViewRecyclerViewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
         private var binding: ProductListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.product = product
-            binding.productImageSrc = if (product.images.isNotEmpty())product.images[0].src else ""
+            binding.productImageSrc = if (product.images.isNotEmpty()) product.images[0].src else ""
             binding.root.setOnClickListener { onItemClick(product.id) }
             binding.executePendingBindings()
         }

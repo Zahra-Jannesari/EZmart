@@ -3,12 +3,13 @@
     <string name="home_title">خانه</string>
     <string name="categories_title">دسته‌بندی‌ها</string>
     <string name="ez_description">"An image consist letters E and Z "</string>
-    <string name="newest">تازه ها</string>
+    <string name="newest">تازه‌ها</string>
     <string name="most_seen">محصولات پربازدید</string>
-    <string name="high_rates">بهترین ها</string>
+    <string name="high_rates">بهترین‌ها</string>
     <string name="product_description">جزئیات محصول:</string>
     <string name="slash">/</string>
     <string name="connection_check_error">لطفا اتصال اینترنت خود را چک کنید.</string>
     <string name="see_details"><![CDATA[<< مشاهده جزئیات]]></string>
     <string name="search">سرچ</string>
+    <string name="sort">مرتب‌سازی بر اساس:</string>
 </resources>

@@ -14,7 +14,7 @@ import com.zarisa.ezmart.databinding.FragmentCategoryBinding
 import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
-import com.zarisa.ezmart.ui.components.ProductByCategoryListAdapter
+import com.zarisa.ezmart.ui.components.ProductHorizontalViewListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,7 +52,11 @@ class CategoryFragment : Fragment() {
 
     private fun statusObserver() {
         viewModel.networkStatusLiveData.observe(viewLifecycleOwner) {
-            NetworkStatusViewHandler(it, binding.lMain, binding.lStatus) { initCategoryDetail() }
+            NetworkStatusViewHandler(
+                it,
+                binding.rvCategoryProducts,
+                binding.lStatus
+            ) { initCategoryDetail() }
         }
     }
 
@@ -60,7 +64,7 @@ class CategoryFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.rvCategoryProducts.adapter =
-            ProductByCategoryListAdapter { id -> onProductItemClick(id) }
+            ProductHorizontalViewListAdapter { id -> onProductItemClick(id) }
     }
 
     private fun onProductItemClick(id: Int) {
