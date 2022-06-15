@@ -1,12 +1,12 @@
 package com.zarisa.ezmart.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.zarisa.ezmart.R
@@ -19,7 +19,6 @@ import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
 import com.zarisa.ezmart.ui.components.ProductRecyclerViewAdapter
 import com.zarisa.ezmart.ui.components.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import me.relex.circleindicator.CircleIndicator
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {

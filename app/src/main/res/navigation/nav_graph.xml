@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.zarisa.ezmart.ui.home.HomeFragment"
-        android:label="EZmart"
+        android:label="خانه"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_productDetailFragment"
@@ -51,4 +51,14 @@
         android:name="com.zarisa.ezmart.ui.search.SearchFragment"
         android:label=""
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/shoppingFragment"
+        android:name="com.zarisa.ezmart.ShoppingFragment"
+        android:label="سبد خرید"
+        tools:layout="@layout/fragment_shopping" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.zarisa.ezmart.ProfileFragment"
+        android:label="پروفایل"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

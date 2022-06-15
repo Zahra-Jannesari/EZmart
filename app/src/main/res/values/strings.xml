@@ -11,4 +11,6 @@
     <string name="connection_check_error">لطفا اتصال اینترنت خود را چک کنید.</string>
     <string name="see_details"><![CDATA[<< مشاهده جزئیات]]></string>
     <string name="search">سرچ</string>
+    <string name="profile">پروفایل</string>
+    <string name="shopping">سبد خرید</string>
 </resources>
