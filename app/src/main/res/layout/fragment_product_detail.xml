@@ -37,10 +37,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:orientation="vertical">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -110,7 +107,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="10dp"
-                    android:text="@string/product_description" />
+                    android:text="@string/product_description"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -136,18 +134,26 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layoutDirection="rtl"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/product_reviews"
+                        android:textStyle="bold" />
 
                     <RatingBar
                         android:id="@+id/ratingBar"
-                        style="?android:attr/ratingBarStyleIndicator"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layoutDirection="rtl"
                         android:progressTint="@color/golden"
-                        android:scaleX=".8"
-                        android:scaleY=".8"
                         android:stepSize="0.5"
                         app:setRate="@{viewModel.currentProduct.average_rating}" />
 
@@ -155,14 +161,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@string/slash" />
+                        android:text="@string/slash"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@{viewModel.currentProduct.rating_count+` رای`}" />
+                        android:text="@{viewModel.currentProduct.rating_count+` رای`}"
+                        android:textSize="12sp"
+                        tools:text="5 رای" />
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_reviews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal"
+                    android:scrollbars="vertical|horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:reviewListData="@{viewModel.reviewsList}"
+                    tools:listitem="@layout/review_item" />
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

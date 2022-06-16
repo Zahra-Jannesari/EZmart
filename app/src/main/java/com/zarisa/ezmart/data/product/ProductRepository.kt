@@ -3,6 +3,7 @@ package com.zarisa.ezmart.data.product
 import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.model.OrderByEnum
 import com.zarisa.ezmart.model.Product
+import com.zarisa.ezmart.model.Review
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(private val productRemoteDataSource: ProductRemoteDataSource) {
@@ -30,5 +31,9 @@ class ProductRepository @Inject constructor(private val productRemoteDataSource:
 
     suspend fun getSpecialOffers(): Product {
         return productRemoteDataSource.getSpecialOffers()
+    }
+
+    suspend fun getProductReviews(productId: Int): List<Review> {
+        return productRemoteDataSource.getProductReviews(listOf(productId))
     }
 }

@@ -14,4 +14,6 @@
     <string name="profile">پروفایل</string>
     <string name="shopping">سبد خرید</string>
     <string name="sort">مرتب‌سازی بر اساس:</string>
+    <string name="product_reviews">نظر کاربران</string>
+    <string name="review_by">توسط:</string>
 </resources>

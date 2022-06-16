@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.zarisa.ezmart.adapter.ReviewAdapter
 import com.zarisa.ezmart.databinding.FragmentProductDetailBinding
 import com.zarisa.ezmart.model.ITEM_ID
 import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
-import com.zarisa.ezmart.ui.components.ViewPagerAdapter
+import com.zarisa.ezmart.adapter.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import me.relex.circleindicator.CircleIndicator
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
@@ -53,6 +53,8 @@ class ProductDetailFragment : Fragment() {
     private fun bindView() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.rvReviews.adapter =
+            ReviewAdapter()
         bindViewPager()
     }
 
@@ -66,7 +68,7 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun getCurrentProduct() {
-        viewModel.getProductById(requireArguments().getInt(ITEM_ID))
+        viewModel.initialProduct(requireArguments().getInt(ITEM_ID))
     }
 
 }

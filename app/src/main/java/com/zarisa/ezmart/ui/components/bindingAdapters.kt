@@ -8,8 +8,13 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zarisa.ezmart.R
+import com.zarisa.ezmart.adapter.CategoryListRecyclerView
+import com.zarisa.ezmart.adapter.ProductHorizontalViewListAdapter
+import com.zarisa.ezmart.adapter.ProductVerticalViewRecyclerViewAdapter
+import com.zarisa.ezmart.adapter.ReviewAdapter
 import com.zarisa.ezmart.model.Category
 import com.zarisa.ezmart.model.Product
+import com.zarisa.ezmart.model.Review
 import com.zarisa.ezmart.model.Tag
 
 
@@ -27,6 +32,12 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 @BindingAdapter("productVerticalViewListData")
 fun bindProductVerticalViewRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
     val adapter = recyclerView.adapter as ProductVerticalViewRecyclerViewAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("reviewListData")
+fun bindReviewsRecyclerView(recyclerView: RecyclerView, data: List<Review>?) {
+    val adapter = recyclerView.adapter as ReviewAdapter
     adapter.submitList(data)
 }
 
@@ -84,3 +95,18 @@ fun setDescription(textView: TextView, description: String?) {
 fun removeParagraphTags(input: String?): String? {
     return input?.replace("<p>".toRegex(), "")?.replace("</p>".toRegex(), "")
 }
+
+@BindingAdapter("setHtmlText")
+fun setHtmlText(textView: TextView, description: String?) {
+    textView.text =
+        if (!description.isNullOrBlank())
+            removeParagraphTags(description)?.let {
+                HtmlCompat.fromHtml(
+                    it,
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
+            }
+        else
+            ""
+}
+

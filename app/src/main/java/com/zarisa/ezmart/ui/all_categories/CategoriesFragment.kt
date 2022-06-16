@@ -13,7 +13,7 @@ import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentCategoriesBinding
 import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
-import com.zarisa.ezmart.ui.components.CategoryListRecyclerView
+import com.zarisa.ezmart.adapter.CategoryListRecyclerView
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
 import dagger.hilt.android.AndroidEntryPoint
 

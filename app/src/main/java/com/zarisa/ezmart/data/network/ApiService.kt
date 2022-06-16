@@ -2,6 +2,7 @@ package com.zarisa.ezmart.data.network
 
 import com.zarisa.ezmart.model.Category
 import com.zarisa.ezmart.model.Product
+import com.zarisa.ezmart.model.Review
 import retrofit2.http.*
 
 interface ApiService {
@@ -37,6 +38,13 @@ interface ApiService {
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 100
     ): List<Product>
+
+    @GET("products/reviews/")
+    suspend fun getProductReviews(
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("product") productId: List<Int>,
+        @Query("per_page") perPage: Int = 100
+    ): List<Review>
 
 
     //search and filter

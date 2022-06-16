@@ -4,6 +4,7 @@ import com.zarisa.ezmart.data.network.ApiService
 import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.model.OrderByEnum
 import com.zarisa.ezmart.model.Product
+import com.zarisa.ezmart.model.Review
 import javax.inject.Inject
 
 class ProductRemoteDataSource @Inject constructor(private val apiService: ApiService) {
@@ -22,5 +23,9 @@ class ProductRemoteDataSource @Inject constructor(private val apiService: ApiSer
 
     suspend fun getSpecialOffers(): Product {
         return apiService.getProductById(NetworkParams.SPECIAL_OFFERS)
+    }
+
+    suspend fun getProductReviews(productId: List<Int>): List<Review> {
+        return apiService.getProductReviews(productId = productId)
     }
 }

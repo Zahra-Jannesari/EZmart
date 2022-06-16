@@ -1,4 +1,4 @@
-package com.zarisa.ezmart.ui.components
+package com.zarisa.ezmart.adapter
 
 
 import android.content.Context

@@ -16,8 +16,8 @@ import com.zarisa.ezmart.model.SEARCH_IN_ALL
 import com.zarisa.ezmart.model.SEARCH_ORIGIN
 import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
-import com.zarisa.ezmart.ui.components.ProductVerticalViewRecyclerViewAdapter
-import com.zarisa.ezmart.ui.components.ViewPagerAdapter
+import com.zarisa.ezmart.adapter.ProductVerticalViewRecyclerViewAdapter
+import com.zarisa.ezmart.adapter.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
