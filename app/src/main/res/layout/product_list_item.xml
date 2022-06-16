@@ -38,6 +38,7 @@
                     <ImageView
                         android:layout_width="150dp"
                         android:layout_height="150dp"
+                        android:padding="2dp"
                         android:scaleType="fitCenter"
                         app:imageUrl="@{productImageSrc}" />
 
@@ -68,6 +69,7 @@
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:minLines="2"
+                        android:padding="2dp"
                         android:text="@{product.name}"
                         android:textAppearance="?attr/textAppearanceHeadline3"
                         android:textColor="@color/black"
@@ -81,6 +83,7 @@
                         android:layout_marginTop="2dp"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:padding="2dp"
                         android:singleLine="true"
                         android:text="@{product.price!=``? product.price+` تومان`:``}"
                         android:textColor="@color/black"

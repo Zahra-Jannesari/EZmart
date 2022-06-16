@@ -76,7 +76,7 @@ dependencies {
     //glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
-    def lifecycle_version = "2.5.0-rc01"
+    def lifecycle_version = "2.5.0-rc02"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     //for using by viewModels()
@@ -84,6 +84,10 @@ dependencies {
 
     //circle indicator
     implementation 'me.relex:circleindicator:2.1.6'
+
+    //lottie
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

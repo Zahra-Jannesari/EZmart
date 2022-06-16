@@ -80,35 +80,63 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_marginTop="10dp"
+                        android:layout_weight="1"
                         android:backgroundTint="?attr/colorSecondaryVariant">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <HorizontalScrollView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:layoutDirection="rtl">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:text="@string/newest"
-                                android:textColor="@color/navy_blue"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_newest"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layoutDirection="rtl"
-                                android:orientation="horizontal"
-                                android:scrollbars="vertical|horizontal"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                app:productVerticalViewListData="@{viewModel.newestProductsList}"
-                                tools:listitem="@layout/product_list_item" />
-                        </LinearLayout>
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_width="150dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="150dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="8dp"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:text="@string/newest"
+                                        android:textColor="@color/navy_blue"
+                                        android:textSize="20sp"
+                                        android:textStyle="bold" />
+
+                                    <com.airbnb.lottie.LottieAnimationView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="2"
+                                        app:lottie_autoPlay="true"
+                                        app:lottie_loop="true"
+                                        app:lottie_rawRes="@raw/new_animation" />
+                                </LinearLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rv_newest"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layoutDirection="rtl"
+                                    android:orientation="horizontal"
+                                    android:scrollbars="vertical|horizontal"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    app:productVerticalViewListData="@{viewModel.newestProductsList}"
+                                    tools:listitem="@layout/product_list_item" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+
                     </androidx.cardview.widget.CardView>
 
 
@@ -118,31 +146,57 @@
                         android:layout_marginTop="10dp"
                         android:backgroundTint="?attr/colorPrimary">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <HorizontalScrollView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:layoutDirection="rtl">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:text="@string/most_seen"
-                                android:textColor="@color/golden"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_mostSeen"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layoutDirection="rtl"
-                                android:orientation="horizontal"
-                                android:scrollbars="vertical|horizontal"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                app:productVerticalViewListData="@{viewModel.mostSeenProductsList}"
-                                tools:listitem="@layout/product_list_item" />
-                        </LinearLayout>
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="150dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="8dp"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:text="@string/best_seller"
+                                        android:textColor="@color/golden"
+                                        android:textSize="20sp"
+                                        android:textStyle="bold" />
+
+                                    <com.airbnb.lottie.LottieAnimationView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="2"
+                                        app:lottie_autoPlay="true"
+                                        app:lottie_loop="true"
+                                        app:lottie_rawRes="@raw/best_seller_animation" />
+                                </LinearLayout>
+
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rv_mostSeen"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layoutDirection="rtl"
+                                    android:orientation="horizontal"
+                                    android:scrollbars="vertical|horizontal"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    app:productVerticalViewListData="@{viewModel.mostSeenProductsList}"
+                                    tools:listitem="@layout/product_list_item" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
                     </androidx.cardview.widget.CardView>
 
 
@@ -152,31 +206,56 @@
                         android:layout_marginVertical="10dp"
                         android:backgroundTint="?attr/colorSecondaryVariant">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <HorizontalScrollView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:layoutDirection="rtl">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:text="@string/high_rates"
-                                android:textColor="@color/navy_blue"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_highRates"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layoutDirection="rtl"
-                                android:orientation="horizontal"
-                                android:scrollbars="vertical|horizontal"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                app:productVerticalViewListData="@{viewModel.highRateProductsList}"
-                                tools:listitem="@layout/product_list_item" />
-                        </LinearLayout>
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="150dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="8dp"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:text="@string/high_rates"
+                                        android:textColor="@color/navy_blue"
+                                        android:textSize="20sp"
+                                        android:textStyle="bold" />
+
+                                    <com.airbnb.lottie.LottieAnimationView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="2"
+                                        app:lottie_autoPlay="true"
+                                        app:lottie_loop="true"
+                                        app:lottie_rawRes="@raw/fav_animation" />
+                                </LinearLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rv_highRates"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layoutDirection="rtl"
+                                    android:orientation="horizontal"
+                                    android:scrollbars="vertical|horizontal"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    app:productVerticalViewListData="@{viewModel.highRateProductsList}"
+                                    tools:listitem="@layout/product_list_item" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
