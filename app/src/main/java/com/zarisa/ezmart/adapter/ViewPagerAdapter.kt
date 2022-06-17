@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.model.Image
 
@@ -30,6 +32,7 @@ class ViewPagerAdapter(private val sliderImgList: List<Image>, val context: Cont
                         .load(it)
                         .placeholder(R.drawable.loading_animation)
                         .error(R.drawable.error_image)
+                        .transform(CenterInside(), RoundedCorners(24))
                         .into(this)
                 }
         }
