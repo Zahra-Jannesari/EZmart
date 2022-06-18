@@ -18,16 +18,18 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     val listOfAllAttributes = MutableLiveData<Attribute>()
     private val listOfSearchMatchProducts = MutableLiveData<List<Product>>()
     var searchText = ""
-    val attributeMap = mutableMapOf<String, List<String>>()
+    val attributeFilter = mutableListOf<Attribute>()
     var categoryId = 0
     var categoryName: String = "همه محصولات"
     var searchListOrder: SearchOrder = SearchOrder.NEWEST
     fun listOfFilteredSearchProducts() =
-        Transformations.map(listOfSearchMatchProducts) {
-            if (attributeMap.isNullOrEmpty())
+        Transformations.map(listOfSearchMatchProducts) { it ->
+            if (attributeFilter.isNullOrEmpty())
                 it
             else {
-                it
+                it.filter { product->
+                    product.attributes.containsAll(attributeFilter)
+                }
             }
         }
 

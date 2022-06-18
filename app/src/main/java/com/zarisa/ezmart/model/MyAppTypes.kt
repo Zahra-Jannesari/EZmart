@@ -1,7 +1,7 @@
 package com.zarisa.ezmart.model
 
-enum class NetworkStatus {
-    LOADING, SUCCESSFUL, ERROR
+enum class Status {
+    LOADING, SUCCESSFUL, NETWORK_ERROR, SERVER_ERROR, NOT_FOUND
 }
 
 enum class OrderByEnum(val orderName: String) {
