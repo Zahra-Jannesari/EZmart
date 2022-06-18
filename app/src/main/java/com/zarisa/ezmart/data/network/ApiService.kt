@@ -7,24 +7,32 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
-
+    //product
     @GET("products/")
     suspend fun getListOfProducts(
         @QueryMap options: Map<String, String>,
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
 
-    @GET("products/categories")
-    suspend fun getListOfAllCategories(
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
-        @Query("per_page") perPage: Int = 100
-    ): Response<List<Category>>
-
     @GET("products/{id}")
     suspend fun getProductById(
         @Path("id") id: Int,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<Product>
+
+    @GET("products/reviews/")
+    suspend fun getProductReviews(
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("product") productId: List<Int>,
+        @Query("per_page") perPage: Int = 100
+    ): Response<List<Review>>
+
+    //category
+    @GET("products/categories")
+    suspend fun getListOfAllCategories(
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("per_page") perPage: Int = 100
+    ): Response<List<Category>>
 
     @GET("products/categories/{id}")
     suspend fun getCategoryById(
@@ -39,13 +47,6 @@ interface ApiService {
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
-
-    @GET("products/reviews/")
-    suspend fun getProductReviews(
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
-        @Query("product") productId: List<Int>,
-        @Query("per_page") perPage: Int = 100
-    ): Response<List<Review>>
 
 
     //search and filter
@@ -63,4 +64,6 @@ interface ApiService {
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
+
+    //shopping
 }
