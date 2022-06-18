@@ -7,9 +7,11 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-data class Resource<T>(var status: Status, var data: T?, var message: String? = null)
-
 const val REQUEST_NOT_FOUND = "نتیجه یافت نشد."
+const val NETWORK_EXCEPTION = "لطفا اتصال اینترنت خود را چک کنید."
+
+data class Resource<T>(var status: Status, var data: T?, var message: String)
+
 fun handleServerRequestCode(code: Int): String {
     return when (code) {
         200 -> "درخواست موفقیت آمیز بود."
@@ -32,26 +34,21 @@ abstract class NetworkCall<ResultType> {
                 massage == REQUEST_NOT_FOUND -> Resource(Status.NOT_FOUND, null, massage)
                 else -> Resource(Status.SERVER_ERROR, null, massage)
             }
-
         } catch (e: HttpException) {
             e.printStackTrace()
-            Resource(Status.NETWORK_ERROR, null, e.message)
-
+            Resource(Status.NETWORK_ERROR, null, NETWORK_EXCEPTION)
         } catch (e: ConnectException) {
             e.printStackTrace()
-            Resource(Status.NETWORK_ERROR, null, e.message)
-
+            Resource(Status.NETWORK_ERROR, null, NETWORK_EXCEPTION)
         } catch (e: SocketTimeoutException) {
             e.printStackTrace()
-            Resource(Status.NETWORK_ERROR, null, e.message)
-
+            Resource(Status.NETWORK_ERROR, null, NETWORK_EXCEPTION)
         } catch (e: UnknownHostException) {
             e.printStackTrace()
-            Resource(Status.NETWORK_ERROR, null, e.message)
-
+            Resource(Status.NETWORK_ERROR, null, NETWORK_EXCEPTION)
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource(Status.NETWORK_ERROR, null, e.message)
+            Resource(Status.NETWORK_ERROR, null, NETWORK_EXCEPTION)
         }
     }
 

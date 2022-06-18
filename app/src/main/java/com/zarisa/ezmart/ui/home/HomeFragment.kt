@@ -51,12 +51,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun statusObserver() {
-        viewModel.networkStatusLiveData.observe(viewLifecycleOwner) {
+        viewModel.statusLiveData.observe(viewLifecycleOwner) {
             NetworkStatusViewHandler(
                 it,
                 binding.scrollViewLists,
-                binding.lStatus
-            ) { getHomeLists() }
+                binding.lStatus, { getHomeLists() }, viewModel.statusMessage
+            )
         }
     }
 
@@ -78,9 +78,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindViewPager() {
-        viewModel.specialOffers.observe(viewLifecycleOwner) { product ->
+        viewModel.specialOffersList.observe(viewLifecycleOwner) { product ->
             binding.specialsImgViewPager.let { viewPager ->
-                viewPager.adapter = ViewPagerAdapter(product.images, requireContext())
+                viewPager.adapter = product?.images?.let { ViewPagerAdapter(it, requireContext()) }
                 binding.circleIndicator.setViewPager(viewPager)
             }
         }

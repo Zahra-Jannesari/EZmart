@@ -18,7 +18,7 @@
         tools:src="@drawable/load_image" />
 
     <LinearLayout
-        android:id="@+id/tv_networkStatus"
+        android:id="@+id/l_workStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
@@ -26,6 +26,7 @@
         android:minHeight="48dp">
 
         <ImageButton
+            android:id="@+id/btn_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -33,6 +34,7 @@
             app:tint="@color/drawable_tint" />
 
         <TextView
+            android:id="@+id/tv_statusMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -46,6 +48,4 @@
 
 
     </LinearLayout>
-    <!--    <TextView-->
-    <!--        />-->
 </LinearLayout>

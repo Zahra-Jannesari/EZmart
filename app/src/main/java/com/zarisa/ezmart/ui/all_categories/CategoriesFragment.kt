@@ -50,12 +50,12 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun statusObserver() {
-        viewModel.networkStatusLiveData.observe(viewLifecycleOwner) {
+        viewModel.statusLiveData.observe(viewLifecycleOwner) {
             NetworkStatusViewHandler(
                 it,
                 binding.rvCategories,
-                binding.lStatus
-            ) { getCategoriesList() }
+                binding.lStatus, { getCategoriesList() }, viewModel.statusMessage
+            )
         }
     }
 

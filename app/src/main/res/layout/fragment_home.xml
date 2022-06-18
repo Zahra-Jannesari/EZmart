@@ -193,7 +193,7 @@
                                     android:orientation="horizontal"
                                     android:scrollbars="vertical|horizontal"
                                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                    app:productVerticalViewListData="@{viewModel.mostSeenProductsList}"
+                                    app:productVerticalViewListData="@{viewModel.bestSellerProductsList}"
                                     tools:listitem="@layout/product_list_item" />
                             </LinearLayout>
                         </HorizontalScrollView>

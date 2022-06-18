@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zarisa.ezmart.data.product.ProductRepository
-import com.zarisa.ezmart.model.NetworkStatus
+import com.zarisa.ezmart.model.Status
 import com.zarisa.ezmart.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,43 +13,32 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val productRepository: ProductRepository) :
     ViewModel() {
-    val networkStatusLiveData = MutableLiveData<NetworkStatus>()
-
-    val newestProductsList = MutableLiveData<List<Product>>()
-    val mostSeenProductsList = MutableLiveData<List<Product>>()
-    val highRateProductsList = MutableLiveData<List<Product>>()
-    val specialOffers = MutableLiveData<Product>()
-
+    val statusLiveData = MutableLiveData<Status>()
+    var statusMessage = ""
+    val newestProductsList = MutableLiveData<List<Product>?>()
+    val bestSellerProductsList = MutableLiveData<List<Product>?>()
+    val highRateProductsList = MutableLiveData<List<Product>?>()
+    val specialOffersList = MutableLiveData<Product?>()
     fun getMainProductsLists() {
-        networkStatusLiveData.value = NetworkStatus.LOADING
+        statusLiveData.value = Status.LOADING
         viewModelScope.launch {
-            try {
-                getNewestProducts()
-                getMostSeenProducts()
-                getHighRateProducts()
-                getSpecialOffers()
-                networkStatusLiveData.value = NetworkStatus.SUCCESSFUL
-            } catch (e: Exception) {
-                networkStatusLiveData.value = NetworkStatus.ERROR
+            val specialOffers = productRepository.getSpecialOffers()
+            val highRateProducts = productRepository.getListOfHighRatedProducts()
+            val bestSellerProducts = productRepository.getListOfMostSeenProducts()
+            val newestProducts = productRepository.getListOfNewestProducts()
+            if (highRateProducts.status == Status.SUCCESSFUL) {
+                if (newestProducts.status == bestSellerProducts.status && newestProducts.status == Status.SUCCESSFUL) {
+                    statusLiveData.value = Status.SUCCESSFUL
+                    highRateProductsList.value = highRateProducts.data
+                    bestSellerProductsList.value = bestSellerProducts.data
+                    newestProductsList.value = newestProducts.data
+                    specialOffersList.value = specialOffers.data
+                }
+            } else {
+                statusLiveData.value = highRateProducts.status
+                statusMessage = highRateProducts.message
             }
-
         }
-    }
-
-    private suspend fun getSpecialOffers() {
-        specialOffers.value = productRepository.getSpecialOffers()
-    }
-
-    private suspend fun getHighRateProducts() {
-        highRateProductsList.value = productRepository.getListOfHighRatedProducts()
-    }
-
-    private suspend fun getMostSeenProducts() {
-        mostSeenProductsList.value = productRepository.getListOfMostSeenProducts()
-    }
-
-    private suspend fun getNewestProducts() {
-        newestProductsList.value = productRepository.getListOfNewestProducts()
     }
 }
 

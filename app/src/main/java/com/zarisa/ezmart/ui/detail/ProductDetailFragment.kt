@@ -45,8 +45,8 @@ class ProductDetailFragment : Fragment() {
             NetworkStatusViewHandler(
                 it,
                 binding.scrollViewDetails,
-                binding.lStatus
-            ) { getCurrentProduct() }
+                binding.lStatus, { getCurrentProduct() }, viewModel.statusMessage
+            )
         }
     }
 
@@ -61,7 +61,7 @@ class ProductDetailFragment : Fragment() {
     private fun bindViewPager() {
         viewModel.currentProduct.observe(viewLifecycleOwner) { product ->
             binding.productImgViewPager.let { viewPager ->
-                viewPager.adapter = ViewPagerAdapter(product.images, requireContext())
+                viewPager.adapter = product?.images?.let { ViewPagerAdapter(it, requireContext()) }
                 binding.circleIndicator.setViewPager(viewPager)
             }
         }
