@@ -1,9 +1,6 @@
 package com.zarisa.ezmart.ui.search
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.zarisa.ezmart.data.search.SearchRepository
 import com.zarisa.ezmart.model.Attribute
 import com.zarisa.ezmart.model.Product
@@ -18,33 +15,47 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     val listOfAllAttributes = MutableLiveData<Attribute>()
     private val listOfSearchMatchProducts = MutableLiveData<List<Product>>()
     var searchText = ""
-    val attributeFilter = mutableListOf<Attribute>()
+    private val attributeFilter = mutableListOf<Attribute>()
     var categoryId = 0
     var categoryName: String = "همه محصولات"
-    var searchListOrder: SearchOrder = SearchOrder.NEWEST
-    fun listOfFilteredSearchProducts() =
-        Transformations.map(listOfSearchMatchProducts) { it ->
-            if (attributeFilter.isNullOrEmpty())
-                it
-            else {
-                it.filter { product ->
+    private var searchListOrder = SearchOrder.NEWEST
+    fun listOfFilteredSearchProducts(): LiveData<List<Product>> =
+        Transformations.map(listOfSearchMatchProducts) { list ->
+            list?.let {
+                when (searchListOrder) {
+                    SearchOrder.LOW_PRICE -> list.sortedBy { Integer.parseInt(it.price) }
+                    SearchOrder.HIGH_PRICE -> list.sortedBy { Integer.parseInt(it.price) }
+                        .reversed()
+                    SearchOrder.BEST_SELLERS -> list.sortedBy { it.total_sales }.reversed()
+                    else -> list.sortedBy { it.date_created }.reversed()
+                }.filter { product ->
                     product.attributes.containsAll(attributeFilter)
                 }
             }
         }
 
-
+    //call by clicking on search icon in text field
     fun getSearchResults() {
         viewModelScope.launch {
             if (searchText.isNotBlank())
                 listOfSearchMatchProducts.value =
                     searchRepository.getListOfSearchMatches(
                         categoryId,
-                        searchListOrder,
                         searchText
                     ).data?.filter { product ->
                         product.name.contains(searchText)
                     }
         }
+    }
+
+    //call by clicking on each filter
+    fun setFilter() {
+
+    }
+
+    //call by clicking on order
+    fun setOrder(order: SearchOrder) {
+        searchListOrder = order
+        getSearchResults()
     }
 }

@@ -52,8 +52,6 @@ interface ApiService {
     @GET("products/")
     suspend fun getListOfSearchMatchProducts(
         @Query("search") searchText: String,
-        @Query("orderby") orderby: String,
-        @Query("order") order: String,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
@@ -61,8 +59,6 @@ interface ApiService {
     @GET("products/")
     suspend fun getListOfSearchMatchProducts(
         @Query("search") searchText: String,
-        @Query("orderby") orderby: String,
-        @Query("order") order: String,
         @Query("category") categoryId: String,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Query("per_page") perPage: Int = 100

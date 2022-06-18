@@ -86,14 +86,13 @@ class SearchFragment : Fragment() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p0?.getItemAtPosition(p2).toString()) {
-                    "پرفروش ترین" -> viewModel.searchListOrder = SearchOrder.BEST_SELLERS
-                    "بیشترین قیمت" -> viewModel.searchListOrder = SearchOrder.HIGH_PRICE
-                    "کمترین قیمت" -> viewModel.searchListOrder = SearchOrder.LOW_PRICE
+                    "پرفروش ترین" -> viewModel.setOrder(SearchOrder.BEST_SELLERS)
+                    "بیشترین قیمت" -> viewModel.setOrder(SearchOrder.HIGH_PRICE)
+                    "کمترین قیمت" -> viewModel.setOrder(SearchOrder.LOW_PRICE)
                     else -> {
-                        viewModel.searchListOrder = SearchOrder.NEWEST
+                        viewModel.setOrder(SearchOrder.NEWEST)
                     }
                 }
-                viewModel.getSearchResults()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

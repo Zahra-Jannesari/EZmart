@@ -78,6 +78,8 @@
                     android:layout_margin="8dp"
                     android:layoutDirection="rtl"
                     android:numStars="5"
+                    android:progressBackgroundTint="@color/drawable_tint"
+                    android:progressTint="@color/golden"
                     android:stepSize="0.5"
                     android:theme="@style/RatingBar"
                     app:setRate="@{product.average_rating}"
