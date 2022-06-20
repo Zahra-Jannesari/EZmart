@@ -49,7 +49,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun bindView() {
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.rvSearchResultProducts.adapter =
             ProductHorizontalViewListAdapter { id -> onProductItemClick(id) }

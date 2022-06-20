@@ -61,7 +61,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun bindView() {
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.rvCategoryProducts.adapter =
             ProductHorizontalViewListAdapter { id -> onProductItemClick(id) }

@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindView() {
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.rvNewest.adapter =
             ProductVerticalViewRecyclerViewAdapter { id -> onProductItemClick(id) }
