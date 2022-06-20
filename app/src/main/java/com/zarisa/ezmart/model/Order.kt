@@ -1,3 +1,12 @@
 package com.zarisa.ezmart.model
 
-data class Order (val id:Int,val discount_total:String,val total:String,val line_items:List<OrderItem>)
+import com.squareup.moshi.Json
+
+data class Order(
+    val id: Int = 0,
+    val total: String = "0",
+    var customer_id:Int=0
+) {
+    @Json(name = "line_items")
+    var lineItems: List<OrderItem> = mutableListOf()
+}

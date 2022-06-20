@@ -1,34 +1,93 @@
 package com.zarisa.ezmart.ui.detail
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zarisa.ezmart.data.order.OrderRepository
 import com.zarisa.ezmart.data.product.ProductRepository
-import com.zarisa.ezmart.model.Status
-import com.zarisa.ezmart.model.Product
-import com.zarisa.ezmart.model.Review
+import com.zarisa.ezmart.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductDetailViewModel @Inject constructor(private val productRepository: ProductRepository) :
-    ViewModel() {
-    val networkStatusLiveData = MutableLiveData<Status>()
+class ProductDetailViewModel @Inject constructor(
+    private val productRepository: ProductRepository,
+    private val orderRepository: OrderRepository
+) : ViewModel() {
+    val orderingStatus = MutableLiveData<OrderingStatus?>(null)
+    val statusLiveData = MutableLiveData<Status>()
+    val abilityOfAddToCart = Transformations.map(statusLiveData) {
+        it == Status.SUCCESSFUL
+    }
     val currentProduct = MutableLiveData<Product?>()
     val reviewsList = MutableLiveData<List<Review>?>()
     var statusMessage = ""
+
+
     fun initialProduct(id: Int) {
-        networkStatusLiveData.value = Status.LOADING
+        statusLiveData.value = Status.LOADING
         viewModelScope.launch {
             productRepository.getProductById(id).let {
-                networkStatusLiveData.value = it.status
+                statusLiveData.value = it.status
                 statusMessage = it.message
                 if (it.status == Status.SUCCESSFUL) {
                     currentProduct.value = it.data
                     reviewsList.value = productRepository.getProductReviews(id).data
                 }
             }
+        }
+    }
+
+
+    //order part
+    suspend fun createOrder(order: Order): Int {
+        orderingStatus.postValue(OrderingStatus.LOADING_ORDER)
+        orderRepository.createOrder(order).let {
+            when (it.status) {
+                Status.SUCCESSFUL -> {
+                    orderingStatus.postValue(OrderingStatus.ITEM_ADDED)
+                    return it.data!!.id
+                }
+                Status.NETWORK_ERROR -> orderingStatus.postValue(OrderingStatus.ORDER_ERROR_INTERNET)
+                else -> orderingStatus.postValue(OrderingStatus.ORDER_ERROR_SERVER)
+            }
+            return 0
+        }
+    }
+
+    fun updateOrder(orderId: Int, orderItem: OrderItem) {
+        orderingStatus.postValue(OrderingStatus.LOADING_ORDER)
+        viewModelScope.launch {
+            val order = getOrder(orderId)
+            if (order != null)
+                if (order.lineItems.contains(orderItem)) {
+                    orderingStatus.postValue(OrderingStatus.ALREADY_ADDED)
+                } else {
+                    val newList = mutableListOf<OrderItem>()
+                    newList.addAll(order.lineItems)
+                    newList.add(orderItem)
+                    order.lineItems = newList
+                    orderRepository.updateOrder(order, orderId).let {
+                        when (it.status) {
+                            Status.SUCCESSFUL -> orderingStatus.postValue(OrderingStatus.ITEM_ADDED)
+                            Status.NETWORK_ERROR -> orderingStatus.postValue(OrderingStatus.ORDER_ERROR_INTERNET)
+                            else -> orderingStatus.postValue(OrderingStatus.ORDER_ERROR_SERVER)
+                        }
+                    }
+                }
+        }
+    }
+
+    private suspend fun getOrder(orderId: Int): Order? {
+        orderRepository.retrieveOrder(orderId).let {
+            when (it.status) {
+                Status.SUCCESSFUL -> return it.data
+                Status.NETWORK_ERROR -> orderingStatus.postValue(OrderingStatus.ORDER_ERROR_INTERNET)
+                else -> orderingStatus.postValue(OrderingStatus.ORDER_ERROR_SERVER)
+            }
+            return null
         }
     }
 }

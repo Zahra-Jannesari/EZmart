@@ -16,4 +16,6 @@
     <string name="sort">مرتب‌سازی بر اساس:</string>
     <string name="product_reviews">نظر کاربران</string>
     <string name="review_by">توسط:</string>
+    <string name="addToCart">افزودن به سبد خرید</string>
+    <string name="ExistInCart">افزودن به سبد خرید</string>
 </resources>
