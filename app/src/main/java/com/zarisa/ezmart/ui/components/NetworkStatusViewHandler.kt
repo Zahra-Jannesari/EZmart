@@ -17,24 +17,24 @@ class NetworkStatusViewHandler(
         when (status) {
             Status.LOADING -> {
                 viewMain.visibility = View.GONE
-                viewStatus.lWorkStatus.visibility = View.GONE
-                viewStatus.imageViewNetworkStatus.let { imageView ->
+                viewStatus.lStatus.visibility = View.GONE
+                viewStatus.imageViewStatus.let { imageView ->
                     imageView.visibility = View.VISIBLE
                     imageView.setImageResource(R.drawable.loading_animation)
                 }
             }
             Status.NETWORK_ERROR -> {
                 viewMain.visibility = View.GONE
-                viewStatus.lWorkStatus.let { tv ->
+                viewStatus.tvStatusMessage.text = message
+                viewStatus.imageViewStatus.let { imageView ->
+                    imageView.visibility = View.VISIBLE
+                    imageView.setImageResource(R.drawable.ic_baseline_signal_wifi_statusbar_connected_no_internet_4_24)
+                }
+                viewStatus.lStatus.let { tv ->
                     tv.visibility = View.VISIBLE
                     tv.setOnClickListener {
                         onRefreshPageClick()
                     }
-                }
-                viewStatus.tvStatusMessage.text = message
-                viewStatus.imageViewNetworkStatus.let { imageView ->
-                    imageView.visibility = View.VISIBLE
-                    imageView.setImageResource(R.drawable.ic_baseline_signal_wifi_statusbar_connected_no_internet_4_24)
                 }
             }
             Status.SUCCESSFUL -> {
@@ -43,11 +43,20 @@ class NetworkStatusViewHandler(
             }
             else -> {
                 viewMain.visibility = View.GONE
-                viewStatus.lWorkStatus.visibility = View.VISIBLE
                 viewStatus.tvStatusMessage.text = message
-                viewStatus.imageViewNetworkStatus.let { imageView ->
+                viewStatus.lStatus.visibility = View.VISIBLE
+                viewStatus.imageViewStatus.let { imageView ->
                     imageView.visibility = View.VISIBLE
-                    imageView.setImageResource(if (message == REQUEST_NOT_FOUND) R.drawable.ic_baseline_search_off_24 else R.drawable.server_error)
+                    imageView.setImageResource(
+                        if (message == REQUEST_NOT_FOUND) R.drawable.ic_baseline_search_off_24
+                        else R.drawable.server_error
+                    )
+                }
+                viewStatus.lStatus.let { tv ->
+                    tv.visibility = View.VISIBLE
+                    tv.setOnClickListener {
+                        onRefreshPageClick()
+                    }
                 }
             }
         }

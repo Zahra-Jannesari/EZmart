@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/imageView_networkStatus"
+        android:id="@+id/imageView_Status"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +18,7 @@
         tools:src="@drawable/load_image" />
 
     <LinearLayout
-        android:id="@+id/l_workStatus"
+        android:id="@+id/l_Status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
@@ -39,12 +39,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:text="@string/connection_check_error"
             android:textColor="@color/drawable_tint"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView_networkStatus" />
+            app:layout_constraintTop_toBottomOf="@id/imageView_Status" />
 
 
     </LinearLayout>
