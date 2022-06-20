@@ -61,14 +61,14 @@ class ProductDetailViewModel @Inject constructor(
         orderingStatus.postValue(OrderingStatus.LOADING_ORDER)
         viewModelScope.launch {
             val order = getOrder(orderId)
-            if (order != null)
-                if (order.lineItems.contains(orderItem)) {
+            if (order != null) {
+                if (isItemAlreadyExist(order.line_items, orderItem.product_id)) {
                     orderingStatus.postValue(OrderingStatus.ALREADY_ADDED)
                 } else {
                     val newList = mutableListOf<OrderItem>()
-                    newList.addAll(order.lineItems)
+                    newList.addAll(order.line_items)
                     newList.add(orderItem)
-                    order.lineItems = newList
+                    order.line_items = newList
                     orderRepository.updateOrder(order, orderId).let {
                         when (it.status) {
                             Status.SUCCESSFUL -> orderingStatus.postValue(OrderingStatus.ITEM_ADDED)
@@ -77,7 +77,17 @@ class ProductDetailViewModel @Inject constructor(
                         }
                     }
                 }
+            }
         }
+    }
+
+    private fun isItemAlreadyExist(itemList: List<OrderItem>, newItemId: Int): Boolean {
+        var itemAlreadyExist: Boolean = false
+        for (i in itemList) {
+            if (i.product_id == newItemId)
+                itemAlreadyExist = true
+        }
+        return itemAlreadyExist
     }
 
     private suspend fun getOrder(orderId: Int): Order? {

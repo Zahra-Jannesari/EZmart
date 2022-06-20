@@ -75,14 +75,14 @@ interface ApiService {
 
     @PUT("orders/{id}")
     suspend fun updateOrder(
+        @Path("id") id: Int,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
-        @Body order: Order,
-        @Path("id") id: Int
+        @Body order: Order
     ): Response<Order>
 
     @GET("orders/{id}")
     suspend fun retrieveOrder(
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
-        @Path("id") id: Int
+        @Path("id") id: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<Order>
 }

@@ -80,7 +80,7 @@ class ProductDetailFragment : Fragment() {
         if (orderId == 0) {
             lifecycleScope.launch {
                 val orderId = viewModel.createOrder(order = Order(customer_id = customerId).apply {
-                    lineItems = listOf(viewModel.currentProduct.value!!.let {
+                    line_items = listOf(viewModel.currentProduct.value!!.let {
                         OrderItem(
                             productName = it.name, product_id = it.id
                         )
