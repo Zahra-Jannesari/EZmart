@@ -2,8 +2,8 @@ package com.zarisa.ezmart.data.order
 
 import com.zarisa.ezmart.data.network.ApiService
 import com.zarisa.ezmart.model.Order
-import com.zarisa.ezmart.ui.NetworkCall
-import com.zarisa.ezmart.ui.Resource
+import com.zarisa.ezmart.domain.NetworkCall
+import com.zarisa.ezmart.domain.Resource
 import retrofit2.Response
 import javax.inject.Inject
 

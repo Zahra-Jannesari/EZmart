@@ -1,7 +1,7 @@
 package com.zarisa.ezmart.data.order
 
 import com.zarisa.ezmart.model.Order
-import com.zarisa.ezmart.ui.Resource
+import com.zarisa.ezmart.domain.Resource
 import javax.inject.Inject
 
 class OrderRepository @Inject constructor(private val orderRemoteDataSource: OrderRemoteDataSource) {

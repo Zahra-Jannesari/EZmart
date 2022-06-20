@@ -1,10 +1,9 @@
-package com.zarisa.ezmart.ui.components
+package com.zarisa.ezmart.domain
 
 import android.view.View
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.LayoutNetworkStatusBinding
 import com.zarisa.ezmart.model.Status
-import com.zarisa.ezmart.ui.REQUEST_NOT_FOUND
 
 class NetworkStatusViewHandler(
     status: Status,
@@ -28,7 +27,7 @@ class NetworkStatusViewHandler(
                 viewStatus.tvStatusMessage.text = message
                 viewStatus.imageViewStatus.let { imageView ->
                     imageView.visibility = View.VISIBLE
-                    imageView.setImageResource(R.drawable.ic_baseline_signal_wifi_statusbar_connected_no_internet_4_24)
+                    imageView.setImageResource(R.drawable.ic_no_internet)
                 }
                 viewStatus.lStatus.let { tv ->
                     tv.visibility = View.VISIBLE
@@ -48,8 +47,8 @@ class NetworkStatusViewHandler(
                 viewStatus.imageViewStatus.let { imageView ->
                     imageView.visibility = View.VISIBLE
                     imageView.setImageResource(
-                        if (message == REQUEST_NOT_FOUND) R.drawable.ic_baseline_search_off_24
-                        else R.drawable.server_error
+                        if (message == REQUEST_NOT_FOUND) R.drawable.ic_search_off
+                        else R.drawable.icon_server_error
                     )
                 }
                 viewStatus.lStatus.let { tv ->

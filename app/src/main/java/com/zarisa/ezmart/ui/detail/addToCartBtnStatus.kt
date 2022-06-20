@@ -11,7 +11,7 @@ fun setToCartBtnState(button: MaterialButton, orderingStatus: OrderingStatus?) {
     when (orderingStatus) {
         OrderingStatus.LOADING_ORDER -> {
             button.let {
-                it.setIconResource(R.drawable.load_image)
+                it.setIconResource(R.drawable.ic_load_image)
                 it.text = ""
                 it.isEnabled = false
             }
@@ -40,7 +40,7 @@ fun setToCartBtnState(button: MaterialButton, orderingStatus: OrderingStatus?) {
         }
         OrderingStatus.ORDER_ERROR_INTERNET -> {
             button.let {
-                it.setIconResource(R.drawable.ic_baseline_signal_wifi_statusbar_connected_no_internet_4_24)
+                it.setIconResource(R.drawable.ic_no_internet)
                 it.text = OrderingStatus.ORDER_ERROR_INTERNET.message
                 it.isEnabled = true
                 it.isClickable = false
@@ -49,7 +49,7 @@ fun setToCartBtnState(button: MaterialButton, orderingStatus: OrderingStatus?) {
                 override fun onTick(millisUntilFinished: Long) {}
                 override fun onFinish() {
                     button.setText(R.string.addToCart)
-                    button.setIconResource(R.drawable.ic_baseline_shopping_cart_24)
+                    button.setIconResource(R.drawable.ic_shopping_cart)
                     button.isEnabled = true
                     button.isClickable = true
                 }
@@ -57,7 +57,7 @@ fun setToCartBtnState(button: MaterialButton, orderingStatus: OrderingStatus?) {
         }
         OrderingStatus.ORDER_ERROR_SERVER -> {
             button.let {
-                it.setIconResource(R.drawable.server_error)
+                it.setIconResource(R.drawable.icon_server_error)
                 it.text = OrderingStatus.ORDER_ERROR_SERVER.message
                 it.isEnabled = true
                 it.isClickable = false
@@ -66,14 +66,14 @@ fun setToCartBtnState(button: MaterialButton, orderingStatus: OrderingStatus?) {
                 override fun onTick(millisUntilFinished: Long) {}
                 override fun onFinish() {
                     button.setText(R.string.addToCart)
-                    button.setIconResource(R.drawable.ic_baseline_shopping_cart_24)
+                    button.setIconResource(R.drawable.ic_shopping_cart)
                     button.isClickable = true
                     button.isEnabled = true
                 }
             }.start()
         }
         else -> {
-            button.setIconResource(R.drawable.ic_baseline_shopping_cart_24)
+            button.setIconResource(R.drawable.ic_shopping_cart)
             button.setText(R.string.addToCart)
             button.isClickable = true
             button.isEnabled = true

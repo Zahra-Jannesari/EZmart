@@ -24,7 +24,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         Glide.with(imgView)
             .load(imgUrl)
             .placeholder(R.drawable.loading_animation)
-            .error(R.drawable.error_image)
+            .error(R.drawable.ic_error_image)
             .into(imgView)
     }
 }

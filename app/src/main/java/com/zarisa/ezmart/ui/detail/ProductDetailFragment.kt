@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.zarisa.ezmart.adapter.ReviewAdapter
 import com.zarisa.ezmart.databinding.FragmentProductDetailBinding
 import com.zarisa.ezmart.ui.MainActivity
-import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
+import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.adapter.ViewPagerAdapter
 import com.zarisa.ezmart.model.*
 import dagger.hilt.android.AndroidEntryPoint

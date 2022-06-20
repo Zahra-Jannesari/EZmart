@@ -3,7 +3,7 @@ package com.zarisa.ezmart.data.category
 import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.model.Category
 import com.zarisa.ezmart.model.Product
-import com.zarisa.ezmart.ui.Resource
+import com.zarisa.ezmart.domain.Resource
 import javax.inject.Inject
 
 class CategoryRepository @Inject constructor(private val categoryRemoteDataSource: CategoryRemoteDataSource) {

@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/load_image" />
+        tools:src="@drawable/ic_load_image" />
 
     <LinearLayout
         android:id="@+id/l_Status"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:src="@drawable/ic_baseline_refresh_24"
+            android:src="@drawable/ic_refresh"
             app:tint="@color/drawable_tint" />
 
         <TextView

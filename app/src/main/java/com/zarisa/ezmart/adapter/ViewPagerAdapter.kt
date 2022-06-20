@@ -31,7 +31,7 @@ class ViewPagerAdapter(private val sliderImgList: List<Image>, val context: Cont
                     Glide.with(this)
                         .load(it)
                         .placeholder(R.drawable.loading_animation)
-                        .error(R.drawable.error_image)
+                        .error(R.drawable.ic_error_image)
                         .transform(CenterInside(), RoundedCorners(24))
                         .into(this)
                 }

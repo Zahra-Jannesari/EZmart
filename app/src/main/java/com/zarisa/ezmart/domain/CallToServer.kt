@@ -1,4 +1,4 @@
-package com.zarisa.ezmart.ui
+package com.zarisa.ezmart.domain
 
 import com.bumptech.glide.load.HttpException
 import com.zarisa.ezmart.model.Status

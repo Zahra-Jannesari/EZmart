@@ -61,8 +61,8 @@
                         android:layout_height="48dp"
                         android:layout_gravity="bottom|end"
                         android:layout_margin="10dp"
-                        app:ci_drawable="@drawable/circle_radius"
-                        app:ci_drawable_unselected="@drawable/circle_radius" />
+                        app:ci_drawable="@drawable/ic_circle_radius"
+                        app:ci_drawable_unselected="@drawable/ic_circle_radius" />
                 </FrameLayout>
 
                 <androidx.constraintlayout.widget.Guideline

@@ -13,7 +13,7 @@ import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentCategoryBinding
 import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
-import com.zarisa.ezmart.ui.components.NetworkStatusViewHandler
+import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.adapter.ProductHorizontalViewListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -29,7 +29,7 @@
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
             app:boxStrokeColor="@color/drawable_tint"
-            app:endIconDrawable="@drawable/ic_baseline_search_24"
+            app:endIconDrawable="@drawable/ic_search"
             app:endIconMode="custom"
             app:endIconTint="@color/black"
             app:hintAnimationEnabled="false"
@@ -72,7 +72,7 @@
                 android:gravity="center"
                 android:text="@string/sort"
                 android:textColor="@color/drawable_tint"
-                app:drawableRightCompat="@drawable/ic_baseline_sort_24"
+                app:drawableRightCompat="@drawable/ic_sort"
                 app:drawableTint="@color/drawable_tint" />
         </LinearLayout>
 

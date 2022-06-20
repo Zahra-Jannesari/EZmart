@@ -4,7 +4,7 @@ import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.model.OrderByEnum
 import com.zarisa.ezmart.model.Product
 import com.zarisa.ezmart.model.Review
-import com.zarisa.ezmart.ui.Resource
+import com.zarisa.ezmart.domain.Resource
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(private val productRemoteDataSource: ProductRemoteDataSource) {

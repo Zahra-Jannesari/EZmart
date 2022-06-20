@@ -1,7 +1,7 @@
 package com.zarisa.ezmart.data.search
 
 import com.zarisa.ezmart.model.Product
-import com.zarisa.ezmart.ui.Resource
+import com.zarisa.ezmart.domain.Resource
 import javax.inject.Inject
 
 class SearchRepository @Inject constructor(private val searchRemoteDataSource: SearchRemoteDataSource) {
