@@ -55,15 +55,14 @@
             android:id="@+id/action_searchFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
     </fragment>
-        tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/shoppingFragment"
-        android:name="com.zarisa.ezmart.ShoppingFragment"
+        android:name="com.zarisa.ezmart.ui.shopping.ShoppingFragment"
         android:label="سبد خرید"
         tools:layout="@layout/fragment_shopping" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.zarisa.ezmart.ProfileFragment"
+        android:name="com.zarisa.ezmart.ui.profile.ProfileFragment"
         android:label="پروفایل"
         tools:layout="@layout/fragment_profile" />
 </navigation>
