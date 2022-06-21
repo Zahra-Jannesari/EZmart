@@ -31,4 +31,12 @@ class OrderRemoteDataSource @Inject constructor(private val apiService: ApiServi
             }
         }.fetch()
     }
+
+    suspend fun getCustomerOrders(customerId: Int): Resource<List<Order>> {
+        return object : NetworkCall<List<Order>>() {
+            override suspend fun createCall(): Response<List<Order>> {
+                return apiService.getCustomerOrders(customerId = customerId)
+            }
+        }.fetch()
+    }
 }

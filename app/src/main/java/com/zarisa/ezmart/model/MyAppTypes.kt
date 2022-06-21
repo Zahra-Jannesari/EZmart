@@ -22,6 +22,9 @@ enum class OrderingStatus(val message: String) {
 
 typealias OnItemClick = (Int) -> Unit
 typealias OnCategoryClick = (Category) -> Unit
+typealias OnDeleteOrderClick = (Int) -> Unit
+typealias OnAddOrderItemClick = (Int) -> Unit
+typealias OnRemoveOrderItemClick = (Int) -> Unit
 
 const val ITEM_ID = "id"
 const val SEARCH_ORIGIN = "search_origin"

@@ -85,4 +85,10 @@ interface ApiService {
         @Path("id") id: Int,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<Order>
+
+    @GET("orders/")
+    suspend fun getCustomerOrders(
+        @Query("customer") customerId: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
+    ): Response<List<Order>>
 }

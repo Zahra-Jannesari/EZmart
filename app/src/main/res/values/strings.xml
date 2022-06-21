@@ -18,4 +18,6 @@
     <string name="review_by">توسط:</string>
     <string name="addToCart">افزودن به سبد خرید</string>
     <string name="ExistInCart">افزودن به سبد خرید</string>
+    <string name="total_price">مجموع:</string>
+    <string name="complete_the_shipping"><![CDATA[تکمیل فرآیند خرید>>]]></string>
 </resources>

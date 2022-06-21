@@ -16,4 +16,7 @@ class OrderRepository @Inject constructor(private val orderRemoteDataSource: Ord
     suspend fun retrieveOrder(orderId: Int): Resource<Order> {
         return orderRemoteDataSource.retrieveOrder(orderId)
     }
+    suspend fun getCustomerOrders(customerId: Int):Resource<List<Order>>{
+        return orderRemoteDataSource.getCustomerOrders(customerId)
+    }
 }
