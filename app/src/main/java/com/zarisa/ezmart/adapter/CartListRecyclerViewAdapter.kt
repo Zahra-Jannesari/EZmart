@@ -13,17 +13,17 @@ class CartListRecyclerViewAdapter(
     val addOneItem: OnAddOrderItemClick,
     val removeOneItem: OnRemoveOrderItemClick
 ) :
-    ListAdapter<CartItem, CartListRecyclerViewAdapter.ViewHolder>(DiffCallback) {
+    ListAdapter<OrderItem, CartListRecyclerViewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
         private var binding: ItemShoppingCartBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: CartItem) {
+        fun bind(item: OrderItem) {
             binding.cartItem = item
-            binding.productImageSrc =
-                if (item.item.images.isNotEmpty()) item.item.images[0].src else ""
-            binding.btnAddOne.setOnClickListener { addOneItem(item.item.id) }
-            binding.btnRemoveOne.setOnClickListener { removeOneItem(item.item.id) }
-            binding.btnDeleteItem.setOnClickListener { deleteItem(item.item.id) }
+            binding.productImageSrc =""
+//                if (item.item.images.isNotEmpty()) item.item.images[0].src else ""
+            binding.btnAddOne.setOnClickListener { addOneItem(item.id) }
+            binding.btnRemoveOne.setOnClickListener { removeOneItem(item.id) }
+            binding.btnDeleteItem.setOnClickListener { deleteItem(item.id) }
             binding.executePendingBindings()
         }
     }
@@ -42,12 +42,12 @@ class CartListRecyclerViewAdapter(
         holder.bind(item)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<CartItem>() {
-        override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<OrderItem>() {
+        override fun areItemsTheSame(oldItem: OrderItem, newItem: OrderItem): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+        override fun areContentsTheSame(oldItem: OrderItem, newItem: OrderItem): Boolean {
             return oldItem == newItem
         }
     }

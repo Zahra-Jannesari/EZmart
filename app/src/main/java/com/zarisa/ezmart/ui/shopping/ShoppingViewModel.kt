@@ -8,6 +8,7 @@ import com.zarisa.ezmart.data.order.CustomerRepository
 import com.zarisa.ezmart.data.product.ProductRepository
 import com.zarisa.ezmart.model.CartItem
 import com.zarisa.ezmart.model.Order
+import com.zarisa.ezmart.model.OrderItem
 import com.zarisa.ezmart.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ class ShoppingViewModel @Inject constructor(
     var initialGetOrder = true
     val statusLiveData = MutableLiveData<Status>()
     val cartItemsLiveData = MutableLiveData<List<CartItem>>()
+    val orderItems = MutableLiveData<List<OrderItem>>()
     val total = MutableLiveData<String>()
     val emptyCart = Transformations.map(cartItemsLiveData) { it?.isNullOrEmpty() }
     var statusMessage = ""
@@ -38,15 +40,23 @@ class ShoppingViewModel @Inject constructor(
                     statusLiveData.value = it.status
                     statusMessage = it.message
                     if (it.status == Status.SUCCESSFUL)
-                        prepareCartItemsForShow(it.data)
+                        it.data?.let { order ->
+                            orderItems.value = order.line_items
+                            total.value = order.total
+                        }
+//                        prepareCartItemsForShow(it.data)
                 }
             else customerRepository.getCustomerOrders(customerId).let {
                 statusLiveData.value = it.status
                 statusMessage = it.message
                 if (it.status == Status.SUCCESSFUL)
-                    prepareCartItemsForShow(
-                        if (it.data?.isNullOrEmpty() == true) Order() else it.data?.get(0)
-                    )
+                    it.data?.let { order ->
+                        orderItems.value = order[0].line_items
+                        total.value = order[0].total
+                    }
+//                    prepareCartItemsForShow(
+//                        if (it.data?.isNullOrEmpty() == true) Order() else it.data?.get(0)
+//                    )
             }
         }
     }

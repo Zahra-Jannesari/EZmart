@@ -7,7 +7,7 @@
 
         <variable
             name="cartItem"
-            type="com.zarisa.ezmart.model.CartItem" />
+            type="com.zarisa.ezmart.model.OrderItem" />
 
         <variable
             name="productImageSrc"
@@ -58,7 +58,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:minLines="2"
-                android:text="@{cartItem.item.name}"
+                android:text="@{cartItem.productName}"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -73,7 +73,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{cartItem.item.price!=``? `فی: `+cartItem.item.price+` تومان`:``}"
+                android:text="@{cartItem.total!=``? `فی: `+cartItem.total+` تومان`:``}"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/black"
                 tools:text="20 هزار تومان" />
