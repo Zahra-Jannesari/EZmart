@@ -3,31 +3,30 @@ package com.zarisa.ezmart.data.order
 import com.zarisa.ezmart.model.Order
 import com.zarisa.ezmart.domain.Resource
 import com.zarisa.ezmart.model.Customer
-import retrofit2.Response
 import javax.inject.Inject
 
-class OrderRepository @Inject constructor(private val orderRemoteDataSource: OrderRemoteDataSource) {
+class CustomerRepository @Inject constructor(private val customerRemoteDataSource: CustomerRemoteDataSource) {
     suspend fun createOrder(order: Order): Resource<Order> {
-        return orderRemoteDataSource.createOrder(order)
+        return customerRemoteDataSource.createOrder(order)
     }
 
     suspend fun updateOrder(order: Order, orderId: Int): Resource<Order> {
-        return orderRemoteDataSource.updateOrder(order, orderId)
+        return customerRemoteDataSource.updateOrder(order, orderId)
     }
 
     suspend fun retrieveOrder(orderId: Int): Resource<Order> {
-        return orderRemoteDataSource.retrieveOrder(orderId)
+        return customerRemoteDataSource.retrieveOrder(orderId)
     }
 
     suspend fun getCustomerOrders(customerId: Int): Resource<List<Order>> {
-        return orderRemoteDataSource.getCustomerOrders(customerId)
+        return customerRemoteDataSource.getCustomerOrders(customerId)
     }
 
     suspend fun createCustomer(customer: Customer): Resource<Customer> {
-        return orderRemoteDataSource.createCustomer(customer)
+        return customerRemoteDataSource.createCustomer(customer)
     }
 
     suspend fun getCustomer(customerId: Int): Resource<Customer> {
-        return orderRemoteDataSource.getCustomer(customerId)
+        return customerRemoteDataSource.getCustomer(customerId)
     }
 }

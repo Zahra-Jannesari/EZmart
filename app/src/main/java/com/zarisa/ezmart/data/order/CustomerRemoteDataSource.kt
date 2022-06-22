@@ -8,7 +8,7 @@ import com.zarisa.ezmart.model.Customer
 import retrofit2.Response
 import javax.inject.Inject
 
-class OrderRemoteDataSource @Inject constructor(private val apiService: ApiService) {
+class CustomerRemoteDataSource @Inject constructor(private val apiService: ApiService) {
     suspend fun createOrder(order: Order): Resource<Order> {
         return object : NetworkCall<Order>() {
             override suspend fun createCall(): Response<Order> {

@@ -88,14 +88,12 @@ class ProductDetailFragment : Fragment() {
                 })
                 editor.putInt(ORDER_ID, orderId).apply()
             }
-
         } else
             viewModel.updateOrder(orderId, viewModel.currentProduct.value!!.let {
                 OrderItem(
                     productName = it.name, product_id = it.id
                 )
             })
-
     }
 
     private fun bindViewPager() {

@@ -4,16 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zarisa.ezmart.data.order.OrderRepository
+import com.zarisa.ezmart.data.order.CustomerRepository
 import com.zarisa.ezmart.model.Order
-import com.zarisa.ezmart.model.OrderItem
 import com.zarisa.ezmart.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ShoppingViewModel @Inject constructor(private val orderRepository: OrderRepository) :
+class ShoppingViewModel @Inject constructor(private val customerRepository: CustomerRepository) :
     ViewModel() {
     val statusLiveData = MutableLiveData<Status>()
     val orderLiveData = MutableLiveData<Order?>()
@@ -25,18 +24,19 @@ class ShoppingViewModel @Inject constructor(private val orderRepository: OrderRe
         statusLiveData.postValue(Status.LOADING)
         viewModelScope.launch {
             if (customerId == 0)
-                orderRepository.retrieveOrder(orderId).let {
+                customerRepository.retrieveOrder(orderId).let {
                     statusLiveData.value = it.status
                     statusMessage = it.message
                     if (it.status == Status.SUCCESSFUL)
                         orderLiveData.value = it.data
                 }
             else
-                orderRepository.getCustomerOrders(customerId).let {
+                customerRepository.getCustomerOrders(customerId).let {
                     statusLiveData.value = it.status
                     statusMessage = it.message
                     if (it.status == Status.SUCCESSFUL)
-                        orderLiveData.value = it.data?.get(0)
+                        orderLiveData.value =
+                            if (it.data?.isNullOrEmpty() == true) Order() else it.data?.get(0)
                 }
         }
     }

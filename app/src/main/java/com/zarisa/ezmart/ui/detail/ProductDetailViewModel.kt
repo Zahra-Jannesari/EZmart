@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zarisa.ezmart.data.order.OrderRepository
+import com.zarisa.ezmart.data.order.CustomerRepository
 import com.zarisa.ezmart.data.product.ProductRepository
 import com.zarisa.ezmart.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailViewModel @Inject constructor(
     private val productRepository: ProductRepository,
-    private val orderRepository: OrderRepository
+    private val customerRepository: CustomerRepository
 ) : ViewModel() {
     val orderingStatus = MutableLiveData<OrderingStatus?>(null)
     val statusLiveData = MutableLiveData<Status>()
@@ -44,7 +44,7 @@ class ProductDetailViewModel @Inject constructor(
     //order part
     suspend fun createOrder(order: Order): Int {
         orderingStatus.postValue(OrderingStatus.LOADING_ORDER)
-        orderRepository.createOrder(order).let {
+        customerRepository.createOrder(order).let {
             when (it.status) {
                 Status.SUCCESSFUL -> {
                     orderingStatus.postValue(OrderingStatus.ITEM_ADDED)
@@ -69,7 +69,7 @@ class ProductDetailViewModel @Inject constructor(
                     newList.addAll(order.line_items)
                     newList.add(orderItem)
                     order.line_items = newList
-                    orderRepository.updateOrder(order, orderId).let {
+                    customerRepository.updateOrder(order, orderId).let {
                         when (it.status) {
                             Status.SUCCESSFUL -> orderingStatus.postValue(OrderingStatus.ITEM_ADDED)
                             Status.NETWORK_ERROR -> orderingStatus.postValue(OrderingStatus.ORDER_ERROR_INTERNET)
@@ -82,7 +82,7 @@ class ProductDetailViewModel @Inject constructor(
     }
 
     private fun isItemAlreadyExist(itemList: List<OrderItem>, newItemId: Int): Boolean {
-        var itemAlreadyExist: Boolean = false
+        var itemAlreadyExist = false
         for (i in itemList) {
             if (i.product_id == newItemId)
                 itemAlreadyExist = true
@@ -91,7 +91,7 @@ class ProductDetailViewModel @Inject constructor(
     }
 
     private suspend fun getOrder(orderId: Int): Order? {
-        orderRepository.retrieveOrder(orderId).let {
+        customerRepository.retrieveOrder(orderId).let {
             when (it.status) {
                 Status.SUCCESSFUL -> return it.data
                 Status.NETWORK_ERROR -> orderingStatus.postValue(OrderingStatus.ORDER_ERROR_INTERNET)

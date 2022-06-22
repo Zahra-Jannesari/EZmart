@@ -98,7 +98,7 @@ interface ApiService {
 
     @GET("customers/{id}")
     suspend fun getCustomer(
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
-        @Path("id") id: Int
+        @Path("id") id: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<Customer>
 }

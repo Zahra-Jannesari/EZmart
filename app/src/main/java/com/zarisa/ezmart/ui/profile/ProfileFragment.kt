@@ -45,7 +45,7 @@ class ProfileFragment : Fragment() {
             Toast.makeText(
                 requireContext(),
                 when (it) {
-                    Status.LOADING -> "در حال ثبت مشخصات..."
+                    Status.LOADING -> "در حال بارگذاری..."
                     Status.SUCCESSFUL -> "مشخصات شما با موفقیت ثبت شد."
                     else -> viewModel.statusMessage
                 }, Toast.LENGTH_SHORT
@@ -96,7 +96,7 @@ class ProfileFragment : Fragment() {
 
     private fun bindOrderToCustomer(customerId: Int) {
         if (orderId != 0) {
-//            viewModel.updateOrder()
+            viewModel.updateOrder(customerId, orderId)
         }
     }
 
