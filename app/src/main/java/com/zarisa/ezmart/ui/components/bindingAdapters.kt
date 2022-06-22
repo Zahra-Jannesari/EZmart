@@ -41,7 +41,7 @@ fun bindProductHorizontalViewRecyclerView(recyclerView: RecyclerView, data: List
     adapter.submitList(data)
 }
 @BindingAdapter("orderItemListData")
-fun bindOrderItemRecyclerView(recyclerView: RecyclerView, data: List<OrderItem>?) {
+fun bindOrderItemRecyclerView(recyclerView: RecyclerView, data: List<CartItem>?) {
     val adapter = recyclerView.adapter as CartListRecyclerViewAdapter
     adapter.submitList(data)
 }

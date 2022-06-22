@@ -5,6 +5,7 @@ import com.zarisa.ezmart.model.OrderByEnum
 import com.zarisa.ezmart.model.Product
 import com.zarisa.ezmart.model.Review
 import com.zarisa.ezmart.domain.Resource
+import com.zarisa.ezmart.model.CartProduct
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(private val productRemoteDataSource: ProductRemoteDataSource) {
@@ -30,6 +31,10 @@ class ProductRepository @Inject constructor(private val productRemoteDataSource:
 
     suspend fun getProductById(id: Int): Resource<Product> {
         return productRemoteDataSource.getProductById(id)
+    }
+
+    suspend fun getCartProductById(id: Int): Resource<CartProduct> {
+        return productRemoteDataSource.getCartProductById(id)
     }
 
     suspend fun getSpecialOffers(): Resource<Product> {

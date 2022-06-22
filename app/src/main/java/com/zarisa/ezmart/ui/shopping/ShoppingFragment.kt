@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -20,8 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ShoppingFragment : Fragment() {
     private lateinit var sharedPref: SharedPreferences
-    private var customerId = 0
-    private var orderId = 0
     private lateinit var binding: FragmentShoppingBinding
     private val viewModel: ShoppingViewModel by viewModels()
     override fun onCreateView(
@@ -31,11 +28,6 @@ class ShoppingFragment : Fragment() {
         setHasOptionsMenu(true)
         binding = FragmentShoppingBinding.inflate(layoutInflater, container, false)
         return binding.root
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.clear()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,8 +48,8 @@ class ShoppingFragment : Fragment() {
     }
 
     private fun cartSituation() {
-        if (customerId != 0 || orderId != 0) {
-            viewModel.getOrder(customerId, orderId)
+        if (viewModel.customerId != 0 || viewModel.orderId != 0) {
+            viewModel.getOrder()
             binding.imageViewEmptyCart.visibility = View.GONE
             binding.lMain.visibility = View.VISIBLE
         } else {
@@ -65,7 +57,7 @@ class ShoppingFragment : Fragment() {
             binding.lMain.visibility = View.GONE
         }
         viewModel.emptyCart.observe(viewLifecycleOwner) {
-            if (it) {
+            if (it == true) {
                 binding.imageViewEmptyCart.visibility = View.VISIBLE
                 binding.lMain.visibility = View.GONE
             } else {
@@ -77,8 +69,8 @@ class ShoppingFragment : Fragment() {
 
     private fun initSharedPref() {
         sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
-        customerId = sharedPref.getInt(CUSTOMER_ID, 0)
-        orderId = sharedPref.getInt(ORDER_ID, 0)
+        viewModel.customerId = sharedPref.getInt(CUSTOMER_ID, 0)
+        viewModel.orderId = sharedPref.getInt(ORDER_ID, 0)
     }
 
     private fun addOneItem(id: Int) {

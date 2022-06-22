@@ -29,7 +29,13 @@ class ProductRemoteDataSource @Inject constructor(private val apiService: ApiSer
             }
         }.fetch()
     }
-
+    suspend fun getCartProductById(id: Int): Resource<CartProduct> {
+        return object : NetworkCall<CartProduct>() {
+            override suspend fun createCall(): Response<CartProduct> {
+                return apiService.getCartProductById(id)
+            }
+        }.fetch()
+    }
     suspend fun getSpecialOffers(): Resource<Product> {
         return object : NetworkCall<Product>() {
             override suspend fun createCall(): Response<Product> {

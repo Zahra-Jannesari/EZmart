@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zarisa.ezmart.databinding.ShoppingCartItemBinding
+import com.zarisa.ezmart.databinding.ItemShoppingCartBinding
 import com.zarisa.ezmart.model.*
 
 class CartListRecyclerViewAdapter(
@@ -13,15 +13,17 @@ class CartListRecyclerViewAdapter(
     val addOneItem: OnAddOrderItemClick,
     val removeOneItem: OnRemoveOrderItemClick
 ) :
-    ListAdapter<OrderItem, CartListRecyclerViewAdapter.ViewHolder>(DiffCallback) {
+    ListAdapter<CartItem, CartListRecyclerViewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
-        private var binding: ShoppingCartItemBinding
+        private var binding: ItemShoppingCartBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: OrderItem) {
-            binding.orderItem = item
-            binding.btnAddOne.setOnClickListener { addOneItem(item.id) }
-            binding.btnRemoveOne.setOnClickListener { removeOneItem(item.id) }
-            binding.btnDeleteItem.setOnClickListener { deleteItem(item.id) }
+        fun bind(item: CartItem) {
+            binding.cartItem = item
+            binding.productImageSrc =
+                if (item.item.images.isNotEmpty()) item.item.images[0].src else ""
+            binding.btnAddOne.setOnClickListener { addOneItem(item.item.id) }
+            binding.btnRemoveOne.setOnClickListener { removeOneItem(item.item.id) }
+            binding.btnDeleteItem.setOnClickListener { deleteItem(item.item.id) }
             binding.executePendingBindings()
         }
     }
@@ -31,7 +33,7 @@ class CartListRecyclerViewAdapter(
         viewType: Int
     ): ViewHolder {
         return ViewHolder(
-            ShoppingCartItemBinding.inflate(LayoutInflater.from(parent.context))
+            ItemShoppingCartBinding.inflate(LayoutInflater.from(parent.context))
         )
     }
 
@@ -40,13 +42,13 @@ class CartListRecyclerViewAdapter(
         holder.bind(item)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<OrderItem>() {
-        override fun areItemsTheSame(oldItem: OrderItem, newItem: OrderItem): Boolean {
-            return oldItem.id == newItem.id
+    companion object DiffCallback : DiffUtil.ItemCallback<CartItem>() {
+        override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+            return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: OrderItem, newItem: OrderItem): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+            return oldItem == newItem
         }
     }
 }

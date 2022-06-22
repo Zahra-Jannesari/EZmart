@@ -80,20 +80,20 @@ class ProductDetailFragment : Fragment() {
         if (orderId == 0) {
             lifecycleScope.launch {
                 val orderId = viewModel.createOrder(order = Order(customer_id = customerId).apply {
-                    line_items = listOf(viewModel.currentProduct.value!!.let {
+                    line_items = listOf(
                         OrderItem(
-                            productName = it.name, product_id = it.id
+                            product_id = viewModel.currentProduct.value!!.id
                         )
-                    })
+                    )
                 })
                 editor.putInt(ORDER_ID, orderId).apply()
             }
         } else
-            viewModel.updateOrder(orderId, viewModel.currentProduct.value!!.let {
-                OrderItem(
-                    productName = it.name, product_id = it.id
+            viewModel.updateOrder(
+                orderId, OrderItem(
+                    product_id = viewModel.currentProduct.value!!.id
                 )
-            })
+            )
     }
 
     private fun bindViewPager() {

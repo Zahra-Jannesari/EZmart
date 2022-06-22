@@ -18,6 +18,11 @@ interface ApiService {
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<Product>
 
+    @GET("products/{id}")
+    suspend fun getCartProductById(
+        @Path("id") id: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
+    ): Response<CartProduct>
     @GET("products/reviews/")
     suspend fun getProductReviews(
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),

@@ -39,7 +39,7 @@
 
         <LinearLayout
             android:id="@+id/l_main"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -75,14 +75,13 @@
                     android:layout_marginHorizontal="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@{viewModel.orderLiveData.discount_total!=``? viewModel.orderLiveData.discount_total+` تومان`:``}"
+                    android:text="@{viewModel.total!=``? viewModel.total+` تومان`:``}"
                     android:textDirection="rtl"
                     app:layout_constraintBottom_toBottomOf="@+id/textView5"
                     app:layout_constraintEnd_toStartOf="@+id/textView5"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView5"
-                    tools:text="26571367 تومان" />
+                    app:layout_constraintTop_toTopOf="@+id/textView5" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -103,8 +102,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:orderItemListData="@{viewModel.orderLiveData.line_items}"
-                tools:listitem="@layout/shopping_cart_item" />
+                app:orderItemListData="@{viewModel.cartItemsLiveData}"
+                tools:listitem="@layout/item_shopping_cart" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
