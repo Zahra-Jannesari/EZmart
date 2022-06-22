@@ -77,22 +77,23 @@ class ProductDetailFragment : Fragment() {
 
     private fun onAddToCartClick() {
         val editor = sharedPref.edit()
+        val orderItem = OrderItem(
+            product_id = viewModel.currentProduct.value!!.id,
+            productName = viewModel.currentProduct.value!!.name,
+            total = viewModel.currentProduct.value!!.price
+        )
         if (orderId == 0) {
             lifecycleScope.launch {
                 val orderId = viewModel.createOrder(order = Order(customer_id = customerId).apply {
                     line_items = listOf(
-                        OrderItem(
-                            product_id = viewModel.currentProduct.value!!.id
-                        )
+                        orderItem
                     )
                 })
                 editor.putInt(ORDER_ID, orderId).apply()
             }
         } else
             viewModel.updateOrder(
-                orderId, OrderItem(
-                    product_id = viewModel.currentProduct.value!!.id
-                )
+                orderId, orderItem
             )
     }
 

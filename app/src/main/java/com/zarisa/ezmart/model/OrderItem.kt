@@ -6,6 +6,6 @@ data class OrderItem(
     val product_id: Int,
     var quantity: Int = 1,
     val id: Int = 0,
-    @Json(name = "name") val productName: String = "",
-    val total: String = "0"
+    @Json(name = "name") val productName: String,
+    val total: String
 )
