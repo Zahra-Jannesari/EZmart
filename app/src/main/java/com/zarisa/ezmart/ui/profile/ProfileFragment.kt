@@ -3,6 +3,7 @@ package com.zarisa.ezmart.ui.profile
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -105,6 +106,12 @@ class ProfileFragment : Fragment() {
             if (it.text.isNullOrBlank()) {
                 isDataValid = false
                 it.error = "ایمیل را وارد کنید."
+            }
+            if (!Patterns.EMAIL_ADDRESS.matcher(it.text.toString())
+                    .matches()
+            ) {
+                isDataValid = false
+                it.error = "ایمیل را به درستی وارد کنید."
             }
         }
         binding.editTextName.let {
