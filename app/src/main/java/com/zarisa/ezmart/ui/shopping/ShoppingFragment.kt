@@ -7,13 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.zarisa.ezmart.R
 import com.zarisa.ezmart.adapter.CartListRecyclerViewAdapter
 import com.zarisa.ezmart.databinding.FragmentShoppingBinding
 import com.zarisa.ezmart.domain.NetworkStatusViewHandler
-import com.zarisa.ezmart.model.CUSTOMER
-import com.zarisa.ezmart.model.CUSTOMER_ID
-import com.zarisa.ezmart.model.ORDER_ID
+import com.zarisa.ezmart.model.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,9 +44,12 @@ class ShoppingFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.rvOrderItems.adapter =
-            CartListRecyclerViewAdapter({ id -> deleteItem(id) },
+            CartListRecyclerViewAdapter(
+                { id -> deleteItem(id) },
                 { id -> addOneItem(id) },
-                { id -> removeOneItem(id) })
+                { id -> removeOneItem(id) },
+                { id -> onProductItemClick(id) }
+            )
     }
 
     private fun cartSituation() {
@@ -74,15 +79,20 @@ class ShoppingFragment : Fragment() {
     }
 
     private fun addOneItem(id: Int) {
-
+        viewModel.updateOrder(id, ADD_ONE)
     }
 
     private fun removeOneItem(id: Int) {
-
+        viewModel.updateOrder(id, REMOVE_ONE)
     }
 
     private fun deleteItem(id: Int) {
+        viewModel.updateOrder(id, DELETE_ITEM)
+    }
 
+    private fun onProductItemClick(id: Int) {
+        val bundle = bundleOf(ITEM_ID to id)
+        findNavController().navigate(R.id.action_searchFragment_to_productDetailFragment, bundle)
     }
 
     private fun statusObserver() {
@@ -92,6 +102,14 @@ class ShoppingFragment : Fragment() {
                 binding.lMain,
                 binding.lStatus, { cartSituation() }, viewModel.statusMessage
             )
+        }
+        viewModel.editCartStatus.observe(viewLifecycleOwner) {
+            Toast.makeText(
+                requireContext(),
+                if (it == Status.NETWORK_ERROR) "لطفا اینترنت خود را چک کنید و مجددا تلاش کنید"
+                else "خطایی رخ داده. لطفا مجددا تلاش کنید",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }

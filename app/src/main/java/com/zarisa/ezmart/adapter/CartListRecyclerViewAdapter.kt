@@ -11,7 +11,8 @@ import com.zarisa.ezmart.model.*
 class CartListRecyclerViewAdapter(
     val deleteItem: OnDeleteOrderClick,
     val addOneItem: OnAddOrderItemClick,
-    val removeOneItem: OnRemoveOrderItemClick
+    val removeOneItem: OnRemoveOrderItemClick,
+    val onItemClick: OnItemClick
 ) :
     ListAdapter<OrderItem, CartListRecyclerViewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
@@ -19,11 +20,12 @@ class CartListRecyclerViewAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: OrderItem) {
             binding.cartItem = item
-            binding.productImageSrc =""
+            binding.productImageSrc = ""
 //                if (item.item.images.isNotEmpty()) item.item.images[0].src else ""
             binding.btnAddOne.setOnClickListener { addOneItem(item.id) }
             binding.btnRemoveOne.setOnClickListener { removeOneItem(item.id) }
             binding.btnDeleteItem.setOnClickListener { deleteItem(item.id) }
+            binding.root.setOnClickListener { onItemClick(item.product_id) }
             binding.executePendingBindings()
         }
     }
