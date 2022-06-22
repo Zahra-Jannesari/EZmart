@@ -1,9 +1,6 @@
 package com.zarisa.ezmart.data.network
 
-import com.zarisa.ezmart.model.Category
-import com.zarisa.ezmart.model.Order
-import com.zarisa.ezmart.model.Product
-import com.zarisa.ezmart.model.Review
+import com.zarisa.ezmart.model.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -91,4 +88,17 @@ interface ApiService {
         @Query("customer") customerId: Int,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<List<Order>>
+
+    //customer
+    @POST("customers/")
+    suspend fun createCustomer(
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Body customer: Customer
+    ): Response<Customer>
+
+    @GET("customers/{id}")
+    suspend fun getCustomer(
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Path("id") id: Int
+    ): Response<Customer>
 }
