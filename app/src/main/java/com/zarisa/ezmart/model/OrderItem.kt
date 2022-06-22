@@ -7,5 +7,6 @@ data class OrderItem(
     var quantity: Int = 1,
     val id: Int = 0,
     @Json(name = "name") val productName: String,
-    val total: String
+    val price: String,
+    var total:String
 )

@@ -14,6 +14,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+const val REMOVE_ONE = 101
+const val ADD_ONE = 102
+const val DELETE_ITEM = 103
+
 @HiltViewModel
 class ShoppingViewModel @Inject constructor(
     private val customerRepository: CustomerRepository,
@@ -22,18 +26,16 @@ class ShoppingViewModel @Inject constructor(
     ViewModel() {
     var customerId = 0
     var orderId = 0
-    var initialGetOrder = true
     val statusLiveData = MutableLiveData<Status>()
-    val cartItemsLiveData = MutableLiveData<List<CartItem>>()
+    val editCartStatus = MutableLiveData<Status>()
+
+    //    val cartItemsLiveData = MutableLiveData<List<CartItem>>()
     val orderItems = MutableLiveData<List<OrderItem>>()
     val total = MutableLiveData<String>()
-    val emptyCart = Transformations.map(cartItemsLiveData) { it?.isNullOrEmpty() }
+    val emptyCart = Transformations.map(orderItems) { it?.isNullOrEmpty() }
     var statusMessage = ""
     fun getOrder() {
-        if (initialGetOrder) {
-            statusLiveData.postValue(Status.LOADING)
-            initialGetOrder = false
-        }
+        statusLiveData.postValue(Status.LOADING)
         viewModelScope.launch {
             if (customerId == 0)
                 customerRepository.retrieveOrder(orderId).let {
@@ -61,30 +63,89 @@ class ShoppingViewModel @Inject constructor(
         }
     }
 
+    /*
     private suspend fun prepareCartItemsForShow(order: Order?) {
-        total.value = order?.total
-        order?.line_items.let {
-            if (!it.isNullOrEmpty())
-                for (i in it) {
-                    productRepository.getCartProductById(i.product_id).let { resource ->
-                        if (resource.status == Status.SUCCESSFUL) {
-                            cartItemsLiveData.value.let { list ->
-                                if (list.isNullOrEmpty()) listOf(
-                                    CartItem(
-                                        resource.data!!,
-                                        i.quantity
-                                    )
-                                ) else list.plus(CartItem(resource.data!!, i.quantity))
-                            }
+            total.value = order?.total
+            order?.line_items.let {
+                if (!it.isNullOrEmpty())
+                    for (i in it) {
+                        productRepository.getCartProductById(i.product_id).let { resource ->
+                            if (resource.status == Status.SUCCESSFUL) {
+                                cartItemsLiveData.value.let { list ->
+                                    if (list.isNullOrEmpty()) listOf(
+                                        CartItem(
+                                            resource.data!!,
+                                            i.quantity
+                                        )
+                                    ) else list.plus(CartItem(resource.data!!, i.quantity))
+                                }
 
-                        } else {
-                            statusLiveData.value = resource.status
-                            statusMessage = resource.message
-                            return
+                            } else {
+                                statusLiveData.value = resource.status
+                                statusMessage = resource.message
+                                return
+                            }
                         }
                     }
-                }
+            }
         }
-    }
+     */
+    fun updateOrder(itemId: Int, operation: Int) {
+        viewModelScope.launch {
+            customerRepository.retrieveOrder(orderId).let { resource ->
+                if (resource.status == Status.SUCCESSFUL) {
+                    val updateOrder = resource.data
+                    when (operation) {
+                        REMOVE_ONE -> updateOrder?.line_items?.onEach {
+                            if (it.id == itemId) {
+                                it.quantity--
+                                it.total = (Integer.parseInt(it.price) * it.quantity).toString()
+                            }
+                        }
+                        ADD_ONE -> updateOrder?.line_items?.onEach {
+                            if (it.id == itemId) {
+                                it.quantity++
+                                it.total = (Integer.parseInt(it.price) * it.quantity).toString()
+                            }
+                        }
+                        else -> updateOrder?.line_items?.onEach {
+                            if (it.id == itemId)
+                                it.quantity = 0
+                        }
 
+                        /*
+                         {
+                            var index = 0
+                            updateOrder?.line_items?.let {
+                                for (i in it.indices)
+                                    if (it[i].id == itemId) {
+                                        index = i
+                                    }
+                            }
+                            updateOrder?.line_items =
+                                (updateOrder?.line_items)?.minus(updateOrder.line_items[index])!!
+                        }
+                         */
+
+                    }
+                    if (updateOrder != null) {
+                        customerRepository.updateOrder(updateOrder, orderId).let {
+                            if (it.status != Status.SUCCESSFUL)
+                                editCartStatus.value = resource.status
+                        }
+                        customerRepository.retrieveOrder(orderId).let {
+                            if (it.status == Status.SUCCESSFUL)
+                                it.data?.let { order ->
+                                    orderItems.value = order.line_items
+                                    total.value = order.total
+                                } else editCartStatus.value = resource.status
+                        }
+                    }
+                } else {
+                    editCartStatus.value = resource.status
+                }
+            }
+        }
+
+    }
 }

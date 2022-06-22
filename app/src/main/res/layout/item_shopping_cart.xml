@@ -73,7 +73,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{cartItem.total!=``? `فی: `+cartItem.total+` تومان`:``}"
+                android:text="@{cartItem.price!=``? `فی: `+cartItem.price+` تومان`:``}"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/black"
                 tools:text="20 هزار تومان" />

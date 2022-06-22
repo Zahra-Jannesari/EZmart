@@ -59,7 +59,11 @@
         android:id="@+id/shoppingFragment"
         android:name="com.zarisa.ezmart.ui.shopping.ShoppingFragment"
         android:label="سبد خرید"
-        tools:layout="@layout/fragment_shopping" />
+        tools:layout="@layout/fragment_shopping" >
+        <action
+            android:id="@+id/action_shoppingFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.zarisa.ezmart.ui.profile.ProfileFragment"

@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.zarisa.ezmart.databinding.ItemShoppingCartBinding
 import com.zarisa.ezmart.model.*
+import com.zarisa.ezmart.ui.shopping.ADD_ONE
+import com.zarisa.ezmart.ui.shopping.DELETE_ITEM
+import com.zarisa.ezmart.ui.shopping.REMOVE_ONE
 
 class CartListRecyclerViewAdapter(
-    val deleteItem: OnDeleteOrderClick,
-    val addOneItem: OnAddOrderItemClick,
-    val removeOneItem: OnRemoveOrderItemClick
+    val onEditCartItem: OnEditCartItem,
+    val onItemClick: OnItemClick
 ) :
     ListAdapter<OrderItem, CartListRecyclerViewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
@@ -19,11 +21,12 @@ class CartListRecyclerViewAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: OrderItem) {
             binding.cartItem = item
-            binding.productImageSrc =""
+            binding.productImageSrc = ""
 //                if (item.item.images.isNotEmpty()) item.item.images[0].src else ""
-            binding.btnAddOne.setOnClickListener { addOneItem(item.id) }
-            binding.btnRemoveOne.setOnClickListener { removeOneItem(item.id) }
-            binding.btnDeleteItem.setOnClickListener { deleteItem(item.id) }
+            binding.btnAddOne.setOnClickListener { onEditCartItem(item.id, ADD_ONE) }
+            binding.btnRemoveOne.setOnClickListener { onEditCartItem(item.id, REMOVE_ONE) }
+            binding.btnDeleteItem.setOnClickListener { onEditCartItem(item.id, DELETE_ITEM) }
+            binding.root.setOnClickListener { onItemClick(item.product_id) }
             binding.executePendingBindings()
         }
     }

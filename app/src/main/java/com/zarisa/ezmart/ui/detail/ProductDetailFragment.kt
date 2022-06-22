@@ -80,6 +80,7 @@ class ProductDetailFragment : Fragment() {
         val orderItem = OrderItem(
             product_id = viewModel.currentProduct.value!!.id,
             productName = viewModel.currentProduct.value!!.name,
+            price = viewModel.currentProduct.value!!.price,
             total = viewModel.currentProduct.value!!.price
         )
         if (orderId == 0) {
