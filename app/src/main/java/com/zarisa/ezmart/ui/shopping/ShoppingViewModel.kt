@@ -26,6 +26,7 @@ class ShoppingViewModel @Inject constructor(
     ViewModel() {
     var customerId = 0
     var orderId = 0
+    var initialGetOrder = true
     val statusLiveData = MutableLiveData<Status>()
     val editCartStatus = MutableLiveData<Status>()
 
