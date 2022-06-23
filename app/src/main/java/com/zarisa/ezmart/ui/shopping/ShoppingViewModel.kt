@@ -5,8 +5,6 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zarisa.ezmart.data.order.CustomerRepository
-import com.zarisa.ezmart.data.product.ProductRepository
-import com.zarisa.ezmart.model.CartItem
 import com.zarisa.ezmart.model.Order
 import com.zarisa.ezmart.model.OrderItem
 import com.zarisa.ezmart.model.Status
@@ -20,117 +18,59 @@ const val DELETE_ITEM = 103
 
 @HiltViewModel
 class ShoppingViewModel @Inject constructor(
-    private val customerRepository: CustomerRepository,
-    private val productRepository: ProductRepository
+    private val customerRepository: CustomerRepository
 ) :
     ViewModel() {
     var customerId = 0
     var orderId = 0
-    var initialGetOrder = true
     val statusLiveData = MutableLiveData<Status>()
     val editCartStatus = MutableLiveData<Status>()
-
-    //    val cartItemsLiveData = MutableLiveData<List<CartItem>>()
     val orderItems = MutableLiveData<List<OrderItem>>()
     val total = MutableLiveData<String>()
     val emptyCart = Transformations.map(orderItems) { it?.isNullOrEmpty() }
     var statusMessage = ""
+
     fun getOrder() {
         statusLiveData.postValue(Status.LOADING)
         viewModelScope.launch {
             if (customerId == 0)
-                customerRepository.retrieveOrder(orderId).let {
-                    statusLiveData.value = it.status
-                    statusMessage = it.message
-                    if (it.status == Status.SUCCESSFUL)
-                        it.data?.let { order ->
-                            orderItems.value = order.line_items
-                            total.value = order.total
-                        }
-//                        prepareCartItemsForShow(it.data)
-                }
-            else customerRepository.getCustomerOrders(customerId).let {
-                statusLiveData.value = it.status
-                statusMessage = it.message
-                if (it.status == Status.SUCCESSFUL)
-                    it.data?.let { order ->
-                        orderItems.value = order[0].line_items
-                        total.value = order[0].total
-                    }
-//                    prepareCartItemsForShow(
-//                        if (it.data?.isNullOrEmpty() == true) Order() else it.data?.get(0)
-//                    )
-            }
+                getOrderById()
+            else getOrderByCustomerId()
         }
     }
 
-    /*
-    private suspend fun prepareCartItemsForShow(order: Order?) {
-            total.value = order?.total
-            order?.line_items.let {
-                if (!it.isNullOrEmpty())
-                    for (i in it) {
-                        productRepository.getCartProductById(i.product_id).let { resource ->
-                            if (resource.status == Status.SUCCESSFUL) {
-                                cartItemsLiveData.value.let { list ->
-                                    if (list.isNullOrEmpty()) listOf(
-                                        CartItem(
-                                            resource.data!!,
-                                            i.quantity
-                                        )
-                                    ) else list.plus(CartItem(resource.data!!, i.quantity))
-                                }
-
-                            } else {
-                                statusLiveData.value = resource.status
-                                statusMessage = resource.message
-                                return
-                            }
-                        }
-                    }
-            }
+    private suspend fun getOrderByCustomerId() {
+        customerRepository.getCustomerOrders(customerId).let {
+            statusLiveData.value = it.status
+            statusMessage = it.message
+            if (it.status == Status.SUCCESSFUL)
+                it.data?.let { order ->
+                    orderItems.value = order[0].line_items
+                    total.value = order[0].total
+                }
         }
-     */
+    }
+
+    private suspend fun getOrderById() {
+        customerRepository.retrieveOrder(orderId).let {
+            statusLiveData.value = it.status
+            statusMessage = it.message
+            if (it.status == Status.SUCCESSFUL)
+                it.data?.let { order ->
+                    orderItems.value = order.line_items
+                    total.value = order.total
+                }
+        }
+    }
+
     fun updateOrder(itemId: Int, operation: Int) {
         viewModelScope.launch {
             customerRepository.retrieveOrder(orderId).let { resource ->
                 if (resource.status == Status.SUCCESSFUL) {
-                    val updateOrder = resource.data
-                    when (operation) {
-                        REMOVE_ONE -> updateOrder?.line_items?.onEach {
-                            if (it.id == itemId) {
-                                it.quantity--
-                                it.total = (Integer.parseInt(it.price) * it.quantity).toString()
-                            }
-                        }
-                        ADD_ONE -> updateOrder?.line_items?.onEach {
-                            if (it.id == itemId) {
-                                it.quantity++
-                                it.total = (Integer.parseInt(it.price) * it.quantity).toString()
-                            }
-                        }
-                        else -> updateOrder?.line_items?.onEach {
-                            if (it.id == itemId)
-                                it.quantity = 0
-                        }
+                    val editedOrder=editOrder(resource.data, operation,itemId)
 
-                        /*
-                         {
-                            var index = 0
-                            updateOrder?.line_items?.let {
-                                for (i in it.indices)
-                                    if (it[i].id == itemId) {
-                                        index = i
-                                    }
-                            }
-                            updateOrder?.line_items =
-                                (updateOrder?.line_items)?.minus(updateOrder.line_items[index])!!
-                        }
-                         */
-
-                    }
-                    if (updateOrder != null) {
-                        customerRepository.updateOrder(updateOrder, orderId).let {
+                    if (editedOrder != null) {
+                        customerRepository.updateOrder(editedOrder, orderId).let {
                             if (it.status != Status.SUCCESSFUL)
                                 editCartStatus.value = resource.status
                         }
@@ -148,5 +88,27 @@ class ShoppingViewModel @Inject constructor(
             }
         }
 
+    }
+
+    private fun editOrder(data: Order?, operation: Int, itemId: Int): Order? {
+        when (operation) {
+            REMOVE_ONE -> data?.line_items?.onEach {
+                if (it.id == itemId) {
+                    it.quantity--
+                    it.total = (Integer.parseInt(it.price) * it.quantity).toString()
+                }
+            }
+            ADD_ONE -> data?.line_items?.onEach {
+                if (it.id == itemId) {
+                    it.quantity++
+                    it.total = (Integer.parseInt(it.price) * it.quantity).toString()
+                }
+            }
+            else -> data?.line_items?.onEach {
+                if (it.id == itemId)
+                    it.quantity = 0
+            }
+        }
+        return data
     }
 }
