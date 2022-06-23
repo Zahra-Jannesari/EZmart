@@ -6,7 +6,7 @@ import com.zarisa.ezmart.databinding.LayoutNetworkStatusBinding
 import com.zarisa.ezmart.model.Status
 
 class NetworkStatusViewHandler(
-    status: Status,
+    status: Status?,
     viewMain: View,
     viewStatus: LayoutNetworkStatusBinding,
     onRefreshPageClick: (() -> Unit),

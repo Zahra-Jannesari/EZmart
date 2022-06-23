@@ -5,6 +5,7 @@ import com.zarisa.ezmart.data.search.SearchRepository
 import com.zarisa.ezmart.model.Attribute
 import com.zarisa.ezmart.model.Product
 import com.zarisa.ezmart.model.SearchOrder
+import com.zarisa.ezmart.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,6 +19,8 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     private val attributeFilter = mutableListOf<Attribute>()
     var categoryId = 0
     var categoryName: String = "همه محصولات"
+    var statusMessage = ""
+    val statusLiveData = MutableLiveData<Status?>()
     private var searchListOrder = SearchOrder.NEWEST
     fun listOfFilteredSearchProducts(): LiveData<List<Product>> =
         Transformations.map(listOfSearchMatchProducts) { list ->
@@ -37,14 +40,18 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     //call by clicking on search icon in text field
     fun getSearchResults() {
         viewModelScope.launch {
-            if (searchText.isNotBlank())
-                listOfSearchMatchProducts.value =
-                    searchRepository.getListOfSearchMatches(
-                        categoryId,
-                        searchText
-                    ).data?.filter { product ->
-                        product.name.contains(searchText)
-                    }
+            if (searchText.isNotBlank()) {
+                statusLiveData.postValue(Status.LOADING)
+                searchRepository.getListOfSearchMatches(categoryId, searchText).let {
+                    statusLiveData.value = it.status
+                    statusMessage = it.message
+                    if (it.status == Status.SUCCESSFUL)
+                        listOfSearchMatchProducts.value = it.data?.filter { product ->
+                            product.name.contains(searchText)
+                        }
+                }
+            }
+
         }
     }
 

@@ -8,17 +8,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentSearchBinding
-import com.zarisa.ezmart.model.ITEM_ID
-import com.zarisa.ezmart.model.SEARCH_IN_ALL
-import com.zarisa.ezmart.model.SEARCH_ORIGIN
-import com.zarisa.ezmart.model.SearchOrder
 import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.adapter.ProductHorizontalViewListAdapter
+import com.zarisa.ezmart.domain.NetworkStatusViewHandler
+import com.zarisa.ezmart.model.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,11 +45,40 @@ class SearchFragment : Fragment() {
         bindView()
     }
 
+    private fun initCategoryDetail() {
+        viewModel.getSearchResults()
+    }
+
     private fun bindView() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.rvSearchResultProducts.adapter =
             ProductHorizontalViewListAdapter { id -> onProductItemClick(id) }
+        viewModel.statusLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Status.LOADING -> {
+                    binding.lLoader.visibility = View.VISIBLE
+                    binding.lStatus.root.visibility = View.GONE
+                    binding.rvSearchResultProducts.visibility = View.GONE
+                }
+                null -> {
+                    binding.lLoader.visibility = View.GONE
+                    binding.lStatus.root.visibility = View.VISIBLE
+                    binding.rvSearchResultProducts.visibility = View.VISIBLE
+                }
+                else -> {
+                    binding.lLoader.visibility = View.GONE
+                    binding.lStatus.root.visibility = View.VISIBLE
+                    binding.rvSearchResultProducts.visibility = View.VISIBLE
+                    NetworkStatusViewHandler(
+                        it,
+                        binding.rvSearchResultProducts,
+                        binding.lStatus, { initCategoryDetail() }, viewModel.statusMessage
+                    )
+                }
+            }
+
+        }
     }
 
     private fun onProductItemClick(id: Int) {
@@ -61,16 +87,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupSearchEditText() {
-        binding.editTextSearch.doOnTextChanged { inputText, _, _, _ ->
-            if (!inputText.isNullOrBlank()) {
-                viewModel.searchText = inputText.toString()
-            }
-        }
         binding.textFieldSearch.setEndIconOnClickListener {
-            if (binding.editTextSearch.text.isNullOrBlank())
-                binding.editTextSearch.error = "لطفا نام محصول مورد نظر را وارد کنید."
-            else
-                viewModel.getSearchResults()
+            viewModel.searchText = binding.editTextSearch.text.toString()
+            viewModel.getSearchResults()
         }
     }
 
@@ -94,7 +113,6 @@ class SearchFragment : Fragment() {
                     }
                 }
             }
-
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
