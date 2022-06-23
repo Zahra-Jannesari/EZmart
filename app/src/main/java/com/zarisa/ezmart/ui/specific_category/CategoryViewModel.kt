@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zarisa.ezmart.data.category.CategoryRepository
+import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.model.Status
 import com.zarisa.ezmart.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,7 @@ class CategoryViewModel @Inject constructor(private val categoryRepository: Cate
                 statusLiveData.value = it.status
                 statusMessage = it.message
                 if (it.status == Status.SUCCESSFUL)
-                    listOfProductsByCategory.value = it.data
+                    listOfProductsByCategory.value = it.data?.filter { it.id!= NetworkParams.SPECIAL_OFFERS }
             }
         }
     }

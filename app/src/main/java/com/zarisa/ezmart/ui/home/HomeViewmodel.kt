@@ -3,6 +3,7 @@ package com.zarisa.ezmart.ui.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.data.product.ProductRepository
 import com.zarisa.ezmart.model.Status
 import com.zarisa.ezmart.model.Product
@@ -29,9 +30,9 @@ class HomeViewModel @Inject constructor(private val productRepository: ProductRe
             if (highRateProducts.status == Status.SUCCESSFUL) {
                 if (newestProducts.status == bestSellerProducts.status && newestProducts.status == Status.SUCCESSFUL) {
                     statusLiveData.value = Status.SUCCESSFUL
-                    highRateProductsList.value = highRateProducts.data
-                    bestSellerProductsList.value = bestSellerProducts.data
-                    newestProductsList.value = newestProducts.data
+                    highRateProductsList.value = highRateProducts.data?.filter { it.id!=NetworkParams.SPECIAL_OFFERS }
+                    bestSellerProductsList.value = bestSellerProducts.data?.filter { it.id!=NetworkParams.SPECIAL_OFFERS }
+                    newestProductsList.value = newestProducts.data?.filter { it.id!=NetworkParams.SPECIAL_OFFERS }
                     specialOffersList.value = specialOffers.data
                 }
             } else {
