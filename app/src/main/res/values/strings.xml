@@ -25,4 +25,7 @@
     <string name="username">نام کاربری</string>
     <string name="email">ایمیل</string>
     <string name="register">ثبت نام</string>
+    <string name="do_filter">اعمال فیلتر</string>
+    <string name="filterBy">فیلتر کردن نتایج:</string>
+    <string name="reset_filter">حذف همه</string>
 </resources>

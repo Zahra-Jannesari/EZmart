@@ -23,6 +23,7 @@ interface ApiService {
         @Path("id") id: Int,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<CartProduct>
+
     @GET("products/reviews/")
     suspend fun getProductReviews(
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
@@ -56,6 +57,8 @@ interface ApiService {
     @GET("products/")
     suspend fun getListOfSearchMatchProducts(
         @Query("search") searchText: String,
+        @Query("orderby") orderby: String,
+        @Query("order") order: String,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
@@ -64,9 +67,47 @@ interface ApiService {
     suspend fun getListOfSearchMatchProducts(
         @Query("search") searchText: String,
         @Query("category") categoryId: String,
+        @Query("orderby") orderby: String,
+        @Query("order") order: String,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
+
+    @GET("products/")
+    suspend fun getListOfSearchMatchProducts(
+        @Query("search") searchText: String,
+        @Query("orderby") orderby: String,
+        @Query("order") order: String,
+        @Query("attribute") attribute: String,
+        @Query("attribute_term") attribute_term: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("per_page") perPage: Int = 100
+    ): Response<List<Product>>
+
+    @GET("products/")
+    suspend fun getListOfSearchMatchProducts(
+        @Query("search") searchText: String,
+        @Query("category") categoryId: String,
+        @Query("orderby") orderby: String,
+        @Query("order") order: String,
+        @Query("attribute") attribute: String,
+        @Query("attribute_term") attribute_term: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("per_page") perPage: Int = 100
+    ): Response<List<Product>>
+
+    @GET("products/attributes/")
+    suspend fun getListOfAttributes(
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+    ): Response<List<AttrProps>>
+
+    @GET("products/attributes/{id}/terms")
+    suspend fun getListOfAttributeTerms(
+        @Path("id") attributeId: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("per_page") perPage: Int = 100
+    ): Response<List<AttrProps>>
+
 
     //shopping
     @POST("orders/")

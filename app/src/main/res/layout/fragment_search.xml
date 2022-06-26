@@ -49,32 +49,89 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/spinner_sort"
+            <LinearLayout
+                android:id="@+id/l_SearchFilter"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="2dp"
+                    android:gravity="center"
+                    android:text="@string/filterBy"
+                    android:textColor="@color/drawable_tint"
+                    app:drawableRightCompat="@drawable/ic_filter"
+                    app:drawableTint="@color/drawable_tint" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_searchFilter"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    android:ellipsize="end"
+                    android:entries="@array/search_orders"
+                    android:gravity="right|center"
+                    android:maxLines="1"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    app:icon="@drawable/ic_baseline_arrow_drop_down_24"
+                    app:iconGravity="end"
+                    android:text="بدون فیلتر"
+                    app:iconTint="@color/drawable_tint"
+                    tools:ignore="RtlHardcoded" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:contentDescription="@string/app_name"
-                android:entries="@array/search_orders"
-                android:minHeight="48dp" />
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/l_SearchFilter"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="2dp"
-                android:gravity="center"
-                android:text="@string/sort"
-                android:textColor="@color/drawable_tint"
-                app:drawableRightCompat="@drawable/ic_sort"
-                app:drawableTint="@color/drawable_tint" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="2dp"
+                    android:gravity="center"
+                    android:text="@string/sort"
+                    android:textColor="@color/drawable_tint"
+                    app:drawableRightCompat="@drawable/ic_sort"
+                    app:drawableTint="@color/drawable_tint" />
+
+                <Spinner
+                    android:id="@+id/spinner_sort"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    android:entries="@array/search_orders"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -141,7 +198,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:productHorizontalViewListData="@{viewModel.listOfFilteredSearchProducts()}"
+                app:productHorizontalViewListData="@{viewModel.listOfSearchMatchProducts}"
                 tools:listitem="@layout/product_by_category_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

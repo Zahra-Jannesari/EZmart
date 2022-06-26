@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="attrTermName"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <!--        android:layoutDirection="rtl"-->
+
+        <!--        <TextView-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:gravity="center_vertical"-->
+        <!--            android:maxLines="1"-->
+        <!--            android:minHeight="48dp"-->
+        <!--            android:paddingHorizontal="10dp"-->
+        <!--            android:text="@{attrTermName}"-->
+        <!--            android:textSize="20sp"-->
+        <!--            tools:text="مشکی" />-->
+
+        <RadioButton
+            android:id="@+id/radioBtn_attrTerm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:text="@{attrTermName}"
+            android:textColor="@color/Yellow"
+            android:textSize="20sp"
+            tools:text="مشکی" />
+    </LinearLayout>
+</layout>
+
+   

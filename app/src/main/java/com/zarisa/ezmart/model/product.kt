@@ -14,7 +14,6 @@ data class Product(
     val sale_price: String,
     val average_rating: String?,
     val tags: List<Tag>,
-    val attributes: List<Attribute>,
     val date_created: String,
     val date_created_gmt: String,
     val related_ids: List<Int>,

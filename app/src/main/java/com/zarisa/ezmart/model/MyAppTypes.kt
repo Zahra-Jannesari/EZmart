@@ -8,8 +8,11 @@ enum class OrderByEnum(val orderName: String) {
     DATE("date"), POPULARITY("popularity"), RATING("rating")
 }
 
-enum class SearchOrder {
-    BEST_SELLERS, HIGH_PRICE, LOW_PRICE, NEWEST
+enum class SearchOrder(val orderby: String, val order: String) {
+    BEST_SELLERS("popularity", "desc"),
+    HIGH_PRICE("price", "desc"),
+    LOW_PRICE("price", "asc"),
+    NEWEST("date", "desc")
 }
 
 enum class OrderingStatus(val message: String) {
