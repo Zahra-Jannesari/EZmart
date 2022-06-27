@@ -41,8 +41,8 @@ class ShoppingViewModel @Inject constructor(
 
     private suspend fun getOrderByCustomerId() {
         customerRepository.getCustomerOrders(customerId).let {
-            statusLiveData.value = it.status
             statusMessage = it.message
+            statusLiveData.value = it.status
             if (it.status == Status.SUCCESSFUL)
                 it.data?.let { order ->
                     orderItems.value = order[0].line_items
@@ -53,8 +53,8 @@ class ShoppingViewModel @Inject constructor(
 
     private suspend fun getOrderById() {
         customerRepository.retrieveOrder(orderId).let {
-            statusLiveData.value = it.status
             statusMessage = it.message
+            statusLiveData.value = it.status
             if (it.status == Status.SUCCESSFUL)
                 it.data?.let { order ->
                     orderItems.value = order.line_items

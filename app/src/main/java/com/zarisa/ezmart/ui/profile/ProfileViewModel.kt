@@ -22,8 +22,8 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
                 if (it.status == Status.SUCCESSFUL)
                     customerLiveData.value = it.data
                 else {
-                    statusLiveData.value = it.status
                     statusMessage = it.message
+                    statusLiveData.value = it.status
                 }
             }
         }
@@ -32,8 +32,8 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
     suspend fun createCustomer(customer: Customer): Int? {
         statusLiveData.value = Status.LOADING
         customerRepository.createCustomer(customer).let {
-            statusLiveData.value = it.status
             statusMessage = it.message
+            statusLiveData.value = it.status
             if (it.status == Status.SUCCESSFUL) {
                 customerLiveData.postValue(it.data)
                 return it.data?.id

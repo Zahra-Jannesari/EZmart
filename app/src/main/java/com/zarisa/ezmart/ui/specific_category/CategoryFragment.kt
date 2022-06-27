@@ -1,10 +1,7 @@
 package com.zarisa.ezmart.ui.specific_category
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -72,7 +69,10 @@ class CategoryFragment : Fragment() {
         val bundle = bundleOf(ITEM_ID to id)
         findNavController().navigate(R.id.action_categoryFragment_to_productDetailFragment, bundle)
     }
-
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.option_menu,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_search -> {

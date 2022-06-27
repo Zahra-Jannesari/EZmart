@@ -36,8 +36,8 @@ class HomeViewModel @Inject constructor(private val productRepository: ProductRe
                     specialOffersList.value = specialOffers.data
                 }
             } else {
-                statusLiveData.value = highRateProducts.status
                 statusMessage = highRateProducts.message
+                statusLiveData.value = highRateProducts.status
             }
         }
     }
