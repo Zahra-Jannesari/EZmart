@@ -8,6 +8,18 @@
     android:background="?attr/colorPrimary"
     android:orientation="horizontal">
 
+    <include
+        android:id="@+id/l_status"
+        layout="@layout/layout_network_status"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_resetFilter"
+        app:layout_constraintEnd_toStartOf="@+id/rv_attrList"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_attrList"
         android:layout_width="wrap_content"
@@ -22,7 +34,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_attrTerms"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="?attr/colorPrimary"
         android:paddingHorizontal="20dp"
@@ -30,6 +42,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/btn_doFilter"
         app:layout_constraintEnd_toStartOf="@+id/rv_attrList"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_attr_terms" />

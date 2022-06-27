@@ -30,10 +30,12 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     init {
         viewModelScope.launch {
             searchRepository.getListOfAttributes().let {
-                if (it.status == Status.SUCCESSFUL)
+                if (it.status == Status.SUCCESSFUL) {
                     listOfAttributes.postValue(it.data)
+                    selectedAttr = it.data?.get(0)
+                    getAttrTerms()
+                }
             }
-
         }
     }
 
@@ -44,7 +46,6 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
                     if (it.status == Status.SUCCESSFUL)
                         listOfAttributeTerms.postValue(it.data)
                 }
-
         }
     }
 

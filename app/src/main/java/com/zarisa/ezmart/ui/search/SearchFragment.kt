@@ -2,13 +2,14 @@ package com.zarisa.ezmart.ui.search
 
 import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -16,17 +17,27 @@ import com.google.android.material.button.MaterialButton
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.adapter.AttrListAdapter
 import com.zarisa.ezmart.adapter.AttrTermsListAdapter
-import com.zarisa.ezmart.databinding.FragmentSearchBinding
-import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.adapter.ProductHorizontalViewListAdapter
+import com.zarisa.ezmart.databinding.FragmentSearchBinding
 import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.model.*
+import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
     lateinit var binding: FragmentSearchBinding
     val viewModel: SearchViewModel by viewModels()
+    var isAttrListFilled = false
+    private val attrListAdapter: AttrListAdapter by lazy {
+        AttrListAdapter { attr ->
+            onAttrClicked(attr)
+        }
+    }
+    private val attrTermListAdapter: AttrTermsListAdapter by lazy {
+        AttrTermsListAdapter { attrTerm -> onAttrTermClicked(attrTerm) }
+    }
+
     private fun setupAppbar() {
         (requireActivity() as MainActivity).supportActionBar?.hide()
         setHasOptionsMenu(false)
@@ -62,7 +73,19 @@ class SearchFragment : Fragment() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
             controlViewByStatus(it)
         }
-        binding.btnSearchFilter.setOnClickListener { showFilterDialog() }
+        binding.btnSearchFilter.setOnClickListener {
+            if (!isAttrListFilled)
+                Toast.makeText(
+                    requireContext(),
+                    "در حال دریافت اطلاعات از سرور...\nلطفا مجددا تلاش کنید.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            else
+                showFilterDialog()
+        }
+        viewModel.listOfAttributeTerms.observe(viewLifecycleOwner) {
+            isAttrListFilled = it.isNullOrEmpty()
+        }
     }
 
     private fun controlViewByStatus(it: Status?) {
@@ -158,26 +181,23 @@ class SearchFragment : Fragment() {
     private fun initDialogRecyclerViews(dialogView: View) {
         val rvAttrList = dialogView.findViewById<RecyclerView>(R.id.rv_attrList)
         val rvAttrTerms = dialogView.findViewById<RecyclerView>(R.id.rv_attrTerms)
-        AttrListAdapter { attr -> onAttrClicked(attr) }.let {
-            rvAttrList.adapter = it
-            viewModel.listOfAttributes.observe(viewLifecycleOwner) { attrList ->
-                it.submitList(attrList)
-            }
+        rvAttrList.adapter = attrListAdapter
+        viewModel.listOfAttributes.observe(viewLifecycleOwner) { attrList ->
+            attrListAdapter.submitList(attrList)
         }
-        AttrTermsListAdapter{ attrTerm -> onAttrTermClicked(attrTerm) }.let {
-            rvAttrTerms.adapter = it
-            viewModel.listOfAttributeTerms.observe(viewLifecycleOwner) { attrList ->
-                it.submitList(attrList)
-            }
+        rvAttrTerms.adapter = attrTermListAdapter
+        viewModel.listOfAttributeTerms.observe(viewLifecycleOwner) { attrList ->
+            attrTermListAdapter.submitList(attrList)
         }
-
     }
-    private fun onAttrClicked(attr:AttrProps){
-        viewModel.selectedAttr=attr
+
+    private fun onAttrClicked(attr: AttrProps) {
+        viewModel.selectedAttr = attr
         viewModel.getAttrTerms()
     }
-    private fun onAttrTermClicked(attrTerm:AttrProps){
-        viewModel.selectedAttrTerm=attrTerm
+
+    private fun onAttrTermClicked(attrTerm: AttrProps) {
+        viewModel.selectedAttrTerm = attrTerm
     }
 }
 

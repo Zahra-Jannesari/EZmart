@@ -19,9 +19,12 @@ class AttrTermsListAdapter(var onAttrClick: (AttrProps) -> Unit) :
             binding.attrTermName = attr.name
             binding.radioBtnAttrTerm.isChecked = position == currentAttrIndex
             binding.radioBtnAttrTerm.setOnCheckedChangeListener { radioBtn, isChecked ->
+                val tempSelectedPosition=currentAttrIndex
                 currentAttrIndex = position
                 radioBtn.isChecked = isChecked
                 onAttrClick(attr)
+                if (tempSelectedPosition!=-1)
+                    notifyItemChanged(tempSelectedPosition)
             }
             binding.executePendingBindings()
         }
