@@ -11,6 +11,12 @@ import com.zarisa.ezmart.model.AttrProps
 class AttrTermsListAdapter(var onAttrClick: (AttrProps) -> Unit) :
     ListAdapter<AttrProps, AttrTermsListAdapter.ViewHolder>(DiffCallback) {
     var currentAttrIndex = -1
+    private var mRecyclerView: RecyclerView? = null
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        mRecyclerView = recyclerView
+    }
 
     inner class ViewHolder(
         private var binding: ItemAttrTermsBinding
@@ -19,12 +25,13 @@ class AttrTermsListAdapter(var onAttrClick: (AttrProps) -> Unit) :
             binding.attrTermName = attr.name
             binding.radioBtnAttrTerm.isChecked = position == currentAttrIndex
             binding.radioBtnAttrTerm.setOnCheckedChangeListener { radioBtn, isChecked ->
-                val tempSelectedPosition=currentAttrIndex
-                currentAttrIndex = position
-                radioBtn.isChecked = isChecked
-                onAttrClick(attr)
-                if (tempSelectedPosition!=-1)
-                    notifyItemChanged(tempSelectedPosition)
+
+                if (mRecyclerView != null && mRecyclerView?.isComputingLayout == false) {
+                    currentAttrIndex = position
+                    radioBtn.isChecked = isChecked
+                    onAttrClick(attr)
+                    notifyDataSetChanged()
+                }
             }
             binding.executePendingBindings()
         }
@@ -52,5 +59,13 @@ class AttrTermsListAdapter(var onAttrClick: (AttrProps) -> Unit) :
         override fun areContentsTheSame(oldItem: AttrProps, newItem: AttrProps): Boolean {
             return oldItem.id == newItem.id
         }
+    }
+
+    override fun onCurrentListChanged(
+        previousList: MutableList<AttrProps>,
+        currentList: MutableList<AttrProps>
+    ) {
+        super.onCurrentListChanged(previousList, currentList)
+        currentAttrIndex = -1
     }
 }

@@ -1,27 +1,42 @@
 package com.zarisa.ezmart.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.ItemAttrListBinding
 import com.zarisa.ezmart.model.AttrProps
 
-class AttrListAdapter(var onAttrClick:(AttrProps)->Unit) :
+class AttrListAdapter(var onAttrClick: (AttrProps) -> Unit,var setItemBackground:(View, Boolean)->Unit) :
     ListAdapter<AttrProps, AttrListAdapter.ViewHolder>(DiffCallback) {
     var currentAttrIndex = 0
+    private var mRecyclerView: RecyclerView? = null
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        mRecyclerView = recyclerView
+    }
 
     inner class ViewHolder(
         private var binding: ItemAttrListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(attr: AttrProps, position: Int) {
             binding.attrName = attr.name
-            binding.tvAttrName.isSelected = position == currentAttrIndex
-            binding.root.setOnClickListener {
-                currentAttrIndex = position
-                binding.tvAttrName.isSelected = true
-                onAttrClick(attr)
+            binding.tvAttrName.let{
+               setItemBackground(binding.root,position==currentAttrIndex)
+                it.setOnClickListener { _->
+                    if (mRecyclerView != null && mRecyclerView?.isComputingLayout == false) {
+                        currentAttrIndex = position
+                        setItemBackground(binding.root,true)
+                        onAttrClick(attr)
+                        notifyDataSetChanged()
+                    }
+                }
             }
             binding.executePendingBindings()
         }

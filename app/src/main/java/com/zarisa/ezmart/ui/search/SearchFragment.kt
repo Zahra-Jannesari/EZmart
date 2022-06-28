@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,16 +29,21 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchFragment : Fragment() {
     lateinit var binding: FragmentSearchBinding
     val viewModel: SearchViewModel by viewModels()
-    var isAttrListFilled = false
+    var isAttrListEmpty = true
     private val attrListAdapter: AttrListAdapter by lazy {
-        AttrListAdapter { attr ->
+        AttrListAdapter ({ attr ->
             onAttrClicked(attr)
-        }
+        },{view:View,isItemSelected:Boolean ->setItemBackground(view,isItemSelected)})
     }
     private val attrTermListAdapter: AttrTermsListAdapter by lazy {
         AttrTermsListAdapter { attrTerm -> onAttrTermClicked(attrTerm) }
     }
-
+    private fun setItemBackground(view: View, isItemSelected: Boolean) {
+        view.background = AppCompatResources.getDrawable(
+            requireContext(),
+            if (isItemSelected) R.drawable.selected_background else R.drawable.not_selected_background
+        )
+    }
     private fun setupAppbar() {
         (requireActivity() as MainActivity).supportActionBar?.hide()
         setHasOptionsMenu(false)
@@ -74,7 +80,7 @@ class SearchFragment : Fragment() {
             controlViewByStatus(it)
         }
         binding.btnSearchFilter.setOnClickListener {
-            if (!isAttrListFilled)
+            if (isAttrListEmpty)
                 Toast.makeText(
                     requireContext(),
                     "در حال دریافت اطلاعات از سرور...\nلطفا مجددا تلاش کنید.",
@@ -84,7 +90,7 @@ class SearchFragment : Fragment() {
                 showFilterDialog()
         }
         viewModel.listOfAttributeTerms.observe(viewLifecycleOwner) {
-            isAttrListFilled = it.isNullOrEmpty()
+            isAttrListEmpty = it.isNullOrEmpty()
         }
     }
 
