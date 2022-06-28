@@ -37,7 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:productHorizontalViewListData="@{viewModel.listOfProductsByCategory}"
-            tools:listitem="@layout/product_by_category_item" />
+            tools:listitem="@layout/item_product_horizontal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

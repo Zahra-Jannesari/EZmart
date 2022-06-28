@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zarisa.ezmart.databinding.ReviewItemBinding
+import com.zarisa.ezmart.databinding.ItemReviewBinding
 import com.zarisa.ezmart.model.Review
 
 class ReviewAdapter :
     ListAdapter<Review, ReviewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
-        private var binding: ReviewItemBinding
+        private var binding: ItemReviewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(review: Review) {
             binding.review = review
@@ -24,7 +24,7 @@ class ReviewAdapter :
         viewType: Int
     ): ViewHolder {
         return ViewHolder(
-            ReviewItemBinding.inflate(LayoutInflater.from(parent.context))
+            ItemReviewBinding.inflate(LayoutInflater.from(parent.context))
         )
     }
 

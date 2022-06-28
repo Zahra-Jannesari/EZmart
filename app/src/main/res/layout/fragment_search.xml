@@ -165,25 +165,25 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
-                    <include layout="@layout/loader_layout_shimmer" />
+                    <include layout="@layout/layout_shimmer_loader" />
 
                 </LinearLayout>
             </com.facebook.shimmer.ShimmerFrameLayout>
@@ -199,7 +199,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:productHorizontalViewListData="@{viewModel.listOfSearchMatchProducts}"
-                tools:listitem="@layout/product_by_category_item" />
+                tools:listitem="@layout/item_product_horizontal" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

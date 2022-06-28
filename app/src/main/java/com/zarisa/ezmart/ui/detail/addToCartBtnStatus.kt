@@ -57,7 +57,7 @@ fun setToCartBtnState(button: MaterialButton, orderingStatus: OrderingStatus?) {
         }
         OrderingStatus.ORDER_ERROR_SERVER -> {
             button.let {
-                it.setIconResource(R.drawable.icon_server_error)
+                it.setIconResource(R.drawable.ic_server_error)
                 it.text = OrderingStatus.ORDER_ERROR_SERVER.message
                 it.isEnabled = true
                 it.isClickable = false

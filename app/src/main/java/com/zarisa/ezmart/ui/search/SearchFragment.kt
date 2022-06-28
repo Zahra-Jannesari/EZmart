@@ -168,7 +168,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun showFilterDialog() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.filter_dialog, null)
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.layout_filter_dialog, null)
         val btnDoFilter = dialogView.findViewById<MaterialButton>(R.id.btn_doFilter)
         val btnResetFilter = dialogView.findViewById<MaterialButton>(R.id.btn_resetFilter)
         initDialogRecyclerViews(dialogView)

@@ -184,7 +184,7 @@
                     android:scrollbars="vertical|horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:reviewListData="@{viewModel.reviewsList}"
-                    tools:listitem="@layout/review_item" />
+                    tools:listitem="@layout/item_review" />
             </LinearLayout>
         </ScrollView>
 

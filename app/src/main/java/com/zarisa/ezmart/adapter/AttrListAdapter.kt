@@ -3,16 +3,16 @@ package com.zarisa.ezmart.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zarisa.ezmart.R
-import com.zarisa.ezmart.databinding.ItemAttrListBinding
+import com.zarisa.ezmart.databinding.ItemAttrBinding
 import com.zarisa.ezmart.model.AttrProps
 
-class AttrListAdapter(var onAttrClick: (AttrProps) -> Unit,var setItemBackground:(View, Boolean)->Unit) :
+class AttrListAdapter(
+    var onAttrClick: (AttrProps) -> Unit,
+    var setItemBackground: (View, Boolean) -> Unit
+) :
     ListAdapter<AttrProps, AttrListAdapter.ViewHolder>(DiffCallback) {
     var currentAttrIndex = 0
     private var mRecyclerView: RecyclerView? = null
@@ -23,16 +23,16 @@ class AttrListAdapter(var onAttrClick: (AttrProps) -> Unit,var setItemBackground
     }
 
     inner class ViewHolder(
-        private var binding: ItemAttrListBinding
+        private var binding: ItemAttrBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(attr: AttrProps, position: Int) {
             binding.attrName = attr.name
-            binding.tvAttrName.let{
-               setItemBackground(binding.root,position==currentAttrIndex)
-                it.setOnClickListener { _->
+            binding.tvAttrName.let {
+                setItemBackground(binding.root, position == currentAttrIndex)
+                it.setOnClickListener { _ ->
                     if (mRecyclerView != null && mRecyclerView?.isComputingLayout == false) {
                         currentAttrIndex = position
-                        setItemBackground(binding.root,true)
+                        setItemBackground(binding.root, true)
                         onAttrClick(attr)
                         notifyDataSetChanged()
                     }
@@ -47,7 +47,7 @@ class AttrListAdapter(var onAttrClick: (AttrProps) -> Unit,var setItemBackground
         viewType: Int
     ): ViewHolder {
         return ViewHolder(
-            ItemAttrListBinding.inflate(LayoutInflater.from(parent.context))
+            ItemAttrBinding.inflate(LayoutInflater.from(parent.context))
         )
     }
 

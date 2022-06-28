@@ -48,7 +48,7 @@ class NetworkStatusViewHandler(
                     imageView.visibility = View.VISIBLE
                     imageView.setImageResource(
                         if (message == REQUEST_NOT_FOUND) R.drawable.ic_search_off
-                        else R.drawable.icon_server_error
+                        else R.drawable.ic_server_error
                     )
                 }
                 viewStatus.lStatus.let { tv ->

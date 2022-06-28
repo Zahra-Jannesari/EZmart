@@ -138,7 +138,7 @@
                                         android:scrollbars="vertical|horizontal"
                                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                         app:productVerticalViewListData="@{viewModel.newestProductsList}"
-                                        tools:listitem="@layout/product_list_item" />
+                                        tools:listitem="@layout/item_product_vertical" />
                                 </RelativeLayout>
 
                             </LinearLayout>
@@ -205,7 +205,7 @@
                                         android:scrollbars="vertical|horizontal"
                                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                         app:productVerticalViewListData="@{viewModel.bestSellerProductsList}"
-                                        tools:listitem="@layout/product_list_item" />
+                                        tools:listitem="@layout/item_product_vertical" />
                                 </RelativeLayout>
 
                             </LinearLayout>
@@ -271,7 +271,7 @@
                                         android:scrollbars="vertical|horizontal"
                                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                         app:productVerticalViewListData="@{viewModel.highRateProductsList}"
-                                        tools:listitem="@layout/product_list_item" />
+                                        tools:listitem="@layout/item_product_vertical" />
                                 </RelativeLayout>
 
                             </LinearLayout>
