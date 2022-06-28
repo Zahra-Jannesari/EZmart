@@ -31,19 +31,21 @@ class SearchFragment : Fragment() {
     val viewModel: SearchViewModel by viewModels()
     var isAttrListEmpty = true
     private val attrListAdapter: AttrListAdapter by lazy {
-        AttrListAdapter ({ attr ->
+        AttrListAdapter({ attr ->
             onAttrClicked(attr)
-        },{view:View,isItemSelected:Boolean ->setItemBackground(view,isItemSelected)})
+        }, { view: View, isItemSelected: Boolean -> setItemBackground(view, isItemSelected) })
     }
     private val attrTermListAdapter: AttrTermsListAdapter by lazy {
         AttrTermsListAdapter { attrTerm -> onAttrTermClicked(attrTerm) }
     }
+
     private fun setItemBackground(view: View, isItemSelected: Boolean) {
         view.background = AppCompatResources.getDrawable(
             requireContext(),
             if (isItemSelected) R.drawable.selected_background else R.drawable.not_selected_background
         )
     }
+
     private fun setupAppbar() {
         (requireActivity() as MainActivity).supportActionBar?.hide()
         setHasOptionsMenu(false)
@@ -91,6 +93,10 @@ class SearchFragment : Fragment() {
         }
         viewModel.listOfAttributeTerms.observe(viewLifecycleOwner) {
             isAttrListEmpty = it.isNullOrEmpty()
+        }
+        viewModel.selectedAttrTerm.observe(viewLifecycleOwner) {
+            binding.btnSearchFilter.text =
+                if (it == null) "بدون فیلتر" else "${viewModel.selectedAttr?.name} ${it.name}"
         }
     }
 
@@ -168,7 +174,8 @@ class SearchFragment : Fragment() {
     }
 
     private fun showFilterDialog() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.layout_filter_dialog, null)
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.layout_filter_dialog, null)
         val btnDoFilter = dialogView.findViewById<MaterialButton>(R.id.btn_doFilter)
         val btnResetFilter = dialogView.findViewById<MaterialButton>(R.id.btn_resetFilter)
         initDialogRecyclerViews(dialogView)
@@ -180,6 +187,8 @@ class SearchFragment : Fragment() {
             alertDialog.dismiss()
         }
         btnResetFilter.setOnClickListener {
+            viewModel.resetFilter()
+            attrTermListAdapter.currentAttrIndex=-1
             alertDialog.dismiss()
         }
     }
@@ -203,7 +212,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun onAttrTermClicked(attrTerm: AttrProps) {
-        viewModel.selectedAttrTerm = attrTerm
+        viewModel.selectedAttrTerm.postValue(attrTerm)
     }
 }
 

@@ -25,7 +25,7 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     val listOfAttributes = MutableLiveData<List<AttrProps>?>()
     val listOfAttributeTerms = MutableLiveData<List<AttrProps>?>()
     var selectedAttr: AttrProps? = null
-    var selectedAttrTerm: AttrProps? = null
+    var selectedAttrTerm = MutableLiveData<AttrProps?>(null)
 
     init {
         viewModelScope.launch {
@@ -54,10 +54,10 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
             if (searchText.isNotBlank()) {
                 statusLiveData.postValue(Status.LOADING)
                 val resource =
-                    if (selectedAttr != null && selectedAttrTerm != null) searchRepository.getListOfSearchMatches(
+                    if (selectedAttr != null && selectedAttrTerm.value != null) searchRepository.getListOfSearchMatches(
                         categoryId,
                         searchListOrder,
-                        searchText, selectedAttr!!, selectedAttrTerm!!
+                        searchText, selectedAttr!!, selectedAttrTerm.value!!
                     ) else searchRepository.getListOfSearchMatches(
                         categoryId,
                         searchListOrder,
@@ -78,5 +78,11 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
                 }
             }
         }
+    }
+
+    fun resetFilter() {
+        selectedAttr = listOfAttributes.value?.get(0)
+        getAttrTerms()
+        selectedAttrTerm.postValue(null)
     }
 }
