@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.zarisa.ezmart.databinding.FragmentProfileBinding
@@ -42,14 +42,15 @@ class ProfileFragment : Fragment() {
 
     private fun observeStatus() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(
-                requireContext(),
-                when (it) {
-                    Status.LOADING -> "در حال بارگذاری..."
-                    Status.SUCCESSFUL -> "مشخصات شما با موفقیت ثبت شد."
-                    else -> viewModel.statusMessage
-                }, Toast.LENGTH_SHORT
-            ).show()
+            if (it != null)
+                Toast.makeText(
+                    requireContext(),
+                    when (it) {
+                        Status.LOADING -> "در حال بارگذاری..."
+                        Status.SUCCESSFUL -> "مشخصات شما با موفقیت ثبت شد."
+                        else -> viewModel.statusMessage
+                    }, Toast.LENGTH_SHORT
+                ).show()
         }
     }
 
@@ -106,10 +107,7 @@ class ProfileFragment : Fragment() {
             if (it.text.isNullOrBlank()) {
                 isDataValid = false
                 it.error = "ایمیل را وارد کنید."
-            }
-            if (!Patterns.EMAIL_ADDRESS.matcher(it.text.toString())
-                    .matches()
-            ) {
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(it.text.toString()).matches()) {
                 isDataValid = false
                 it.error = "ایمیل را به درستی وارد کنید."
             }

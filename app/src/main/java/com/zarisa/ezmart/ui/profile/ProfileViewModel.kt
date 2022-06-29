@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zarisa.ezmart.data.order.CustomerRepository
-import com.zarisa.ezmart.model.*
+import com.zarisa.ezmart.model.Customer
+import com.zarisa.ezmart.model.Order
+import com.zarisa.ezmart.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -12,18 +14,22 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val customerRepository: CustomerRepository) :
     ViewModel() {
-    val customerLiveData = MutableLiveData<Customer?>()
-    val statusLiveData = MutableLiveData<Status>()
+    val customerLiveData = MutableLiveData<Customer?>(null)
+    val statusLiveData = MutableLiveData<Status?>()
     var statusMessage = ""
     fun getCustomer(customerId: Int) {
-        statusLiveData.value = Status.LOADING
-        viewModelScope.launch {
-            customerRepository.getCustomer(customerId).let {
-                if (it.status == Status.SUCCESSFUL)
-                    customerLiveData.value = it.data
-                else {
-                    statusMessage = it.message
-                    statusLiveData.value = it.status
+        if (customerLiveData.value == null) {
+            statusLiveData.value = Status.LOADING
+            viewModelScope.launch {
+                customerRepository.getCustomer(customerId).let {
+                    if (it.status == Status.SUCCESSFUL){
+                        customerLiveData.value = it.data
+                        statusLiveData.postValue(null)
+                    }
+                    else {
+                        statusMessage = it.message
+                        statusLiveData.value = it.status
+                    }
                 }
             }
         }
