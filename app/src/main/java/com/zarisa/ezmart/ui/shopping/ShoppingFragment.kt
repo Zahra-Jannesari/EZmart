@@ -3,12 +3,12 @@ package com.zarisa.ezmart.ui.shopping
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.zarisa.ezmart.R
@@ -23,6 +23,7 @@ class ShoppingFragment : Fragment() {
     private lateinit var sharedPref: SharedPreferences
     private lateinit var binding: FragmentShoppingBinding
     private val viewModel: ShoppingViewModel by viewModels()
+    var isCartEmpty = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,22 +52,10 @@ class ShoppingFragment : Fragment() {
     }
 
     private fun cartSituation() {
-        if (viewModel.customerId != 0 || viewModel.orderId != 0) {
+        if (viewModel.customerId != 0 || viewModel.orderId != 0)
             viewModel.getOrder()
-            binding.imageViewEmptyCart.visibility = View.GONE
-            binding.lMain.visibility = View.VISIBLE
-        } else {
-            binding.imageViewEmptyCart.visibility = View.VISIBLE
-            binding.lMain.visibility = View.GONE
-        }
         viewModel.emptyCart.observe(viewLifecycleOwner) {
-            if (it == true) {
-                binding.imageViewEmptyCart.visibility = View.VISIBLE
-                binding.lMain.visibility = View.GONE
-            } else {
-                binding.imageViewEmptyCart.visibility = View.GONE
-                binding.lMain.visibility = View.VISIBLE
-            }
+            isCartEmpty = it
         }
     }
 
@@ -87,17 +76,32 @@ class ShoppingFragment : Fragment() {
 
     private fun statusObserver() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
-            NetworkStatusViewHandler(
-                it,
-                binding.lMain,
-                binding.lStatus, { cartSituation() }, viewModel.statusMessage
-            )
+            if (it == Status.SUCCESSFUL && isCartEmpty) {
+                binding.lMain.visibility = View.GONE
+                binding.lStatus.root.visibility = View.GONE
+                binding.imageViewEmptyCart.visibility = View.VISIBLE
+            } else if (it == Status.SUCCESSFUL && !isCartEmpty) {
+                binding.lMain.visibility = View.VISIBLE
+                binding.lStatus.root.visibility = View.GONE
+                binding.imageViewEmptyCart.visibility = View.GONE
+            } else {
+                binding.imageViewEmptyCart.visibility = View.GONE
+                NetworkStatusViewHandler(
+                    it,
+                    binding.lMain,
+                    binding.lStatus, { cartSituation() }, viewModel.statusMessage
+                )
+            }
+
         }
         viewModel.editCartStatus.observe(viewLifecycleOwner) {
             Toast.makeText(
                 requireContext(),
-                if (it == Status.NETWORK_ERROR) "لطفا اینترنت خود را چک کنید و مجددا تلاش کنید"
-                else "خطایی رخ داده. لطفا مجددا تلاش کنید",
+                when (it) {
+                    Status.NETWORK_ERROR -> "لطفا اینترنت خود را چک کنید و مجددا تلاش کنید"
+                    Status.LOADING -> "در حال انجام عملیات..."
+                    else -> "خطایی رخ داده. لطفا مجددا تلاش کنید"
+                },
                 Toast.LENGTH_SHORT
             ).show()
         }

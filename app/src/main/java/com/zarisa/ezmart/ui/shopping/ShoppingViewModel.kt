@@ -25,9 +25,9 @@ class ShoppingViewModel @Inject constructor(
     var orderId = 0
     val statusLiveData = MutableLiveData<Status>()
     val editCartStatus = MutableLiveData<Status>()
-    val orderItems = MutableLiveData<List<OrderItem>>()
+    val orderItems = MutableLiveData<List<OrderItem>?>(null)
     val total = MutableLiveData<String>()
-    val emptyCart = Transformations.map(orderItems) { it?.isNullOrEmpty() }
+    val emptyCart = Transformations.map(orderItems) { it.isNullOrEmpty() }
     var statusMessage = ""
 
     fun getOrder() {
@@ -43,11 +43,14 @@ class ShoppingViewModel @Inject constructor(
         customerRepository.getCustomerOrders(customerId).let {
             statusMessage = it.message
             statusLiveData.value = it.status
-            if (it.status == Status.SUCCESSFUL)
-                it.data?.let { order ->
-                    orderItems.value = order[0].line_items
-                    total.value = order[0].total
+            if (it.status == Status.SUCCESSFUL) {
+                it.data?.let { orderList ->
+                    if (!orderList.isNullOrEmpty()) {
+                        orderItems.value = orderList[0].line_items
+                        total.value = orderList[0].total
+                    }
                 }
+            }
         }
     }
 
@@ -57,29 +60,30 @@ class ShoppingViewModel @Inject constructor(
             statusLiveData.value = it.status
             if (it.status == Status.SUCCESSFUL)
                 it.data?.let { order ->
-                    orderItems.value = order.line_items
-                    total.value = order.total
+                    if (!order.line_items.isNullOrEmpty()) {
+                        orderItems.value = order.line_items
+                        total.value = order.total
+                    }
                 }
         }
     }
 
     fun updateOrder(itemId: Int, operation: Int) {
         viewModelScope.launch {
+            editCartStatus.value = Status.LOADING
             customerRepository.retrieveOrder(orderId).let { resource ->
                 if (resource.status == Status.SUCCESSFUL) {
-                    val editedOrder=editOrder(resource.data, operation,itemId)
-
+                    val editedOrder = editOrder(resource.data, operation, itemId)
                     if (editedOrder != null) {
                         customerRepository.updateOrder(editedOrder, orderId).let {
                             if (it.status != Status.SUCCESSFUL)
                                 editCartStatus.value = resource.status
-                        }
-                        customerRepository.retrieveOrder(orderId).let {
-                            if (it.status == Status.SUCCESSFUL)
+                            else{
                                 it.data?.let { order ->
                                     orderItems.value = order.line_items
                                     total.value = order.total
-                                } else editCartStatus.value = resource.status
+                                }
+                            }
                         }
                     }
                 } else {
