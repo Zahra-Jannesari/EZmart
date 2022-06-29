@@ -1,7 +1,6 @@
 package com.zarisa.ezmart.ui.shopping
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zarisa.ezmart.data.order.CustomerRepository
@@ -19,21 +18,21 @@ const val DELETE_ITEM = 103
 @HiltViewModel
 class ShoppingViewModel @Inject constructor(
     private val customerRepository: CustomerRepository
-) :
-    ViewModel() {
+) : ViewModel() {
     var customerId = 0
     var orderId = 0
     val statusLiveData = MutableLiveData<Status>()
     val editCartStatus = MutableLiveData<Status>()
-    val orderItems = MutableLiveData<List<OrderItem>?>(null)
+    val orderItems = MutableLiveData<List<OrderItem>>()
     val total = MutableLiveData<String>()
-    val emptyCart = Transformations.map(orderItems) { it.isNullOrEmpty() }
     var statusMessage = ""
 
     fun getOrder() {
         statusLiveData.postValue(Status.LOADING)
         viewModelScope.launch {
-            if (customerId == 0)
+            if (customerId == 0 && orderId == 0)
+                statusLiveData.postValue(Status.EMPTY_CART)
+            else if (customerId == 0)
                 getOrderById()
             else getOrderByCustomerId()
         }
@@ -45,7 +44,9 @@ class ShoppingViewModel @Inject constructor(
             statusLiveData.value = it.status
             if (it.status == Status.SUCCESSFUL) {
                 it.data?.let { orderList ->
-                    if (!orderList.isNullOrEmpty()) {
+                    if (orderList.isNullOrEmpty())
+                        statusLiveData.postValue(Status.EMPTY_CART)
+                    else {
                         orderItems.value = orderList[0].line_items
                         total.value = orderList[0].total
                     }
@@ -60,7 +61,9 @@ class ShoppingViewModel @Inject constructor(
             statusLiveData.value = it.status
             if (it.status == Status.SUCCESSFUL)
                 it.data?.let { order ->
-                    if (!order.line_items.isNullOrEmpty()) {
+                    if (order.line_items.isNullOrEmpty())
+                        statusLiveData.postValue(Status.EMPTY_CART)
+                    else {
                         orderItems.value = order.line_items
                         total.value = order.total
                     }
@@ -78,10 +81,14 @@ class ShoppingViewModel @Inject constructor(
                         customerRepository.updateOrder(editedOrder, orderId).let {
                             if (it.status != Status.SUCCESSFUL)
                                 editCartStatus.value = resource.status
-                            else{
+                            else {
                                 it.data?.let { order ->
-                                    orderItems.value = order.line_items
-                                    total.value = order.total
+                                    if (order.line_items.isNullOrEmpty())
+                                        statusLiveData.postValue(Status.EMPTY_CART)
+                                    else {
+                                        orderItems.value = order.line_items
+                                        total.value = order.total
+                                    }
                                 }
                             }
                         }
@@ -94,25 +101,25 @@ class ShoppingViewModel @Inject constructor(
 
     }
 
-    private fun editOrder(data: Order?, operation: Int, itemId: Int): Order? {
+    private fun editOrder(order: Order?, operation: Int, itemId: Int): Order? {
         when (operation) {
-            REMOVE_ONE -> data?.line_items?.onEach {
+            REMOVE_ONE -> order?.line_items?.onEach {
                 if (it.id == itemId) {
                     it.quantity--
                     it.total = (Integer.parseInt(it.price) * it.quantity).toString()
                 }
             }
-            ADD_ONE -> data?.line_items?.onEach {
+            ADD_ONE -> order?.line_items?.onEach {
                 if (it.id == itemId) {
                     it.quantity++
                     it.total = (Integer.parseInt(it.price) * it.quantity).toString()
                 }
             }
-            else -> data?.line_items?.onEach {
+            else -> order?.line_items?.onEach {
                 if (it.id == itemId)
                     it.quantity = 0
             }
         }
-        return data
+        return order
     }
 }

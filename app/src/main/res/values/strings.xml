@@ -19,7 +19,7 @@
     <string name="addToCart">افزودن به سبد خرید</string>
     <string name="ExistInCart">افزودن به سبد خرید</string>
     <string name="total_price">مجموع:</string>
-    <string name="complete_the_shipping"><![CDATA[تکمیل فرآیند خرید>>]]></string>
+    <string name="complete_the_shipping">تکمیل فرآیند خرید</string>
     <string name="already_have_an_an_account">قبلا ثبت نام کرده اید؟ ورود</string>
     <string name="name">نام</string>
     <string name="username">نام کاربری</string>

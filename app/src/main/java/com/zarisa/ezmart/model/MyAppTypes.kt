@@ -1,7 +1,7 @@
 package com.zarisa.ezmart.model
 
 enum class Status {
-    LOADING, SUCCESSFUL, NETWORK_ERROR, SERVER_ERROR, NOT_FOUND
+    LOADING, SUCCESSFUL, NETWORK_ERROR, SERVER_ERROR, NOT_FOUND, EMPTY_CART
 }
 
 enum class OrderByEnum(val orderName: String) {
@@ -26,7 +26,7 @@ enum class OrderingStatus(val message: String) {
 typealias OnItemClick = (Int) -> Unit
 typealias OnCategoryClick = (Category) -> Unit
 
-typealias OnEditCartItem = (Int,Int) -> Unit
+typealias OnEditCartItem = (Int, Int) -> Unit
 
 const val ITEM_ID = "id"
 const val SEARCH_ORIGIN = "search_origin"

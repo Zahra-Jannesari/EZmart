@@ -23,7 +23,6 @@ class ShoppingFragment : Fragment() {
     private lateinit var sharedPref: SharedPreferences
     private lateinit var binding: FragmentShoppingBinding
     private val viewModel: ShoppingViewModel by viewModels()
-    var isCartEmpty = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,8 +34,7 @@ class ShoppingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSharedPref()
-        cartSituation()
+        initCart()
         bindView()
         statusObserver()
     }
@@ -51,18 +49,11 @@ class ShoppingFragment : Fragment() {
             )
     }
 
-    private fun cartSituation() {
-        if (viewModel.customerId != 0 || viewModel.orderId != 0)
-            viewModel.getOrder()
-        viewModel.emptyCart.observe(viewLifecycleOwner) {
-            isCartEmpty = it
-        }
-    }
-
-    private fun initSharedPref() {
+    private fun initCart() {
         sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
         viewModel.customerId = sharedPref.getInt(CUSTOMER_ID, 0)
         viewModel.orderId = sharedPref.getInt(ORDER_ID, 0)
+        viewModel.getOrder()
     }
 
     private fun editItem(id: Int, operation: Int) {
@@ -76,20 +67,17 @@ class ShoppingFragment : Fragment() {
 
     private fun statusObserver() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
-            if (it == Status.SUCCESSFUL && isCartEmpty) {
+            if (it == Status.EMPTY_CART) {
                 binding.lMain.visibility = View.GONE
                 binding.lStatus.root.visibility = View.GONE
                 binding.imageViewEmptyCart.visibility = View.VISIBLE
-            } else if (it == Status.SUCCESSFUL && !isCartEmpty) {
-                binding.lMain.visibility = View.VISIBLE
-                binding.lStatus.root.visibility = View.GONE
-                binding.imageViewEmptyCart.visibility = View.GONE
             } else {
                 binding.imageViewEmptyCart.visibility = View.GONE
+                binding.lMain.visibility = View.VISIBLE
+                binding.lStatus.root.visibility = View.VISIBLE
                 NetworkStatusViewHandler(
-                    it,
-                    binding.lMain,
-                    binding.lStatus, { cartSituation() }, viewModel.statusMessage
+                    it, binding.lMain,
+                    binding.lStatus, { viewModel.getOrder() }, viewModel.statusMessage
                 )
             }
 
