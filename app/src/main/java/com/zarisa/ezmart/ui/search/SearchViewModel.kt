@@ -26,6 +26,7 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     val listOfAttributeTerms = MutableLiveData<List<AttrProps>?>()
     var selectedAttr: AttrProps? = null
     var selectedAttrTerm = MutableLiveData<AttrProps?>(null)
+    val attrTermStatus = MutableLiveData<Status?>()
 
     init {
         viewModelScope.launch {
@@ -41,8 +42,11 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
 
     fun getAttrTerms() {
         viewModelScope.launch {
+
+            attrTermStatus.postValue(Status.LOADING)
             if (selectedAttr?.id != 0 && selectedAttr?.id != null)
                 searchRepository.getListOfAttributeTerms(selectedAttr!!.id).let {
+                    attrTermStatus.postValue(it.status)
                     if (it.status == Status.SUCCESSFUL)
                         listOfAttributeTerms.postValue(it.data)
                 }

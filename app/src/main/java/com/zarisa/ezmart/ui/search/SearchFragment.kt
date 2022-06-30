@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.os.bundleOf
@@ -29,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchFragment : Fragment() {
     lateinit var binding: FragmentSearchBinding
     val viewModel: SearchViewModel by viewModels()
-    var isAttrListEmpty = true
+    private var isAttrListEmpty = true
     private val attrListAdapter: AttrListAdapter by lazy {
         AttrListAdapter({ attr ->
             onAttrClicked(attr)
@@ -39,12 +40,6 @@ class SearchFragment : Fragment() {
         AttrTermsListAdapter { attrTerm -> onAttrTermClicked(attrTerm) }
     }
 
-    private fun setItemBackground(view: View, isItemSelected: Boolean) {
-        view.background = AppCompatResources.getDrawable(
-            requireContext(),
-            if (isItemSelected) R.drawable.selected_background else R.drawable.not_selected_background
-        )
-    }
 
     private fun setupAppbar() {
         (requireActivity() as MainActivity).supportActionBar?.hide()
@@ -173,22 +168,21 @@ class SearchFragment : Fragment() {
         }
     }
 
+    /*-----------------------------------filter part----------------------------------------------*/
     private fun showFilterDialog() {
         val dialogView =
             LayoutInflater.from(requireContext()).inflate(R.layout.layout_filter_dialog, null)
         val btnDoFilter = dialogView.findViewById<MaterialButton>(R.id.btn_doFilter)
         val btnResetFilter = dialogView.findViewById<MaterialButton>(R.id.btn_resetFilter)
         initDialogRecyclerViews(dialogView)
-        val builder = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-        val alertDialog = builder.show()
+        val alertDialog = AlertDialog.Builder(requireContext()).setView(dialogView).show()
         btnDoFilter.setOnClickListener {
             viewModel.getSearchResults()
             alertDialog.dismiss()
         }
         btnResetFilter.setOnClickListener {
             viewModel.resetFilter()
-            attrTermListAdapter.currentAttrIndex=-1
+            attrTermListAdapter.currentAttrIndex = -1
             alertDialog.dismiss()
         }
     }
@@ -196,6 +190,7 @@ class SearchFragment : Fragment() {
     private fun initDialogRecyclerViews(dialogView: View) {
         val rvAttrList = dialogView.findViewById<RecyclerView>(R.id.rv_attrList)
         val rvAttrTerms = dialogView.findViewById<RecyclerView>(R.id.rv_attrTerms)
+        val statusImg = dialogView.findViewById<ImageView>(R.id.imageView_Status)
         rvAttrList.adapter = attrListAdapter
         viewModel.listOfAttributes.observe(viewLifecycleOwner) { attrList ->
             attrListAdapter.submitList(attrList)
@@ -203,6 +198,29 @@ class SearchFragment : Fragment() {
         rvAttrTerms.adapter = attrTermListAdapter
         viewModel.listOfAttributeTerms.observe(viewLifecycleOwner) { attrList ->
             attrTermListAdapter.submitList(attrList)
+        }
+        viewModel.attrTermStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                Status.LOADING -> {
+                    rvAttrTerms.visibility = View.GONE
+                    statusImg.visibility = View.VISIBLE
+                    statusImg.setImageResource(R.drawable.loading_animation)
+                }
+                Status.SUCCESSFUL -> {
+                    rvAttrTerms.visibility = View.VISIBLE
+                    statusImg.visibility = View.GONE
+                }
+                Status.NETWORK_ERROR -> {
+                    rvAttrTerms.visibility = View.GONE
+                    statusImg.visibility = View.VISIBLE
+                    statusImg.setImageResource(R.drawable.ic_no_internet)
+                }
+                else -> {
+                    rvAttrTerms.visibility = View.GONE
+                    statusImg.visibility = View.VISIBLE
+                    statusImg.setImageResource(R.drawable.ic_server_error)
+                }
+            }
         }
     }
 
@@ -213,6 +231,13 @@ class SearchFragment : Fragment() {
 
     private fun onAttrTermClicked(attrTerm: AttrProps) {
         viewModel.selectedAttrTerm.postValue(attrTerm)
+    }
+
+    private fun setItemBackground(view: View, isItemSelected: Boolean) {
+        view.background = AppCompatResources.getDrawable(
+            requireContext(),
+            if (isItemSelected) R.drawable.selected_background else R.drawable.not_selected_background
+        )
     }
 }
 
