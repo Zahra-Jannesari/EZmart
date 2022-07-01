@@ -25,185 +25,194 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
-            android:id="@+id/scrollView_details"
+        <LinearLayout
+            android:id="@+id/l_main"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_addToCart"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <ScrollView
+                android:id="@+id/scrollView_details"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/product_imgViewPager"
-                        android:layout_width="match_parent"
-                        android:layout_height="190dp"
-                        android:background="@color/white"
-                        android:scaleType="fitCenter"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:src="@tools:sample/backgrounds/scenic" />
-
-                    <me.relex.circleindicator.CircleIndicator
-                        android:id="@+id/circle_indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_gravity="bottom|end"
-                        android:layout_margin="10dp"
-                        app:ci_drawable="@drawable/ic_circle_radius"
-                        app:ci_drawable_unselected="@drawable/ic_circle_radius" />
-                </FrameLayout>
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minLines="0"
-                    android:paddingHorizontal="7dp"
-                    android:paddingVertical="2dp"
-                    android:textSize="12sp"
-                    app:categoryList="@{viewModel.currentProduct.categories}"
-                    tools:text="categories" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="2dp"
-                    android:text="@{viewModel.currentProduct.name}"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/product_imgView"
-                    tools:text="product name" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="5dp"
-                    android:paddingVertical="2dp"
-                    android:text="@{viewModel.currentProduct.price!=``? viewModel.currentProduct.price+` تومان`:``}"
-                    tools:text="20 هزار" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="15dp"
-                    android:layout_marginTop="4dp"
-                    android:background="?android:attr/listDivider" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp"
-                    android:text="@string/product_description"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="25dp"
-                    android:textDirection="rtl"
-                    app:setDescription="@{viewModel.currentProduct.description}" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="7dp"
-                    android:textSize="12sp"
-                    app:tagList="@{viewModel.currentProduct.tags}" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="15dp"
-                    android:layout_marginTop="4dp"
-                    android:background="?android:attr/listDivider" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toTopOf="@id/btn_addToCart">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layoutDirection="rtl"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/product_imgViewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="190dp"
+                            android:background="@color/white"
+                            android:scaleType="fitCenter"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:src="@tools:sample/backgrounds/scenic" />
+
+                        <me.relex.circleindicator.CircleIndicator
+                            android:id="@+id/circle_indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_gravity="bottom|end"
+                            android:layout_margin="10dp"
+                            app:ci_drawable="@drawable/ic_circle_radius"
+                            app:ci_drawable_unselected="@drawable/ic_circle_radius" />
+                    </FrameLayout>
+
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/product_reviews"
+                        android:minLines="0"
+                        android:paddingHorizontal="7dp"
+                        android:paddingVertical="2dp"
+                        android:textSize="12sp"
+                        app:categoryList="@{viewModel.currentProduct.categories}"
+                        tools:text="categories" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="2dp"
+                        android:text="@{viewModel.currentProduct.name}"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/product_imgView"
+                        tools:text="product name" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="5dp"
+                        android:paddingVertical="2dp"
+                        android:text="@{viewModel.currentProduct.price!=``? viewModel.currentProduct.price+` تومان`:``}"
+                        tools:text="20 هزار" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="4dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:text="@string/product_description"
                         android:textStyle="bold" />
 
-                    <RatingBar
-                        android:id="@+id/ratingBar"
-                        style="@style/Widget.AppCompat.RatingBar.Small"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="25dp"
+                        android:textDirection="rtl"
+                        app:setDescription="@{viewModel.currentProduct.description}" />
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layoutDirection="rtl"
-                        android:progressTint="@color/golden"
-                        android:stepSize="0.5"
-                        app:setRate="@{viewModel.currentProduct.average_rating}" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/slash"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@{viewModel.currentProduct.rating_count+` رای تایید شده`}"
+                        android:padding="7dp"
                         android:textSize="12sp"
-                        tools:text="5 رای" />
+                        app:tagList="@{viewModel.currentProduct.tags}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="4dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layoutDirection="rtl"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/product_reviews"
+                            android:textStyle="bold" />
+
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layoutDirection="rtl"
+                            android:progressTint="@color/golden"
+                            android:stepSize="0.5"
+                            app:setRate="@{viewModel.currentProduct.average_rating}" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/slash"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@{viewModel.currentProduct.rating_count+` رای تایید شده`}"
+                            android:textSize="12sp"
+                            tools:text="5 رای" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_reviews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layoutDirection="rtl"
+                        android:orientation="horizontal"
+                        android:scrollbars="vertical|horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:reviewListData="@{viewModel.reviewsList}"
+                        tools:listitem="@layout/item_review" />
                 </LinearLayout>
+            </ScrollView>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_reviews"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layoutDirection="rtl"
-                    android:orientation="horizontal"
-                    android:scrollbars="vertical|horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:reviewListData="@{viewModel.reviewsList}"
-                    tools:listitem="@layout/item_review" />
-            </LinearLayout>
-        </ScrollView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_addToCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+                android:text="@string/addToCart"
+                android:textSize="15sp"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/ic_shopping_cart"
+                app:iconGravity="textStart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:setBtnState="@{viewModel.orderingStatus}" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_addToCart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:enabled="@{viewModel.abilityOfAddToCart}"
-            android:padding="5dp"
-            android:text="@string/addToCart"
-            android:textSize="15sp"
-            app:cornerRadius="10dp"
-            app:icon="@drawable/ic_shopping_cart"
-            app:iconGravity="textStart"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:setBtnState="@{viewModel.orderingStatus}" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -18,9 +18,6 @@ class ProductDetailViewModel @Inject constructor(
 ) : ViewModel() {
     val orderingStatus = MutableLiveData<OrderingStatus?>(null)
     val statusLiveData = MutableLiveData<Status>()
-    val abilityOfAddToCart = Transformations.map(statusLiveData) {
-        it == Status.SUCCESSFUL
-    }
     val currentProduct = MutableLiveData<Product?>()
     val reviewsList = MutableLiveData<List<Review>?>()
     var statusMessage = ""

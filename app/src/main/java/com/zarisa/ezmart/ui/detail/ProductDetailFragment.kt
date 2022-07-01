@@ -58,7 +58,7 @@ class ProductDetailFragment : Fragment() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
             NetworkStatusViewHandler(
                 it,
-                binding.scrollViewDetails,
+                binding.lMain,
                 binding.lStatus, { getCurrentProduct() }, viewModel.statusMessage
             )
         }
