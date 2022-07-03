@@ -8,8 +8,14 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zarisa.ezmart.R
-import com.zarisa.ezmart.adapter.*
-import com.zarisa.ezmart.model.*
+import com.zarisa.ezmart.adapter.CartListRecyclerViewAdapter
+import com.zarisa.ezmart.adapter.CategoryListRecyclerView
+import com.zarisa.ezmart.adapter.ProductHorizontalViewListAdapter
+import com.zarisa.ezmart.adapter.ProductVerticalViewRecyclerViewAdapter
+import com.zarisa.ezmart.model.Category
+import com.zarisa.ezmart.model.OrderItem
+import com.zarisa.ezmart.model.Product
+import com.zarisa.ezmart.model.Tag
 
 
 @BindingAdapter("imageUrl")
@@ -29,17 +35,12 @@ fun bindProductVerticalViewRecyclerView(recyclerView: RecyclerView, data: List<P
     adapter.submitList(data)
 }
 
-@BindingAdapter("reviewListData")
-fun bindReviewsRecyclerView(recyclerView: RecyclerView, data: List<Review>?) {
-    val adapter = recyclerView.adapter as ReviewAdapter
-    adapter.submitList(data)
-}
-
 @BindingAdapter("productHorizontalViewListData")
 fun bindProductHorizontalViewRecyclerView(recyclerView: RecyclerView, data: List<Product>?) {
     val adapter = recyclerView.adapter as ProductHorizontalViewListAdapter
     adapter.submitList(data)
 }
+
 @BindingAdapter("orderItemListData")
 fun bindOrderItemRecyclerView(recyclerView: RecyclerView, data: List<OrderItem>?) {
     val adapter = recyclerView.adapter as CartListRecyclerViewAdapter

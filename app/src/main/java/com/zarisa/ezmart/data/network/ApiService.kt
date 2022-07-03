@@ -8,7 +8,8 @@ interface ApiService {
     //product
     @GET("products/")
     suspend fun getListOfProducts(
-        @QueryMap options: Map<String, String>,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("include") include: String = "",
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
 

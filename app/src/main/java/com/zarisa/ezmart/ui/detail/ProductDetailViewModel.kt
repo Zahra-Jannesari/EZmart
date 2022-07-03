@@ -1,7 +1,6 @@
 package com.zarisa.ezmart.ui.detail
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zarisa.ezmart.data.order.CustomerRepository
@@ -10,6 +9,9 @@ import com.zarisa.ezmart.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+const val REVIEWS = 10
+const val RELATED_PRODUCTS = 20
 
 @HiltViewModel
 class ProductDetailViewModel @Inject constructor(
@@ -20,8 +22,10 @@ class ProductDetailViewModel @Inject constructor(
     val statusLiveData = MutableLiveData<Status>()
     val currentProduct = MutableLiveData<Product?>()
     val reviewsList = MutableLiveData<List<Review>?>()
+    val relatedProductsList = MutableLiveData<List<Product>?>()
     var statusMessage = ""
-
+    val selectedPartToShow = MutableLiveData(REVIEWS)
+    val sideOptionsStatus = MutableLiveData<Status>()
 
     fun initialProduct(id: Int) {
         statusLiveData.value = Status.LOADING
@@ -31,10 +35,29 @@ class ProductDetailViewModel @Inject constructor(
                 statusMessage = it.message
                 if (it.status == Status.SUCCESSFUL) {
                     currentProduct.value = it.data
-                    reviewsList.value = productRepository.getProductReviews(id).data
+                    getSideOptions(id)
                 }
             }
         }
+    }
+
+    private suspend fun getSideOptions(id: Int) {
+        sideOptionsStatus.postValue(Status.LOADING)
+        var listsCompleted = true
+        productRepository.getProductReviews(id).let {
+            if (it.status == Status.SUCCESSFUL)
+                reviewsList.value = it.data
+            else
+                listsCompleted = false
+        }
+        productRepository.getListOfProducts(include = currentProduct.value?.related_ids!!).let {
+            if (it.status == Status.SUCCESSFUL)
+                relatedProductsList.value = it.data
+            else
+                listsCompleted = false
+        }
+        if (listsCompleted)
+            sideOptionsStatus.postValue(Status.SUCCESSFUL)
     }
 
 

@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.zarisa.ezmart.adapter.ProductVerticalViewRecyclerViewAdapter
 import com.zarisa.ezmart.adapter.ReviewAdapter
-import com.zarisa.ezmart.databinding.FragmentProductDetailBinding
-import com.zarisa.ezmart.ui.MainActivity
-import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.adapter.ViewPagerAdapter
+import com.zarisa.ezmart.databinding.FragmentProductDetailBinding
+import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.model.*
+import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -45,7 +46,7 @@ class ProductDetailFragment : Fragment() {
         initSharedPref()
         getCurrentProduct()
         bindView()
-        statusObserver()
+        observer()
     }
 
     private fun initSharedPref() {
@@ -54,7 +55,7 @@ class ProductDetailFragment : Fragment() {
         orderId = sharedPref.getInt(ORDER_ID, 0)
     }
 
-    private fun statusObserver() {
+    private fun observer() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
             NetworkStatusViewHandler(
                 it,
@@ -62,15 +63,59 @@ class ProductDetailFragment : Fragment() {
                 binding.lStatus, { getCurrentProduct() }, viewModel.statusMessage
             )
         }
+        viewModel.selectedPartToShow.observe(viewLifecycleOwner) {
+            prepareShownPart(it)
+        }
+        viewModel.sideOptionsStatus.observe(viewLifecycleOwner) {
+            if (it == Status.SUCCESSFUL) {
+                binding.rvSideOptions.visibility = View.VISIBLE
+                binding.imageVIewSideOptionStatus.visibility = View.GONE
+            } else {
+                binding.rvSideOptions.visibility = View.GONE
+                binding.imageVIewSideOptionStatus.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun prepareShownPart(it: Int?) {
+        when (it) {
+            REVIEWS -> {
+                binding.lReview.visibility = View.VISIBLE
+                binding.tvReview.isSelected = true
+                binding.tvRelatedProducts.isSelected = false
+                ReviewAdapter().let { adapter ->
+                    binding.rvSideOptions.adapter = adapter
+                    viewModel.reviewsList.observe(viewLifecycleOwner) { list ->
+                        adapter.submitList(list)
+                    }
+                }
+            }
+            RELATED_PRODUCTS -> {
+                binding.lReview.visibility = View.GONE
+                binding.tvReview.isSelected = false
+                binding.tvRelatedProducts.isSelected = true
+                ProductVerticalViewRecyclerViewAdapter { id -> viewModel.initialProduct(id) }.let { adapter ->
+                    binding.rvSideOptions.adapter = adapter
+                    viewModel.relatedProductsList.observe(viewLifecycleOwner) { list ->
+                        adapter.submitList(list)
+                    }
+                }
+            }
+        }
     }
 
     private fun bindView() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        binding.rvReviews.adapter = ReviewAdapter()
         bindViewPager()
         binding.btnAddToCart.setOnClickListener {
             onAddToCartClick()
+        }
+        binding.tvRelatedProducts.setOnClickListener {
+            viewModel.selectedPartToShow.postValue(RELATED_PRODUCTS)
+        }
+        binding.tvReview.setOnClickListener {
+            viewModel.selectedPartToShow.postValue(REVIEWS)
         }
     }
 
