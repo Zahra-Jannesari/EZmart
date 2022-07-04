@@ -1,5 +1,6 @@
 package com.zarisa.ezmart.ui.detail
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,7 @@ import com.zarisa.ezmart.data.order.CustomerRepository
 import com.zarisa.ezmart.data.product.ProductRepository
 import com.zarisa.ezmart.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,6 +28,8 @@ class ProductDetailViewModel @Inject constructor(
     var statusMessage = ""
     val selectedPartToShow = MutableLiveData(REVIEWS)
     val sideOptionsStatus = MutableLiveData<Status>()
+    var customerName:String?=""
+    var customerEmail:String?=""
 
     fun initialProduct(id: Int) {
         statusLiveData.value = Status.LOADING
@@ -41,24 +45,7 @@ class ProductDetailViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getSideOptions(id: Int) {
-        sideOptionsStatus.postValue(Status.LOADING)
-        var listsCompleted = true
-        productRepository.getProductReviews(id).let {
-            if (it.status == Status.SUCCESSFUL)
-                reviewsList.value = it.data
-            else
-                listsCompleted = false
-        }
-        productRepository.getListOfProducts(include = currentProduct.value?.related_ids!!).let {
-            if (it.status == Status.SUCCESSFUL)
-                relatedProductsList.value = it.data
-            else
-                listsCompleted = false
-        }
-        if (listsCompleted)
-            sideOptionsStatus.postValue(Status.SUCCESSFUL)
-    }
+
 
 
     //order part
@@ -118,6 +105,33 @@ class ProductDetailViewModel @Inject constructor(
                 else -> orderingStatus.postValue(OrderingStatus.ORDER_ERROR_SERVER)
             }
             return null
+        }
+    }
+    //side options(review and related product)
+    private suspend fun getSideOptions(id: Int) {
+        sideOptionsStatus.postValue(Status.LOADING)
+        var listsCompleted = true
+        productRepository.getProductReviews(id).let {
+            if (it.status == Status.SUCCESSFUL)
+                reviewsList.value = it.data
+            else
+                listsCompleted = false
+        }
+        productRepository.getListOfProducts(include = currentProduct.value?.related_ids!!).let {
+            if (it.status == Status.SUCCESSFUL)
+                relatedProductsList.value = it.data
+            else
+                listsCompleted = false
+        }
+        if (listsCompleted)
+            sideOptionsStatus.postValue(Status.SUCCESSFUL)
+    }
+    fun createReview(rating:Int,review:String){
+        viewModelScope.launch (Dispatchers.IO){
+            val reviewBody=Review(0,customerName!!,review,rating,customerEmail!!,currentProduct.value!!.id)
+            productRepository.createReview(reviewBody).let {
+                Log.d("myTag", "createReview: $it")
+            }
         }
     }
 }

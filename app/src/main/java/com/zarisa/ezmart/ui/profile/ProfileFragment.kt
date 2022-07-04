@@ -57,7 +57,13 @@ class ProfileFragment : Fragment() {
     private fun initProfile() {
         if (customerId != 0) {
             binding.lBtnsRegister.visibility = View.GONE
-            viewModel.getCustomer(customerId)
+            viewModel.customerLiveData.postValue(
+                Customer(
+                    customerId,
+                    sharedPref.getString(USER_EMAIL, "")!!,
+                    sharedPref.getString(USER_NAME, "")!!
+                )
+            )
         } else {
             binding.lBtnsRegister.visibility = View.VISIBLE
             binding.btnRegister.setOnClickListener {
@@ -76,12 +82,14 @@ class ProfileFragment : Fragment() {
                         0,
                         binding.editTextEmail.text.toString(),
                         binding.editTextName.text.toString(),
-                        binding.editTextUserName.text.toString()
                     )
                 ).let {
                     it?.let {
-                        editor.putInt(CUSTOMER_ID, it).apply()
-                        bindOrderToCustomer(it)
+                        editor.putInt(CUSTOMER_ID, it.id)
+                        editor.putString(USER_NAME, it.first_name)
+                        editor.putString(USER_EMAIL, it.email)
+                        editor.apply()
+                        bindOrderToCustomer(it.id)
                         binding.lBtnsRegister.visibility = View.GONE
                     }
                 }
@@ -118,12 +126,6 @@ class ProfileFragment : Fragment() {
                 it.error = "نام را وارد کنید."
             }
         }
-        binding.editTextUserName.let {
-            if (it.text.isNullOrBlank()) {
-                isDataValid = false
-                it.error = "نام کاربری را وارد کنید."
-            }
-        }
         return isDataValid
     }
 
@@ -133,10 +135,6 @@ class ProfileFragment : Fragment() {
                 binding.editTextName.let {
                     it.isEnabled = false
                     it.setText(customer.first_name)
-                }
-                binding.editTextUserName.let {
-                    it.isEnabled = false
-                    it.setText(customer.username)
                 }
                 binding.editTextEmail.let {
                     it.isEnabled = false

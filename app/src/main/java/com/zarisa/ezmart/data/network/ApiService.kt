@@ -25,12 +25,6 @@ interface ApiService {
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<CartProduct>
 
-    @GET("products/reviews/")
-    suspend fun getProductReviews(
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
-        @Query("product") productId: List<Int>,
-        @Query("per_page") perPage: Int = 100
-    ): Response<List<Review>>
 
     //category
     @GET("products/categories")
@@ -53,6 +47,18 @@ interface ApiService {
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
 
+    //review
+    @GET("products/reviews/")
+    suspend fun getProductReviews(
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("product") productId: List<Int>,
+        @Query("per_page") perPage: Int = 100
+    ): Response<List<Review>>
+    @POST("products/reviews")
+    suspend fun createReview(
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Body review: Review
+    ): Response<Review>
 
     //search and filter
     @GET("products/")

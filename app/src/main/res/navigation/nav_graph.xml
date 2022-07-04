@@ -33,7 +33,11 @@
         android:id="@+id/productDetailFragment"
         android:name="com.zarisa.ezmart.ui.detail.ProductDetailFragment"
         android:label=""
-        tools:layout="@layout/fragment_product_detail" />
+        tools:layout="@layout/fragment_product_detail" >
+        <action
+            android:id="@+id/action_productDetailFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.zarisa.ezmart.ui.specific_category.CategoryFragment"
@@ -63,6 +67,9 @@
         <action
             android:id="@+id/action_shoppingFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_shoppingFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

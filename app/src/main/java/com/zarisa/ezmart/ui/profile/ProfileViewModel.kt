@@ -17,7 +17,8 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
     val customerLiveData = MutableLiveData<Customer?>(null)
     val statusLiveData = MutableLiveData<Status?>()
     var statusMessage = ""
-    fun getCustomer(customerId: Int) {
+    /*
+        fun getCustomer(customerId: Int) {
         if (customerLiveData.value == null) {
             statusLiveData.value = Status.LOADING
             viewModelScope.launch {
@@ -34,15 +35,17 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
             }
         }
     }
+     */
 
-    suspend fun createCustomer(customer: Customer): Int? {
+
+    suspend fun createCustomer(customer: Customer): Customer? {
         statusLiveData.value = Status.LOADING
         customerRepository.createCustomer(customer).let {
             statusMessage = it.message
             statusLiveData.value = it.status
             if (it.status == Status.SUCCESSFUL) {
                 customerLiveData.postValue(it.data)
-                return it.data?.id
+                return it.data
             }
         }
         return null

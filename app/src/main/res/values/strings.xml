@@ -30,4 +30,11 @@
     <string name="reset_filter">حذف همه</string>
     <string name="related_products">محصولات مشابه</string>
     <string name="add_review">ثبت نظر</string>
+    <string name="tell_your_review">ثبت نظر</string>
+    <string name="do_register">ثبت نام</string>
+    <string name="review_rating">کیفیت این محصول را از یک تا پنج چگونه ارزیابی میکنید؟</string>
+    <string name="review_text">جزئیات نظر خود را در قالب متنی بنویسید:</string>
+    <string name="review_text_hint">محل نوشتن نظر</string>
+    <string name="cancel">انصراف</string>
+    <string name="send_review">ثبت</string>
 </resources>

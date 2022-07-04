@@ -7,12 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.zarisa.ezmart.R
 import com.zarisa.ezmart.adapter.ProductVerticalViewRecyclerViewAdapter
 import com.zarisa.ezmart.adapter.ReviewAdapter
 import com.zarisa.ezmart.adapter.ViewPagerAdapter
 import com.zarisa.ezmart.databinding.FragmentProductDetailBinding
+import com.zarisa.ezmart.dialog.ReviewDialog
 import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
@@ -20,10 +24,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ProductDetailFragment : Fragment() {
+class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
     private lateinit var binding: FragmentProductDetailBinding
     private lateinit var sharedPref: SharedPreferences
-    private val viewModel: ProductDetailViewModel by viewModels()
+    private val viewModel: ProductDetailViewModel by activityViewModels()
     private var customerId = 0
     private var orderId = 0
     override fun onCreateView(
@@ -53,6 +57,10 @@ class ProductDetailFragment : Fragment() {
         sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
         customerId = sharedPref.getInt(CUSTOMER_ID, 0)
         orderId = sharedPref.getInt(ORDER_ID, 0)
+        if (customerId != 0) {
+            viewModel.customerName = sharedPref.getString(USER_NAME, "")
+            viewModel.customerEmail=sharedPref.getString(USER_EMAIL,"")
+        }
     }
 
     private fun observer() {
@@ -117,8 +125,22 @@ class ProductDetailFragment : Fragment() {
         binding.tvReview.setOnClickListener {
             viewModel.selectedPartToShow.postValue(REVIEWS)
         }
+        binding.btnSendReview.setOnClickListener {
+            if (customerId == 0)
+                Snackbar.make(binding.btnAddToCart, "برای ثبت نظر باید ابتدا ثبت نام کنید.", Snackbar.LENGTH_LONG)
+                    .setAction(R.string.do_register) {
+                        findNavController().navigate(R.id.action_productDetailFragment_to_profileFragment)
+                    }
+                    .show()
+            else
+                showDialog()
+        }
     }
 
+    private fun showDialog() {
+        val dialog = ReviewDialog()
+        activity?.supportFragmentManager?.let { dialog.show(it, "NoticeDialogFragment") }
+    }
 
     private fun onAddToCartClick() {
         val editor = sharedPref.edit()

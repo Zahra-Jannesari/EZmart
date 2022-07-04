@@ -65,4 +65,12 @@ class ProductRemoteDataSource @Inject constructor(private val apiService: ApiSer
             }
         }.fetch()
     }
+
+    suspend fun createReview(reviewBody: Review): Resource<Review> {
+        return object : NetworkCall<Review>() {
+            override suspend fun createCall(): Response<Review> {
+                return apiService.createReview(review = reviewBody)
+            }
+        }.fetch()
+    }
 }

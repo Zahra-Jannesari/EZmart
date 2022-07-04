@@ -6,6 +6,7 @@ import com.zarisa.ezmart.model.CartProduct
 import com.zarisa.ezmart.model.OrderByEnum
 import com.zarisa.ezmart.model.Product
 import com.zarisa.ezmart.model.Review
+import retrofit2.Response
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(private val productRemoteDataSource: ProductRemoteDataSource) {
@@ -46,5 +47,9 @@ class ProductRepository @Inject constructor(private val productRemoteDataSource:
 
     suspend fun getProductReviews(productId: Int): Resource<List<Review>> {
         return productRemoteDataSource.getProductReviews(listOf(productId))
+    }
+
+    suspend fun createReview(reviewBody: Review) :Resource<Review>{
+        return productRemoteDataSource.createReview(reviewBody)
     }
 }
