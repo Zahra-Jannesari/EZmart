@@ -152,9 +152,20 @@ class ProductDetailViewModel @Inject constructor(
     fun deleteReview(reviewId: Int) {
         reviewStatus.postValue(Status.LOADING)
         viewModelScope.launch {
-            productRepository.deleteReview(reviewId).let{
+            productRepository.deleteReview(reviewId).let {
                 reviewStatus.postValue(it.status)
 //                if(it.data?.deleted == true)
+//                    getReviews()
+            }
+        }
+    }
+
+    fun updateReview(review: Review) {
+        reviewStatus.postValue(Status.LOADING)
+        viewModelScope.launch {
+            productRepository.updateReview(review).let {
+                reviewStatus.postValue(it.status)
+//                if (it.status == Status.SUCCESSFUL)
 //                    getReviews()
             }
         }

@@ -12,10 +12,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.button.MaterialButton
 import com.zarisa.ezmart.R
+import com.zarisa.ezmart.model.Review
 import com.zarisa.ezmart.ui.detail.ProductDetailViewModel
 import kotlin.math.roundToInt
 
-class ReviewDialog : DialogFragment() {
+class ReviewDialog(val review: Review?) : DialogFragment() {
     val viewModel: ProductDetailViewModel by activityViewModels()
     private lateinit var dialogView: View
     private lateinit var btnSend: MaterialButton
@@ -45,9 +46,16 @@ class ReviewDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
+            if (review != null)
+                setDataToEdit()
             onClicks()
             builder.setView(dialogView).create()
         } ?: throw IllegalStateException("Activity cannot be null")
+    }
+
+    private fun setDataToEdit() {
+        edtTxtReview.setText(review?.review)
+        review?.rating?.let { ratingBar.rating = it.toFloat() }
     }
 
     private fun onClicks() {
@@ -55,7 +63,18 @@ class ReviewDialog : DialogFragment() {
             if (edtTxtReview.text.isNullOrBlank())
                 edtTxtReview.error = "لطفا نظر خود را بنویسید."
             else {
-                viewModel.createReview(ratingBar.rating.roundToInt(), edtTxtReview.text.toString())
+                if (review == null)
+                    viewModel.createReview(
+                        ratingBar.rating.roundToInt(),
+                        edtTxtReview.text.toString()
+                    )
+                else {
+                    val updatedReview = review.apply {
+                        this.review = edtTxtReview.text.toString()
+                        this.rating = ratingBar.rating.roundToInt()
+                    }
+                    viewModel.updateReview(updatedReview)
+                }
                 dismiss()
             }
         }

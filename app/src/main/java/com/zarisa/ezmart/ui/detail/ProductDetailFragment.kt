@@ -126,12 +126,15 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
             }
         }
     }
-    private fun deleteReview(reviewId: Int){
+
+    private fun deleteReview(reviewId: Int) {
         viewModel.deleteReview(reviewId)
     }
-    private fun editReview(review: Review){
 
+    private fun editReview(review: Review) {
+        showDialog(review)
     }
+
     private fun bindView() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
@@ -161,8 +164,8 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
         }
     }
 
-    private fun showDialog() {
-        val dialog = ReviewDialog()
+    private fun showDialog(review: Review? = null) {
+        val dialog = ReviewDialog(review)
         activity?.supportFragmentManager?.let { dialog.show(it, "NoticeDialogFragment") }
     }
 

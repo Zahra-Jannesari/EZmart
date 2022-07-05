@@ -3,7 +3,6 @@ package com.zarisa.ezmart.data.product
 import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.domain.Resource
 import com.zarisa.ezmart.model.*
-import retrofit2.Response
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(private val productRemoteDataSource: ProductRemoteDataSource) {
@@ -46,11 +45,15 @@ class ProductRepository @Inject constructor(private val productRemoteDataSource:
         return productRemoteDataSource.getProductReviews(listOf(productId))
     }
 
-    suspend fun createReview(reviewBody: Review) :Resource<Review>{
+    suspend fun createReview(reviewBody: Review): Resource<Review> {
         return productRemoteDataSource.createReview(reviewBody)
     }
 
     suspend fun deleteReview(reviewId: Int): Resource<ReviewDeleted> {
         return productRemoteDataSource.deleteReview(reviewId)
+    }
+
+    suspend fun updateReview(review: Review): Resource<Review> {
+        return productRemoteDataSource.updateReview(review)
     }
 }
