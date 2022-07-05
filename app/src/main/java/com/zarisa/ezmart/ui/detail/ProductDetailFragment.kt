@@ -57,10 +57,8 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
         sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
         customerId = sharedPref.getInt(CUSTOMER_ID, 0)
         orderId = sharedPref.getInt(ORDER_ID, 0)
-        if (customerId != 0) {
-            viewModel.customerName = sharedPref.getString(USER_NAME, "")
-            viewModel.customerEmail=sharedPref.getString(USER_EMAIL,"")
-        }
+        viewModel.customerName = sharedPref.getString(USER_NAME, "")
+        viewModel.customerEmail = sharedPref.getString(USER_EMAIL, "")
     }
 
     private fun observer() {
@@ -91,7 +89,7 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
                 binding.lReview.visibility = View.VISIBLE
                 binding.tvReview.isSelected = true
                 binding.tvRelatedProducts.isSelected = false
-                ReviewAdapter().let { adapter ->
+                ReviewAdapter(viewModel.customerEmail).let { adapter ->
                     binding.rvSideOptions.adapter = adapter
                     viewModel.reviewsList.observe(viewLifecycleOwner) { list ->
                         adapter.submitList(list)
@@ -127,7 +125,11 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
         }
         binding.btnSendReview.setOnClickListener {
             if (customerId == 0)
-                Snackbar.make(binding.btnAddToCart, "برای ثبت نظر باید ابتدا ثبت نام کنید.", Snackbar.LENGTH_LONG)
+                Snackbar.make(
+                    binding.btnAddToCart,
+                    "برای ثبت نظر باید ابتدا ثبت نام کنید.",
+                    Snackbar.LENGTH_LONG
+                )
                     .setAction(R.string.do_register) {
                         findNavController().navigate(R.id.action_productDetailFragment_to_profileFragment)
                     }

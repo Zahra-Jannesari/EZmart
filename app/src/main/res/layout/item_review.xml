@@ -15,29 +15,36 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:layoutDirection="rtl">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layoutDirection="rtl"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="8dp">
+
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/linearLayout3"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layoutDirection="rtl"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/review_by"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/review_by" />
+                        android:text="@string/review_by"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.22"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/reviewer_name"
@@ -46,17 +53,44 @@
                         android:layout_marginHorizontal="5dp"
                         android:layout_weight="1"
                         android:ellipsize="end"
+                        android:gravity="center_vertical"
                         android:maxLines="1"
+                        android:minHeight="24dp"
                         android:text="@{review.reviewer?? `ناشناس`}"
                         android:textDirection="rtl"
                         tools:text="امیر محمدی" />
+
+                    <LinearLayout
+                        android:id="@+id/l_userOptions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:src="@drawable/ic_edit"
+                            app:tint="@color/drawable_tint" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:src="@drawable/ic_delete"
+                            app:tint="@color/drawable_tint" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearLayout4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layoutDirection="rtl"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
                     <RatingBar
                         android:id="@+id/rate"
@@ -88,13 +122,15 @@
                     android:id="@+id/review_text"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:ellipsize="end"
                     android:maxLines="4"
                     android:minLines="4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
                     app:setHtmlText="@{review.review}" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>

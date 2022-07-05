@@ -1,6 +1,7 @@
 package com.zarisa.ezmart.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -8,13 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zarisa.ezmart.databinding.ItemReviewBinding
 import com.zarisa.ezmart.model.Review
 
-class ReviewAdapter :
+class ReviewAdapter(var userEmail: String?) :
     ListAdapter<Review, ReviewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
         private var binding: ItemReviewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(review: Review) {
             binding.review = review
+            binding.lUserOptions.visibility = if (review.reviewer_email == userEmail) View.VISIBLE
+            else View.GONE
             binding.executePendingBindings()
         }
     }
