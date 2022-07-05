@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
-    //product
+    /*-----------------------------------product----------------------------------------*/
     @GET("products/")
     suspend fun getListOfProducts(
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
@@ -25,8 +25,7 @@ interface ApiService {
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<CartProduct>
 
-
-    //category
+    /*-----------------------------------category----------------------------------------*/
     @GET("products/categories")
     suspend fun getListOfAllCategories(
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
@@ -47,20 +46,34 @@ interface ApiService {
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
 
-    //review
+    /*-----------------------------------review----------------------------------------*/
     @GET("products/reviews/")
     suspend fun getProductReviews(
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Query("product") productId: List<Int>,
         @Query("per_page") perPage: Int = 100
     ): Response<List<Review>>
+
     @POST("products/reviews")
     suspend fun createReview(
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Body review: Review
     ): Response<Review>
 
-    //search and filter
+    @PUT("products/reviews/{id}")
+    suspend fun updateReview(
+        @Path("id") id: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Body review: Review
+    ): Response<Review>
+    @DELETE("products/reviews/{id}")
+    suspend fun deleteReview(
+        @Path("id") id: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("force") force: Boolean = true
+    ):Response<ReviewDeleted>
+
+    /*-----------------------------------search and filter----------------------------------------*/
     @GET("products/")
     suspend fun getListOfSearchMatchProducts(
         @Query("search") searchText: String,
@@ -115,8 +128,7 @@ interface ApiService {
         @Query("per_page") perPage: Int = 100
     ): Response<List<AttrProps>>
 
-
-    //shopping
+    /*-----------------------------------shopping----------------------------------------*/
     @POST("orders/")
     suspend fun createOrder(
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
@@ -142,7 +154,7 @@ interface ApiService {
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<List<Order>>
 
-    //customer
+    /*-----------------------------------customer----------------------------------------*/
     @POST("customers/")
     suspend fun createCustomer(
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),

@@ -7,9 +7,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.zarisa.ezmart.databinding.ItemReviewBinding
+import com.zarisa.ezmart.model.OnDeleteReview
+import com.zarisa.ezmart.model.OnEditReview
 import com.zarisa.ezmart.model.Review
 
-class ReviewAdapter(var userEmail: String?) :
+class ReviewAdapter(
+    var userEmail: String?,
+    var deleteReview: OnDeleteReview,
+    var editReview: OnEditReview
+) :
     ListAdapter<Review, ReviewAdapter.ViewHolder>(DiffCallback) {
     inner class ViewHolder(
         private var binding: ItemReviewBinding
@@ -18,6 +24,8 @@ class ReviewAdapter(var userEmail: String?) :
             binding.review = review
             binding.lUserOptions.visibility = if (review.reviewer_email == userEmail) View.VISIBLE
             else View.GONE
+            binding.btnEditReview.setOnClickListener{editReview(review)}
+            binding.btnDeleteReview.setOnClickListener{deleteReview(review.id)}
             binding.executePendingBindings()
         }
     }

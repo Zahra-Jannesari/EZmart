@@ -4,10 +4,7 @@ import com.zarisa.ezmart.data.network.ApiService
 import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.domain.NetworkCall
 import com.zarisa.ezmart.domain.Resource
-import com.zarisa.ezmart.model.CartProduct
-import com.zarisa.ezmart.model.OrderByEnum
-import com.zarisa.ezmart.model.Product
-import com.zarisa.ezmart.model.Review
+import com.zarisa.ezmart.model.*
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -70,6 +67,14 @@ class ProductRemoteDataSource @Inject constructor(private val apiService: ApiSer
         return object : NetworkCall<Review>() {
             override suspend fun createCall(): Response<Review> {
                 return apiService.createReview(review = reviewBody)
+            }
+        }.fetch()
+    }
+
+    suspend fun deleteReview(reviewId: Int): Resource<ReviewDeleted> {
+        return object : NetworkCall<ReviewDeleted>() {
+            override suspend fun createCall(): Response<ReviewDeleted> {
+                return apiService.deleteReview(reviewId)
             }
         }.fetch()
     }

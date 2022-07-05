@@ -8,3 +8,6 @@ data class Review(
     val reviewer_email: String = "",
     val product_id:Int
 )
+data class ReviewDeleted(
+    val deleted:Boolean
+)

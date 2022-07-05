@@ -87,8 +87,8 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
                 Toast.makeText(
                     requireContext(),
                     when (it) {
-                        Status.LOADING -> "در حال ارسال نظر..."
-                        Status.SUCCESSFUL -> "نظر شما با موفقیت ارسال شد. فرایند ثبت نظر اندک زمانی طول میکشد."
+                        Status.LOADING -> "در حال انجام عملیات..."
+                        Status.SUCCESSFUL -> "عملیات با موفقیت انجام شد. فرایند بروزرسانی مدت زمانی طول میکشد."
                         Status.NETWORK_ERROR -> "لطفا اتصال اینترنت خود را چک کنید."
                         else -> "خطایی رخ داده است. لطفا مجددا تلاش کنید."
                     }, Toast.LENGTH_SHORT
@@ -104,7 +104,9 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
                 binding.lReview.visibility = View.VISIBLE
                 binding.tvReview.isSelected = true
                 binding.tvRelatedProducts.isSelected = false
-                ReviewAdapter(viewModel.customerEmail).let { adapter ->
+                ReviewAdapter(viewModel.customerEmail,
+                    { reviewId -> deleteReview(reviewId) },
+                    { review -> editReview(review) }).let { adapter ->
                     binding.rvSideOptions.adapter = adapter
                     viewModel.reviewsList.observe(viewLifecycleOwner) { list ->
                         adapter.submitList(list)
@@ -124,7 +126,12 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
             }
         }
     }
+    private fun deleteReview(reviewId: Int){
+        viewModel.deleteReview(reviewId)
+    }
+    private fun editReview(review: Review){
 
+    }
     private fun bindView() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
