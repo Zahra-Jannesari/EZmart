@@ -40,8 +40,7 @@ class ReviewDialog : DialogFragment() {
         }
     }
 
-    interface DialogListener {
-    }
+    interface DialogListener
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -57,7 +56,7 @@ class ReviewDialog : DialogFragment() {
                 edtTxtReview.error = "لطفا نظر خود را بنویسید."
             else {
                 viewModel.createReview(ratingBar.rating.roundToInt(), edtTxtReview.text.toString())
-
+                dismiss()
             }
         }
         btnCancel.setOnClickListener {
