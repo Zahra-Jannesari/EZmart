@@ -6,11 +6,8 @@ import com.zarisa.ezmart.model.*
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(private val productRemoteDataSource: ProductRemoteDataSource) {
-    suspend fun getListOfProducts(
-        order: OrderByEnum = OrderByEnum.DATE,
-        include: List<Int> = emptyList()
-    ): Resource<List<Product>> {
-        return productRemoteDataSource.getProductsList(order, include).apply {
+    private suspend fun getListOfProducts(order: OrderByEnum): Resource<List<Product>> {
+        return productRemoteDataSource.getProductsList(order).apply {
             this.data?.filter {
                 it.id != NetworkParams.SPECIAL_OFFERS
             }
@@ -27,6 +24,9 @@ class ProductRepository @Inject constructor(private val productRemoteDataSource:
 
     suspend fun getListOfHighRatedProducts(): Resource<List<Product>> {
         return getListOfProducts(OrderByEnum.RATING)
+    }
+    suspend fun getListOfRelatedProducts(include:String): Resource<List<Product>> {
+        return productRemoteDataSource.getListOfRelatedProducts(include)
     }
 
     suspend fun getProductById(id: Int): Resource<Product> {

@@ -108,12 +108,13 @@ class ProductDetailViewModel @Inject constructor(
     private suspend fun getSideOptions() {
         sideOptionsStatus.postValue(Status.LOADING)
         var listsCompleted = getReviews()
-        productRepository.getListOfProducts(include = currentProduct.value?.related_ids!!).let {
-            if (it.status == Status.SUCCESSFUL)
-                relatedProductsList.value = it.data
-            else
-                listsCompleted = false
-        }
+        productRepository.getListOfRelatedProducts(currentProduct.value?.related_ids!!.toString())
+            .let {
+                if (it.status == Status.SUCCESSFUL)
+                    relatedProductsList.value = it.data
+                else
+                    listsCompleted = false
+            }
         if (listsCompleted)
             sideOptionsStatus.postValue(Status.SUCCESSFUL)
     }

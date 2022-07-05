@@ -8,8 +8,7 @@ interface ApiService {
     /*-----------------------------------product----------------------------------------*/
     @GET("products/")
     suspend fun getListOfProducts(
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
-        @Query("include") include: String = "",
+        @QueryMap options: Map<String, String>,
         @Query("per_page") perPage: Int = 100
     ): Response<List<Product>>
 
@@ -24,6 +23,13 @@ interface ApiService {
         @Path("id") id: Int,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<CartProduct>
+
+    @GET("products/")
+    suspend fun getListOfRelatedProducts(
+        @Query("include") include: String,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("per_page") perPage: Int = 100
+    ): Response<List<Product>>
 
     /*-----------------------------------category----------------------------------------*/
     @GET("products/categories")
@@ -66,12 +72,13 @@ interface ApiService {
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Body review: Review
     ): Response<Review>
+
     @DELETE("products/reviews/{id}")
     suspend fun deleteReview(
         @Path("id") id: Int,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
         @Query("force") force: Boolean = true
-    ):Response<ReviewDeleted>
+    ): Response<ReviewDeleted>
 
     /*-----------------------------------search and filter----------------------------------------*/
     @GET("products/")

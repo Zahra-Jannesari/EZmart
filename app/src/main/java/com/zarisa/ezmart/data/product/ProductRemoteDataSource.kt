@@ -10,22 +10,13 @@ import javax.inject.Inject
 
 class ProductRemoteDataSource @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun getProductsList(order: OrderByEnum, include: List<Int>): Resource<List<Product>> {
+    suspend fun getProductsList(order: OrderByEnum): Resource<List<Product>> {
         return object : NetworkCall<List<Product>>() {
             override suspend fun createCall(): Response<List<Product>> {
                 return when (order) {
-                    OrderByEnum.DATE -> apiService.getListOfProducts(
-                        NetworkParams.getDateOption(),
-                        include.toString()
-                    )
-                    OrderByEnum.POPULARITY -> apiService.getListOfProducts(
-                        NetworkParams.getPopularityOption(),
-                        include.toString()
-                    )
-                    else -> apiService.getListOfProducts(
-                        NetworkParams.getRateOption(),
-                        include.toString()
-                    )
+                    OrderByEnum.DATE -> apiService.getListOfProducts(options = NetworkParams.getDateOption())
+                    OrderByEnum.POPULARITY -> apiService.getListOfProducts(options = NetworkParams.getPopularityOption())
+                    else -> apiService.getListOfProducts(options = NetworkParams.getRateOption())
                 }
             }
         }.fetch()
@@ -83,6 +74,14 @@ class ProductRemoteDataSource @Inject constructor(private val apiService: ApiSer
         return object : NetworkCall<Review>() {
             override suspend fun createCall(): Response<Review> {
                 return apiService.updateReview(review.id, review = review)
+            }
+        }.fetch()
+    }
+
+    suspend fun getListOfRelatedProducts(include: String): Resource<List<Product>> {
+        return object : NetworkCall<List<Product>>() {
+            override suspend fun createCall(): Response<List<Product>> {
+                return apiService.getListOfRelatedProducts(include)
             }
         }.fetch()
     }
