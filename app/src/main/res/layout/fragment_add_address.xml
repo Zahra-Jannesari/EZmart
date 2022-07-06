@@ -3,25 +3,69 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="20dp"
-   android:elevation="10dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:layout_margin="20dp"
+    android:elevation="10dp"
     tools:context="ui.profile.AddAddressFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
+
         <EditText
-            android:id="@+id/editTextReview"
+            android:id="@+id/editText_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/review_text_hint"
-            android:minHeight="48dp"
             android:backgroundTint="@color/drawable_tint"
-            android:cursorVisible="false" />
+            android:cursorVisible="false"
+            android:hint="@string/enterAddress"
+            android:minHeight="48dp" />
+
+        <LinearLayout
+            android:id="@+id/l_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_getCurrentLocation"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:text="@string/getCurrentLocation"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_addressOnMap"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:text="@string/addressOnMap" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l_btnsRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_addAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="@string/addAddress" />
+        </LinearLayout>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

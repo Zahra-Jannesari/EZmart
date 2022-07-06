@@ -1,11 +1,12 @@
 package com.zarisa.ezmart.ui
 
+import android.content.Context
+import android.location.LocationManager
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -55,5 +56,10 @@ class MainActivity : AppCompatActivity() {
                 else -> binding.bottomNav.visibility = View.GONE
             }
         }
+    }
+
+    fun isLocationEnabled(): Boolean {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return LocationManagerCompat.isLocationEnabled(locationManager)
     }
 }

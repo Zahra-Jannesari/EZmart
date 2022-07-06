@@ -14,6 +14,7 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
     val customerLiveData = MutableLiveData<Customer?>(null)
     val statusLiveData = MutableLiveData<Status?>()
     var statusMessage = ""
+    val newLatLong = MutableLiveData<String>()
 
     suspend fun createCustomer(customer: Customer): Customer? {
         statusLiveData.value = Status.LOADING
@@ -26,5 +27,9 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
             }
         }
         return null
+    }
+
+    fun addLatLong(latitude: Double, longitude: Double) {
+        newLatLong.postValue("$latitude,$longitude")
     }
 }
