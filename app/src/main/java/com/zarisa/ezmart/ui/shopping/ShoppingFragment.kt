@@ -63,7 +63,7 @@ class ShoppingFragment : Fragment() {
                     binding.btnCompleteShopping,
                     "برای تکمیل خرید باید ابتدا ثبت نام کنید.",
                     Snackbar.LENGTH_LONG
-                ).setAction(R.string.do_register) {
+                ).setAction(R.string.register) {
                     findNavController().navigate(R.id.action_shoppingFragment_to_profileFragment)
                 }
             snackbar.view.layoutDirection = View.LAYOUT_DIRECTION_RTL

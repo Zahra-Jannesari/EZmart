@@ -72,7 +72,7 @@ fun setToCartBtnState(button: MaterialButton, orderingStatus: OrderingStatus?) {
                 }
             }.start()
         }
-        else -> {
+        null -> {
             button.setIconResource(R.drawable.ic_shopping_cart)
             button.setText(R.string.addToCart)
             button.isClickable = true

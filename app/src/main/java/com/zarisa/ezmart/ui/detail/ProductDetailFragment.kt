@@ -50,8 +50,8 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
         super.onViewCreated(view, savedInstanceState)
         initSharedPref()
         initProduct()
-        bindView()
         observer()
+        bindView()
     }
 
     private fun initSharedPref() {
@@ -153,7 +153,7 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
                     binding.btnAddToCart,
                     "برای ثبت نظر باید ابتدا ثبت نام کنید.",
                     Snackbar.LENGTH_LONG
-                ).setAction(R.string.do_register) {
+                ).setAction(R.string.register) {
                     findNavController().navigate(R.id.action_productDetailFragment_to_profileFragment)
                 }
                 snackbar.view.layoutDirection = View.LAYOUT_DIRECTION_RTL
@@ -202,6 +202,10 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
 
     private fun initProduct() {
         viewModel.initialProduct(requireArguments().getInt(ITEM_ID))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         viewModel.resetStatuses()
     }
 
