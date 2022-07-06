@@ -49,7 +49,7 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initSharedPref()
-        getCurrentProduct()
+        initProduct()
         bindView()
         observer()
     }
@@ -67,7 +67,7 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
             NetworkStatusViewHandler(
                 it,
                 binding.lMain,
-                binding.lStatus, { getCurrentProduct() }, viewModel.statusMessage
+                binding.lStatus, { initProduct() }, viewModel.statusMessage
             )
         }
         viewModel.selectedPartToShow.observe(viewLifecycleOwner) {
@@ -93,7 +93,6 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
                         else -> "خطایی رخ داده است. لطفا مجددا تلاش کنید."
                     }, Toast.LENGTH_SHORT
                 ).show()
-                viewModel.reviewStatus.postValue(null)
             }
         }
     }
@@ -149,17 +148,17 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
             viewModel.selectedPartToShow.postValue(REVIEWS)
         }
         binding.btnSendReview.setOnClickListener {
-            if (customerId == 0)
-                Snackbar.make(
+            if (customerId == 0) {
+                val snackbar = Snackbar.make(
                     binding.btnAddToCart,
                     "برای ثبت نظر باید ابتدا ثبت نام کنید.",
                     Snackbar.LENGTH_LONG
-                )
-                    .setAction(R.string.do_register) {
-                        findNavController().navigate(R.id.action_productDetailFragment_to_profileFragment)
-                    }
-                    .show()
-            else
+                ).setAction(R.string.do_register) {
+                    findNavController().navigate(R.id.action_productDetailFragment_to_profileFragment)
+                }
+                snackbar.view.layoutDirection = View.LAYOUT_DIRECTION_RTL
+                snackbar.show()
+            } else
                 showDialog()
         }
     }
@@ -201,8 +200,9 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
         }
     }
 
-    private fun getCurrentProduct() {
+    private fun initProduct() {
         viewModel.initialProduct(requireArguments().getInt(ITEM_ID))
+        viewModel.resetStatuses()
     }
 
 }

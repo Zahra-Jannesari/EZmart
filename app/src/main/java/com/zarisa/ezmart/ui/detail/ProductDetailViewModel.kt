@@ -171,4 +171,10 @@ class ProductDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun resetStatuses() {
+        orderingStatus.postValue(null)
+        statusMessage = ""
+        reviewStatus.postValue(null)
+    }
 }
