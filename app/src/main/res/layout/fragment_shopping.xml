@@ -81,7 +81,7 @@
                         app:layout_constraintBottom_toTopOf="@+id/textView6"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toEndOf="@+id/textView4"
+                        app:layout_constraintStart_toEndOf="@+id/btn_completeShopping"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -96,11 +96,11 @@
                         android:textDirection="rtl"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/textView4"
+                        app:layout_constraintStart_toEndOf="@+id/btn_completeShopping"
                         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/textView4"
+                        android:id="@+id/btn_completeShopping"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"

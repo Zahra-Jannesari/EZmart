@@ -89,7 +89,6 @@ class ProfileFragment : Fragment() {
                         editor.putString(USER_NAME, it.first_name)
                         editor.putString(USER_EMAIL, it.email)
                         editor.apply()
-                        bindOrderToCustomer(it.id)
                         binding.lBtnsRegister.visibility = View.GONE
                     }
                 }
@@ -102,13 +101,6 @@ class ProfileFragment : Fragment() {
             ).show()
         }
     }
-
-    private fun bindOrderToCustomer(customerId: Int) {
-        if (orderId != 0) {
-            viewModel.updateOrder(customerId, orderId)
-        }
-    }
-
     private fun validateData(): Boolean {
         var isDataValid = true
         binding.editTextEmail.let {

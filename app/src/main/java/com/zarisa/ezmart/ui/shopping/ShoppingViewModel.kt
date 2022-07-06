@@ -20,43 +20,26 @@ class ShoppingViewModel @Inject constructor(
     private val customerRepository: CustomerRepository
 ) : ViewModel() {
     var customerId = 0
-    var orderId = 0
+    var orderId = MutableLiveData<Int>()
     val statusLiveData = MutableLiveData<Status>()
-    val editCartStatus = MutableLiveData<Status>()
+    val editCartStatus = MutableLiveData<Status?>(null)
     val orderItems = MutableLiveData<List<OrderItem>>()
     val total = MutableLiveData<String>()
     var statusMessage = ""
+    val completeShoppingStatus = MutableLiveData<Status?>(null)
 
     fun getOrder() {
         statusLiveData.postValue(Status.LOADING)
         viewModelScope.launch {
-            if (customerId == 0 && orderId == 0)
+            if (orderId.value == 0 || orderId.value == null) {
                 statusLiveData.postValue(Status.EMPTY_CART)
-            else if (customerId == 0)
-                getOrderById()
-            else getOrderByCustomerId()
-        }
-    }
-
-    private suspend fun getOrderByCustomerId() {
-        customerRepository.getCustomerOrders(customerId).let {
-            statusMessage = it.message
-            statusLiveData.value = it.status
-            if (it.status == Status.SUCCESSFUL) {
-                it.data?.let { orderList ->
-                    if (orderList.isNullOrEmpty())
-                        statusLiveData.postValue(Status.EMPTY_CART)
-                    else {
-                        orderItems.value = orderList[0].line_items
-                        total.value = orderList[0].total
-                    }
-                }
-            }
+                orderItems.postValue(emptyList())
+            } else getOrderById()
         }
     }
 
     private suspend fun getOrderById() {
-        customerRepository.retrieveOrder(orderId).let {
+        customerRepository.retrieveOrder(orderId.value!!).let {
             statusMessage = it.message
             statusLiveData.value = it.status
             if (it.status == Status.SUCCESSFUL)
@@ -74,11 +57,11 @@ class ShoppingViewModel @Inject constructor(
     fun updateOrder(itemId: Int, operation: Int) {
         viewModelScope.launch {
             editCartStatus.value = Status.LOADING
-            customerRepository.retrieveOrder(orderId).let { resource ->
+            customerRepository.retrieveOrder(orderId.value!!).let { resource ->
                 if (resource.status == Status.SUCCESSFUL) {
                     val editedOrder = editOrder(resource.data, operation, itemId)
                     if (editedOrder != null) {
-                        customerRepository.updateOrder(editedOrder, orderId).let {
+                        customerRepository.updateOrder(editedOrder, orderId.value!!).let {
                             if (it.status != Status.SUCCESSFUL)
                                 editCartStatus.value = resource.status
                             else {
@@ -93,12 +76,34 @@ class ShoppingViewModel @Inject constructor(
                             }
                         }
                     }
-                } else {
-                    editCartStatus.value = resource.status
-                }
+                } else editCartStatus.value = resource.status
             }
         }
 
+    }
+
+    private suspend fun getOrder(orderId: Int): Order? {
+        customerRepository.retrieveOrder(orderId).let {
+            return if (it.status == Status.SUCCESSFUL) it.data else null
+        }
+    }
+
+    fun completeOrder() {
+        viewModelScope.launch {
+            completeShoppingStatus.postValue(Status.LOADING)
+            viewModelScope.launch {
+                val order = getOrder(orderId.value!!)
+                if (order != null) {
+                    order.customer_id = customerId
+                    customerRepository.updateOrder(order, orderId.value!!).let {
+                        completeShoppingStatus.postValue(it.status)
+                        if (it.status == Status.SUCCESSFUL) {
+                            orderId.postValue(0)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun editOrder(order: Order?, operation: Int, itemId: Int): Order? {

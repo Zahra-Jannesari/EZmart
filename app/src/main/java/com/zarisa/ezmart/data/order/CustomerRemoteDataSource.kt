@@ -1,10 +1,10 @@
 package com.zarisa.ezmart.data.order
 
 import com.zarisa.ezmart.data.network.ApiService
-import com.zarisa.ezmart.model.Order
 import com.zarisa.ezmart.domain.NetworkCall
 import com.zarisa.ezmart.domain.Resource
 import com.zarisa.ezmart.model.Customer
+import com.zarisa.ezmart.model.Order
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -29,14 +29,6 @@ class CustomerRemoteDataSource @Inject constructor(private val apiService: ApiSe
         return object : NetworkCall<Order>() {
             override suspend fun createCall(): Response<Order> {
                 return apiService.retrieveOrder(id = orderId)
-            }
-        }.fetch()
-    }
-
-    suspend fun getCustomerOrders(customerId: Int): Resource<List<Order>> {
-        return object : NetworkCall<List<Order>>() {
-            override suspend fun createCall(): Response<List<Order>> {
-                return apiService.getCustomerOrders(customerId = customerId)
             }
         }.fetch()
     }

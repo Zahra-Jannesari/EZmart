@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.adapter.CartListRecyclerViewAdapter
 import com.zarisa.ezmart.databinding.FragmentShoppingBinding
@@ -18,11 +19,14 @@ import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.model.*
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class ShoppingFragment : Fragment() {
     private lateinit var sharedPref: SharedPreferences
     private lateinit var binding: FragmentShoppingBinding
     private val viewModel: ShoppingViewModel by viewModels()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +40,7 @@ class ShoppingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initCart()
         bindView()
-        statusObserver()
+        observer()
     }
 
     private fun bindView() {
@@ -47,13 +51,32 @@ class ShoppingFragment : Fragment() {
                 { id, operation -> editItem(id, operation) },
                 { id -> onProductItemClick(id) }
             )
+        binding.btnCompleteShopping.setOnClickListener {
+            completeShopping()
+        }
+    }
+
+    private fun completeShopping() {
+        if (viewModel.customerId == 0) {
+            val snackbar =
+                Snackbar.make(
+                    binding.btnCompleteShopping,
+                    "برای تکمیل خرید باید ابتدا ثبت نام کنید.",
+                    Snackbar.LENGTH_LONG
+                ).setAction(R.string.do_register) {
+                    findNavController().navigate(R.id.action_shoppingFragment_to_profileFragment)
+                }
+            snackbar.view.layoutDirection = View.LAYOUT_DIRECTION_RTL
+            snackbar.show()
+        } else {
+            viewModel.completeOrder()
+        }
     }
 
     private fun initCart() {
         sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
         viewModel.customerId = sharedPref.getInt(CUSTOMER_ID, 0)
-        viewModel.orderId = sharedPref.getInt(ORDER_ID, 0)
-        viewModel.getOrder()
+        viewModel.orderId.postValue(sharedPref.getInt(ORDER_ID, 0))
     }
 
     private fun editItem(id: Int, operation: Int) {
@@ -65,7 +88,7 @@ class ShoppingFragment : Fragment() {
         findNavController().navigate(R.id.action_shoppingFragment_to_productDetailFragment, bundle)
     }
 
-    private fun statusObserver() {
+    private fun observer() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
             if (it == Status.EMPTY_CART) {
                 binding.lMain.visibility = View.GONE
@@ -83,15 +106,30 @@ class ShoppingFragment : Fragment() {
 
         }
         viewModel.editCartStatus.observe(viewLifecycleOwner) {
+            makeToastForStatus(it)
+            viewModel.editCartStatus.postValue(null)
+        }
+        viewModel.completeShoppingStatus.observe(viewLifecycleOwner) {
+            makeToastForStatus(it)
+            viewModel.completeShoppingStatus.postValue(null)
+        }
+        viewModel.orderId.observe(viewLifecycleOwner) {
+            viewModel.getOrder()
+            sharedPref.edit().putInt(ORDER_ID, it).apply()
+        }
+    }
+
+    private fun makeToastForStatus(it: Status?) {
+        if (it != null)
             Toast.makeText(
                 requireContext(),
                 when (it) {
+                    Status.SUCCESSFUL -> "عملیات با موفقیت انجام شد."
                     Status.NETWORK_ERROR -> "لطفا اینترنت خود را چک کنید و مجددا تلاش کنید"
                     Status.LOADING -> "در حال انجام عملیات..."
                     else -> "خطایی رخ داده. لطفا مجددا تلاش کنید"
                 },
                 Toast.LENGTH_SHORT
             ).show()
-        }
     }
 }

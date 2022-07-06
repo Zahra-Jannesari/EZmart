@@ -149,17 +149,18 @@ interface ApiService {
         @Body order: Order
     ): Response<Order>
 
+    @GET("orders/")
+    suspend fun getCustomerOrders(
+        @Query("customer") customerId: Int,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions(),
+        @Query("status") status: String = "pending"
+    ): Response<List<Order>>
+
     @GET("orders/{id}")
     suspend fun retrieveOrder(
         @Path("id") id: Int,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<Order>
-
-    @GET("orders/")
-    suspend fun getCustomerOrders(
-        @Query("customer") customerId: Int,
-        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
-    ): Response<List<Order>>
 
     /*-----------------------------------customer----------------------------------------*/
     @POST("customers/")
