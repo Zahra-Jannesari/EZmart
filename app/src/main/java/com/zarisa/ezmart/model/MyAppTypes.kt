@@ -26,8 +26,8 @@ enum class OrderingStatus(val message: String) {
 typealias OnItemClick = (Int) -> Unit
 typealias OnCategoryClick = (Category) -> Unit
 typealias OnEditCartItem = (Int, Int) -> Unit
-typealias OnDeleteReview=(Int)->Unit
-typealias OnEditReview=(Review)->Unit
+typealias OnDeleteReview = (Int) -> Unit
+typealias OnEditReview = (Review) -> Unit
 
 const val ITEM_ID = "id"
 const val SEARCH_ORIGIN = "search_origin"
@@ -36,5 +36,6 @@ const val CATEGORY_ITEM = "category"
 const val CUSTOMER = "Customer"
 const val CUSTOMER_ID = "Customer Id"
 const val ORDER_ID = "order id"
-const val USER_EMAIL="user name"
-const val USER_NAME="name"
+const val USER_EMAIL = "user name"
+const val USER_NAME = "name"
+const val USER_AVATAR = "avatar"

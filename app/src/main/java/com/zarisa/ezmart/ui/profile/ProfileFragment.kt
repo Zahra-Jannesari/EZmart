@@ -11,6 +11,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentProfileBinding
 import com.zarisa.ezmart.model.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +26,6 @@ class ProfileFragment : Fragment() {
     val viewModel: ProfileViewModel by viewModels()
     private lateinit var sharedPref: SharedPreferences
     private var customerId = 0
-    private var orderId = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,15 +60,18 @@ class ProfileFragment : Fragment() {
     private fun initProfile() {
         if (customerId != 0) {
             binding.lBtnsRegister.visibility = View.GONE
+            binding.imageViewAvatar.visibility = View.VISIBLE
             viewModel.customerLiveData.postValue(
                 Customer(
                     customerId,
                     sharedPref.getString(USER_EMAIL, "")!!,
-                    sharedPref.getString(USER_NAME, "")!!
+                    sharedPref.getString(USER_NAME, "")!!,
+                    sharedPref.getString(USER_AVATAR, "")!!
                 )
             )
         } else {
             binding.lBtnsRegister.visibility = View.VISIBLE
+            binding.imageViewAvatar.visibility = View.GONE
             binding.btnRegister.setOnClickListener {
                 register()
             }
@@ -88,8 +94,10 @@ class ProfileFragment : Fragment() {
                         editor.putInt(CUSTOMER_ID, it.id)
                         editor.putString(USER_NAME, it.first_name)
                         editor.putString(USER_EMAIL, it.email)
+                        editor.putString(USER_AVATAR, it.avatar_url)
                         editor.apply()
                         binding.lBtnsRegister.visibility = View.GONE
+                        binding.imageViewAvatar.visibility = View.VISIBLE
                     }
                 }
             }
@@ -101,6 +109,7 @@ class ProfileFragment : Fragment() {
             ).show()
         }
     }
+
     private fun validateData(): Boolean {
         var isDataValid = true
         binding.editTextEmail.let {
@@ -132,6 +141,14 @@ class ProfileFragment : Fragment() {
                     it.isEnabled = false
                     it.setText(customer.email)
                 }
+                binding.imageViewAvatar.let {
+                    Glide.with(it)
+                        .load(customer.avatar_url)
+                        .placeholder(R.drawable.loading_animation)
+                        .error(R.drawable.ic_error_image)
+                        .transform(CenterInside(), RoundedCorners(100))
+                        .into(it)
+                }
             }
         }
     }
@@ -139,6 +156,5 @@ class ProfileFragment : Fragment() {
     private fun initSharedPref() {
         sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
         customerId = sharedPref.getInt(CUSTOMER_ID, 0)
-        orderId = sharedPref.getInt(ORDER_ID, 0)
     }
 }
