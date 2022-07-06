@@ -33,7 +33,7 @@
         android:id="@+id/productDetailFragment"
         android:name="com.zarisa.ezmart.ui.detail.ProductDetailFragment"
         android:label=""
-        tools:layout="@layout/fragment_product_detail" >
+        tools:layout="@layout/fragment_product_detail">
         <action
             android:id="@+id/action_productDetailFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -63,7 +63,7 @@
         android:id="@+id/shoppingFragment"
         android:name="com.zarisa.ezmart.ui.shopping.ShoppingFragment"
         android:label="سبد خرید"
-        tools:layout="@layout/fragment_shopping" >
+        tools:layout="@layout/fragment_shopping">
         <action
             android:id="@+id/action_shoppingFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
@@ -75,5 +75,22 @@
         android:id="@+id/profileFragment"
         android:name="com.zarisa.ezmart.ui.profile.ProfileFragment"
         android:label="پروفایل"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_addAddressFragment"
+            app:destination="@id/addAddressFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_chooseAddressFragment"
+            app:destination="@id/chooseAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.zarisa.ezmart.ui.profile.AddAddressFragment"
+        android:label="fragment_add_address"
+        tools:layout="@layout/fragment_add_address" />
+    <fragment
+        android:id="@+id/chooseAddressFragment"
+        android:name="com.zarisa.ezmart.ui.profile.ChooseAddressFragment"
+        android:label="fragment_choose_address"
+        tools:layout="@layout/fragment_choose_address" />
 </navigation>

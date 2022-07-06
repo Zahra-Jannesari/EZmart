@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -23,7 +25,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
-    val viewModel: ProfileViewModel by viewModels()
+    val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var sharedPref: SharedPreferences
     private var customerId = 0
     override fun onCreateView(
@@ -39,8 +41,18 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initSharedPref()
         initProfile()
+        bindView()
         setDataInView()
         observeStatus()
+    }
+
+    private fun bindView() {
+        binding.btnRegister.setOnClickListener {
+            register()
+        }
+        binding.btnAddNewAddress.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_addAddressFragment)
+        }
     }
 
     private fun observeStatus() {
@@ -72,9 +84,7 @@ class ProfileFragment : Fragment() {
         } else {
             binding.lBtnsRegister.visibility = View.VISIBLE
             binding.imageViewAvatar.visibility = View.GONE
-            binding.btnRegister.setOnClickListener {
-                register()
-            }
+
         }
 
     }

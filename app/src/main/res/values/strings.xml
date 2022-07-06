@@ -33,4 +33,8 @@
     <string name="review_text_hint">محل نوشتن نظر</string>
     <string name="cancel">انصراف</string>
     <string name="send_review">ثبت</string>
+    <string name="address_one">آدرس اول</string>
+    <string name="address_two">آدرس دوم</string>
+    <string name="add_new_address">افزودن آدرس جدید</string>
+    <string name="save_address">انتخاب آدرس</string>
 </resources>
