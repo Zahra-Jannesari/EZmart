@@ -86,11 +86,11 @@
     <fragment
         android:id="@+id/addAddressFragment"
         android:name="com.zarisa.ezmart.ui.profile.AddAddressFragment"
-        android:label="fragment_add_address"
+        android:label=""
         tools:layout="@layout/fragment_add_address" />
     <fragment
         android:id="@+id/chooseAddressFragment"
         android:name="com.zarisa.ezmart.ui.profile.ChooseAddressFragment"
-        android:label="fragment_choose_address"
+        android:label=""
         tools:layout="@layout/fragment_choose_address" />
 </navigation>

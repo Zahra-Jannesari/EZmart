@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupActionBar() {
+        supportActionBar?.show()
         window.statusBarColor = ContextCompat.getColor(this, R.color.navy_blue)
 //        window.decorView.layoutDirection = View.LAYOUT_DIRECTION_RTL
     }

@@ -17,6 +17,7 @@ import com.zarisa.ezmart.adapter.CartListRecyclerViewAdapter
 import com.zarisa.ezmart.databinding.FragmentShoppingBinding
 import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.model.*
+import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -31,9 +32,14 @@ class ShoppingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setHasOptionsMenu(true)
+        setupAppbar()
         binding = FragmentShoppingBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    private fun setupAppbar() {
+        (requireActivity() as MainActivity).supportActionBar?.show()
+        setHasOptionsMenu(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

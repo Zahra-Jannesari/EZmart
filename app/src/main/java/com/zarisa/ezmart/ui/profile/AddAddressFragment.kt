@@ -1,6 +1,7 @@
 package com.zarisa.ezmart.ui.profile
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
@@ -13,12 +14,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_LOW_POWER
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
+import com.zarisa.ezmart.MapsActivity
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentAddAddressBinding
 import com.zarisa.ezmart.ui.MainActivity
@@ -36,10 +42,10 @@ class AddAddressFragment : Fragment() {
     ) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                showLocation()
+                getLocation()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                showLocation()
+                getLocation()
             }
             else -> {
                 Toast.makeText(
@@ -55,18 +61,41 @@ class AddAddressFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setupAppbar()
         binding = FragmentAddAddressBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    private fun setupAppbar() {
+        (requireActivity() as MainActivity).supportActionBar?.hide()
+        setHasOptionsMenu(false)
+        (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnGetCurrentLocation.setOnClickListener {
-            getLocationPermission()
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+            if (checkGooglePlayServices()) {
+                getLocationPermission()
+                fusedLocationClient =
+                    LocationServices.getFusedLocationProviderClient(requireContext())
+            }
         }
+    }
 
+    private fun checkGooglePlayServices(): Boolean {
+        val availability = GoogleApiAvailability.getInstance()
+        val resultCode = availability.isGooglePlayServicesAvailable(requireContext())
+        if (resultCode != ConnectionResult.SUCCESS) {
+            Toast.makeText(
+                requireContext(),
+                "متاسفانه امکان ارائه این قابلیت بر روی تلفن شما میسر نیست.",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        }
+        return true
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -78,7 +107,7 @@ class AddAddressFragment : Fragment() {
                     requireContext(),
                     Manifest.permission.CAMERA
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    showLocation()
+                    getLocation()
                 }
                 //if user already denied the permission once
                 ActivityCompat.shouldShowRequestPermissionRationale(
@@ -115,8 +144,8 @@ class AddAddressFragment : Fragment() {
         )
     }
 
-    private fun showLocation() {
-        Toast.makeText(requireContext(), "permission granted", Toast.LENGTH_SHORT).show()
+    private fun getLocation() {
+        Toast.makeText(requireContext(), "در حال بارگزاری...", Toast.LENGTH_SHORT).show()
         if (ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -132,10 +161,21 @@ class AddAddressFragment : Fragment() {
         }
         fusedLocationClient.getCurrentLocation(PRIORITY_LOW_POWER, null)
             .addOnSuccessListener { location: Location? ->
-
                 location?.let {
                     viewModel.addLatLong(it.latitude, it.longitude)
+//                    showDialog(it.latitude, it.longitude)
+                    val intent = Intent(requireActivity(), MapsActivity::class.java)
+                    val bundle = bundleOf("latLong" to LatLng(it.latitude, it.longitude))
+                    intent.putExtra("latLong", bundle)
+                    startActivity(intent)
                 }
             }
     }
+    /*
+    private fun showDialog(lat:Double , long: Double) {
+        val dialog = MapDialog(lat, long)
+        activity?.supportFragmentManager?.let { dialog.show(it, "NoticeDialogFragment") }
+    }
+     */
+
 }
