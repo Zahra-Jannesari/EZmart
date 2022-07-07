@@ -58,6 +58,9 @@ class ProfileFragment : Fragment() {
         binding.btnAddNewAddress.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_addAddressFragment)
         }
+        binding.btnSaveAddress.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_chooseAddressFragment)
+        }
     }
 
     private fun observeStatus() {
@@ -72,12 +75,22 @@ class ProfileFragment : Fragment() {
                     }, Toast.LENGTH_SHORT
                 ).show()
         }
+        viewModel.isRegistered.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.btnSaveAddress.visibility = View.GONE
+                binding.lBtnsRegister.visibility = View.GONE
+                binding.imageViewAvatar.visibility = View.VISIBLE
+            }else{
+                binding.btnSaveAddress.visibility = View.VISIBLE
+                binding.lBtnsRegister.visibility = View.VISIBLE
+                binding.imageViewAvatar.visibility = View.GONE
+            }
+        }
     }
 
     private fun initProfile() {
         if (customerId != 0) {
-            binding.lBtnsRegister.visibility = View.GONE
-            binding.imageViewAvatar.visibility = View.VISIBLE
+            viewModel.isRegistered.postValue(true)
             viewModel.customerLiveData.postValue(
                 Customer(
                     customerId,
@@ -86,10 +99,6 @@ class ProfileFragment : Fragment() {
                     sharedPref.getString(USER_AVATAR, "")!!
                 )
             )
-        } else {
-            binding.lBtnsRegister.visibility = View.VISIBLE
-            binding.imageViewAvatar.visibility = View.GONE
-
         }
 
     }
@@ -148,6 +157,7 @@ class ProfileFragment : Fragment() {
     private fun setDataInView() {
         viewModel.customerLiveData.observe(viewLifecycleOwner) { customer ->
             if (customer != null) {
+                viewModel.isRegistered.postValue(true)
                 binding.editTextName.let {
                     it.isEnabled = false
                     it.setText(customer.first_name)
