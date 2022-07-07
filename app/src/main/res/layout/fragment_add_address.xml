@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="20dp"
-    android:elevation="10dp"
-    tools:context="ui.profile.AddAddressFragment">
-
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:orientation="vertical"
-        android:padding="10dp">
+        tools:context="ui.profile.AddAddressFragment">
+
+        <TextView
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:text="آدرس جدید"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editText_address"
@@ -24,38 +29,31 @@
             android:hint="@string/enterAddress"
             android:minHeight="48dp" />
 
-        <LinearLayout
+        <Button
+            android:id="@+id/btn_addressOnMap"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/addressOnMap" />
 
-            <Button
-                android:id="@+id/btn_getCurrentLocation"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left|center_vertical"
-                android:text="@string/getCurrentLocation"
-                android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btn_getCurrentLocation"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/getCurrentLocation"
+            android:textAllCaps="false" />
 
-            <Button
-                android:id="@+id/btn_addressOnMap"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right|center_vertical"
-                android:text="@string/addressOnMap" />
-        </LinearLayout>
-            <Button
-                android:id="@+id/btn_addAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/addAddress" />
+        <Button
+            android:id="@+id/btn_addAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/addAddress" />
     </LinearLayout>
+</ScrollView>
 
-</com.google.android.material.card.MaterialCardView>
+

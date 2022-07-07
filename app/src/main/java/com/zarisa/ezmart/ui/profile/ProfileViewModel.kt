@@ -29,8 +29,4 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
         }
         return null
     }
-
-    fun addLatLong(latitude: Double, longitude: Double) {
-        newLatLong = "$latitude,$longitude"
-    }
 }

@@ -39,8 +39,8 @@
     <string name="save_address">انتخاب آدرس</string>
     <string name="permission_required">برای دریافت موقعیت شما به لوکیشن نیاز است.</string>
     <string name="got_it">متوجه شدم</string>
-    <string name="enterAddress">آدرس دقیق خود را وارد کنید.</string>
-    <string name="addAddress">افزودن آدرس</string>
+    <string name="enterAddress">جزئیات دقیق آدرس را وارد کنید.</string>
+    <string name="addAddress">ذخیره آدرس</string>
     <string name="addressOnMap">انتخاب بر روی نقشه</string>
     <string name="getCurrentLocation">دریافت موقعیت فعلی</string>
 </resources>

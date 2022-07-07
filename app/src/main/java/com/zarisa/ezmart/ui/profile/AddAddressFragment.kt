@@ -1,7 +1,9 @@
 package com.zarisa.ezmart.ui.profile
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
@@ -9,6 +11,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -27,17 +30,19 @@ import com.google.android.material.snackbar.Snackbar
 import com.zarisa.ezmart.MapsActivity
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentAddAddressBinding
+import com.zarisa.ezmart.model.ADDRESSES
+import com.zarisa.ezmart.model.CUSTOMER
 import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+@RequiresApi(Build.VERSION_CODES.N)
 @AndroidEntryPoint
 class AddAddressFragment : Fragment() {
     lateinit var binding: FragmentAddAddressBinding
     val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    val locationPermissionRequest = registerForActivityResult(
+    private lateinit var sharedPref: SharedPreferences
+    private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
@@ -57,6 +62,12 @@ class AddAddressFragment : Fragment() {
         }
     }
 
+    private fun setupAppbar() {
+        (requireActivity() as MainActivity).supportActionBar?.hide()
+        setHasOptionsMenu(false)
+        (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,15 +77,21 @@ class AddAddressFragment : Fragment() {
         return binding.root
     }
 
-    private fun setupAppbar() {
-        (requireActivity() as MainActivity).supportActionBar?.hide()
-        setHasOptionsMenu(false)
-        (requireActivity() as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
+        onClicks()
+    }
+
+    private fun onClicks() {
+        binding.btnAddAddress.setOnClickListener {
+            val eTAddress = binding.editTextAddress
+            if (eTAddress.text.isNullOrBlank())
+                eTAddress.error = "برای افزایش دقت لطفا آدرس را وارد کنید."
+            else {
+                saveNewAddressInSharedPref(eTAddress)
+            }
+        }
         binding.btnGetCurrentLocation.setOnClickListener {
             if (checkGooglePlayServices()) {
                 getLocationPermission()
@@ -82,6 +99,17 @@ class AddAddressFragment : Fragment() {
                     LocationServices.getFusedLocationProviderClient(requireContext())
             }
         }
+    }
+
+    private fun saveNewAddressInSharedPref(eTAddress: EditText) {
+        val newAddresses = mutableSetOf("${eTAddress.text},${viewModel.newLatLong}")
+        sharedPref.getStringSet(ADDRESSES, emptySet())?.let {
+            newAddresses.addAll(it)
+        }
+        sharedPref.edit().putStringSet(ADDRESSES, newAddresses).apply()
+        eTAddress.setText("")
+        viewModel.newLatLong = ""
+        Toast.makeText(requireContext(), "آدرس جدید ذخیره شد.", Toast.LENGTH_SHORT).show()
     }
 
     private fun checkGooglePlayServices(): Boolean {
@@ -156,13 +184,16 @@ class AddAddressFragment : Fragment() {
             return
         }
         if (!(activity as MainActivity).isLocationEnabled()) {
-            Toast.makeText(requireContext(), "لطفا لوکیشن خود را روشن کنید.", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(
+                requireContext(),
+                "لطفا لوکیشن خود را روشن کنید.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         fusedLocationClient.getCurrentLocation(PRIORITY_LOW_POWER, null)
             .addOnSuccessListener { location: Location? ->
                 location?.let {
-                    viewModel.addLatLong(it.latitude, it.longitude)
+                    viewModel.newLatLong = "$it.latitude,$it.longitude"
 //                    showDialog(it.latitude, it.longitude)
                     val intent = Intent(requireActivity(), MapsActivity::class.java)
                     val bundle = bundleOf("latLong" to LatLng(it.latitude, it.longitude))
