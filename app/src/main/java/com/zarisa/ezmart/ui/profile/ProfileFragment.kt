@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
@@ -20,7 +19,6 @@ import com.zarisa.ezmart.databinding.FragmentProfileBinding
 import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -88,7 +86,7 @@ class ProfileFragment : Fragment() {
                     requireContext(),
                     when (it) {
                         Status.LOADING -> "در حال بارگذاری..."
-                        Status.SUCCESSFUL -> "مشخصات شما با موفقیت ثبت شد."
+                        Status.SUCCESSFUL -> "عملیات با موفقیت انجام شد."
                         else -> viewModel.statusMessage
                     }, Toast.LENGTH_SHORT
                 ).show()
@@ -113,41 +111,24 @@ class ProfileFragment : Fragment() {
     private fun initProfile() {
         if (customerId != 0) {
             viewModel.isRegistered.postValue(true)
-            viewModel.customerLiveData.postValue(
-                Customer(
-                    customerId,
-                    sharedPref.getString(USER_EMAIL, "")!!,
-                    sharedPref.getString(USER_NAME, "")!!,
-                    sharedPref.getString(USER_AVATAR, "")!!
-                )
-            )
+            if (viewModel.customerLiveData.value == null)
+                viewModel.automaticLogin(customerId)
         }
     }
 
     private fun register() {
-        val editor = sharedPref.edit()
         if (validateData()) {
-            lifecycleScope.launch {
-                viewModel.createCustomer(
-                    Customer(
-                        0,
-                        binding.editTextEmail.text.toString(),
-                        binding.editTextName.text.toString(),
-                        shipping = Shipping(
-                            viewModel.addressOne.value.toString(),
-                            viewModel.addressTwo.value.toString()
-                        )
+            viewModel.createCustomer(
+                Customer(
+                    0,
+                    binding.editTextEmail.text.toString(),
+                    binding.editTextName.text.toString(),
+                    shipping = Shipping(
+                        viewModel.addressOne.value.toString(),
+                        viewModel.addressTwo.value.toString()
                     )
-                ).let {
-                    it?.let {
-                        editor.putInt(CUSTOMER_ID, it.id)
-                        editor.putString(USER_NAME, it.first_name)
-                        editor.putString(USER_EMAIL, it.email)
-                        editor.putString(USER_AVATAR, it.avatar_url)
-                        editor.apply()
-                    }
-                }
-            }
+                )
+            )
         } else {
             Toast.makeText(
                 requireContext(),
@@ -180,6 +161,7 @@ class ProfileFragment : Fragment() {
     private fun setDataInView() {
         viewModel.customerLiveData.observe(viewLifecycleOwner) { customer ->
             if (customer != null) {
+                saveDataInSharedPref(customer)
                 viewModel.isRegistered.postValue(true)
                 binding.editTextName.let {
                     it.isEnabled = false
@@ -221,8 +203,22 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun saveDataInSharedPref(customer: Customer) {
+
+        val editor = sharedPref.edit()
+        editor.putInt(CUSTOMER_ID, customer.id)
+        editor.putString(USER_NAME, customer.first_name)
+        editor.putString(USER_EMAIL, customer.email)
+        editor.apply()
+    }
+
     private fun initSharedPref() {
         sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
         customerId = sharedPref.getInt(CUSTOMER_ID, 0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.statusLiveData.postValue(null)
     }
 }

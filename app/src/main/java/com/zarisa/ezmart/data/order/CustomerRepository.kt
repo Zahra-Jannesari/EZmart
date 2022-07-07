@@ -21,4 +21,8 @@ class CustomerRepository @Inject constructor(private val customerRemoteDataSourc
     suspend fun createCustomer(customer: Customer): Resource<Customer> {
         return customerRemoteDataSource.createCustomer(customer)
     }
+
+    suspend fun getCustomer(customerId: Int): Resource<Customer> {
+        return customerRemoteDataSource.getCustomer(customerId)
+    }
 }
