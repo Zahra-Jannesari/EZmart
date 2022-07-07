@@ -25,10 +25,8 @@
             android:minHeight="48dp" />
 
         <LinearLayout
-            android:id="@+id/l_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -51,21 +49,13 @@
                 android:gravity="right|center_vertical"
                 android:text="@string/addressOnMap" />
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/l_btnsRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
-
             <Button
                 android:id="@+id/btn_addAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/addAddress" />
-        </LinearLayout>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
