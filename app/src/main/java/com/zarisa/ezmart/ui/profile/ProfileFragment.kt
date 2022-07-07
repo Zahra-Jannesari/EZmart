@@ -61,6 +61,24 @@ class ProfileFragment : Fragment() {
         binding.btnSaveAddress.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_chooseAddressFragment)
         }
+        binding.textFieldAddressOne.setEndIconOnClickListener {
+            removeAddress(1)
+        }
+        binding.textFieldAddressTwo.setEndIconOnClickListener {
+            removeAddress(2)
+        }
+    }
+
+    private fun removeAddress(index: Int) {
+        if (index == 1) {
+            if (viewModel.addressTwo.value != "") {
+                viewModel.addressOne.postValue(viewModel.addressTwo.value)
+                viewModel.addressTwo.postValue("")
+            } else
+                viewModel.addressOne.postValue("")
+        } else {
+            viewModel.addressTwo.postValue("")
+        }
     }
 
     private fun observeStatus() {
@@ -80,10 +98,14 @@ class ProfileFragment : Fragment() {
                 binding.btnSaveAddress.visibility = View.GONE
                 binding.lBtnsRegister.visibility = View.GONE
                 binding.imageViewAvatar.visibility = View.VISIBLE
-            }else{
+                binding.textFieldAddressOne.isEndIconVisible = false
+                binding.textFieldAddressTwo.isEndIconVisible = false
+            } else {
                 binding.btnSaveAddress.visibility = View.VISIBLE
                 binding.lBtnsRegister.visibility = View.VISIBLE
                 binding.imageViewAvatar.visibility = View.GONE
+                binding.textFieldAddressOne.isEndIconVisible = true
+                binding.textFieldAddressTwo.isEndIconVisible = true
             }
         }
     }
@@ -100,7 +122,6 @@ class ProfileFragment : Fragment() {
                 )
             )
         }
-
     }
 
     private fun register() {
@@ -112,6 +133,10 @@ class ProfileFragment : Fragment() {
                         0,
                         binding.editTextEmail.text.toString(),
                         binding.editTextName.text.toString(),
+                        shipping = Shipping(
+                            viewModel.addressOne.value.toString(),
+                            viewModel.addressTwo.value.toString()
+                        )
                     )
                 ).let {
                     it?.let {
@@ -120,8 +145,6 @@ class ProfileFragment : Fragment() {
                         editor.putString(USER_EMAIL, it.email)
                         editor.putString(USER_AVATAR, it.avatar_url)
                         editor.apply()
-                        binding.lBtnsRegister.visibility = View.GONE
-                        binding.imageViewAvatar.visibility = View.VISIBLE
                     }
                 }
             }
@@ -174,6 +197,26 @@ class ProfileFragment : Fragment() {
                         .transform(CenterInside(), RoundedCorners(100))
                         .into(it)
                 }
+                viewModel.addressOne.value = customer.shipping.address_1
+                viewModel.addressTwo.value = customer.shipping.address_2
+            }
+        }
+        viewModel.addressOne.observe(viewLifecycleOwner) {
+            if (it != "" && it != "null" && it != null) {
+                binding.editTextAddressOne.setText(it.split(",")[0])
+                binding.textFieldAddressOne.visibility = View.VISIBLE
+            } else {
+                binding.textFieldAddressOne.visibility = View.GONE
+            }
+        }
+        viewModel.addressTwo.observe(viewLifecycleOwner) {
+            if (it != "" && it != "null" && it != null) {
+                binding.editTextAddressTwo.setText(it.split(",")[0])
+                binding.textFieldAddressTwo.visibility = View.VISIBLE
+                binding.btnSaveAddress.isEnabled = false
+            } else {
+                binding.textFieldAddressTwo.visibility = View.GONE
+                binding.btnSaveAddress.isEnabled = true
             }
         }
     }

@@ -28,6 +28,7 @@ typealias OnCategoryClick = (Category) -> Unit
 typealias OnEditCartItem = (Int, Int) -> Unit
 typealias OnDeleteReview = (Int) -> Unit
 typealias OnEditReview = (Review) -> Unit
+typealias OnAddressClick = (String) -> Unit
 
 const val ITEM_ID = "id"
 const val SEARCH_ORIGIN = "search_origin"
@@ -39,4 +40,4 @@ const val ORDER_ID = "order id"
 const val USER_EMAIL = "user name"
 const val USER_NAME = "name"
 const val USER_AVATAR = "avatar"
-const val ADDRESSES="addresses"
+const val ADDRESSES = "addresses"

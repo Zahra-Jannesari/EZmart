@@ -11,11 +11,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val customerRepository: CustomerRepository) :
     ViewModel() {
+    var addressOne = MutableLiveData("")
+    var addressTwo = MutableLiveData("")
     val customerLiveData = MutableLiveData<Customer?>(null)
     val statusLiveData = MutableLiveData<Status?>()
     var statusMessage = ""
     var newLatLong = ""
-    val isRegistered=MutableLiveData(false)
+    val isRegistered = MutableLiveData(false)
 
     suspend fun createCustomer(customer: Customer): Customer? {
         statusLiveData.value = Status.LOADING
