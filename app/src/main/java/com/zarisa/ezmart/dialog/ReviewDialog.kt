@@ -8,11 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.RatingBar
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.button.MaterialButton
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.model.Review
+import com.zarisa.ezmart.ui.components.removeParagraphTags
 import com.zarisa.ezmart.ui.detail.ProductDetailViewModel
 import kotlin.math.roundToInt
 
@@ -54,7 +56,9 @@ class ReviewDialog(val review: Review?) : DialogFragment() {
     }
 
     private fun setDataToEdit() {
-        edtTxtReview.setText(review?.review)
+        edtTxtReview.setText(removeParagraphTags(review?.review)?.let {
+            HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        })
         review?.rating?.let { ratingBar.rating = it.toFloat() }
     }
 
