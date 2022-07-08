@@ -5,5 +5,6 @@ data class Order(
     val total:String="",
     var customer_id: Int = 0,
     var line_items: List<OrderItem> = listOf(),
-    var set_paid:Boolean=false
+    var discount_total:String="",
+    var coupon_lines:List<Coupon> = emptyList()
 )

@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.adapter.CartListRecyclerViewAdapter
 import com.zarisa.ezmart.databinding.FragmentShoppingBinding
+import com.zarisa.ezmart.dialog.CompleteOrderDialog
+import com.zarisa.ezmart.dialog.ReviewDialog
 import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
@@ -25,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ShoppingFragment : Fragment() {
     private lateinit var sharedPref: SharedPreferences
     private lateinit var binding: FragmentShoppingBinding
-    private val viewModel: ShoppingViewModel by viewModels()
+    private val viewModel: ShoppingViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -75,7 +77,8 @@ class ShoppingFragment : Fragment() {
             snackbar.view.layoutDirection = View.LAYOUT_DIRECTION_RTL
             snackbar.show()
         } else {
-            viewModel.completeOrder()
+            val dialog = CompleteOrderDialog(viewLifecycleOwner)
+            activity?.supportFragmentManager?.let { dialog.show(it, "NoticeDialogFragment") }
         }
     }
 
@@ -137,5 +140,9 @@ class ShoppingFragment : Fragment() {
                 },
                 Toast.LENGTH_SHORT
             ).show()
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.resetStatuses()
     }
 }

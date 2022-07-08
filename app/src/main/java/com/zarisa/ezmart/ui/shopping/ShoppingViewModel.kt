@@ -27,6 +27,7 @@ class ShoppingViewModel @Inject constructor(
     val total = MutableLiveData<String>()
     var statusMessage = ""
     val completeShoppingStatus = MutableLiveData<Status?>(null)
+    val couponStatus = MutableLiveData<Status?>(null)
 
     fun getOrder() {
         statusLiveData.postValue(Status.LOADING)
@@ -79,7 +80,6 @@ class ShoppingViewModel @Inject constructor(
                 } else editCartStatus.value = resource.status
             }
         }
-
     }
 
     private suspend fun getOrder(orderId: Int): Order? {
@@ -89,17 +89,15 @@ class ShoppingViewModel @Inject constructor(
     }
 
     fun completeOrder() {
+        completeShoppingStatus.postValue(Status.LOADING)
         viewModelScope.launch {
-            completeShoppingStatus.postValue(Status.LOADING)
-            viewModelScope.launch {
-                val order = getOrder(orderId.value!!)
-                if (order != null) {
-                    order.customer_id = customerId
-                    customerRepository.updateOrder(order, orderId.value!!).let {
-                        completeShoppingStatus.postValue(it.status)
-                        if (it.status == Status.SUCCESSFUL) {
-                            orderId.postValue(0)
-                        }
+            val order = getOrder(orderId.value!!)
+            if (order != null) {
+                order.customer_id = customerId
+                customerRepository.updateOrder(order, orderId.value!!).let {
+                    completeShoppingStatus.postValue(it.status)
+                    if (it.status == Status.SUCCESSFUL) {
+                        orderId.postValue(0)
                     }
                 }
             }
@@ -126,5 +124,39 @@ class ShoppingViewModel @Inject constructor(
             }
         }
         return order
+    }
+
+    fun checkCoupon(coupon: String) {
+        couponStatus.postValue(Status.LOADING)
+        viewModelScope.launch {
+            customerRepository.retrieveCoupon(coupon).let {
+                if (it.status == Status.SUCCESSFUL) {
+                    if (it.data?.isNullOrEmpty() == false) {
+                        customerRepository.retrieveOrder(orderId.value!!).let { order ->
+                            if (order.status == Status.SUCCESSFUL) {
+                                val newOrder = order.data
+                                if (newOrder != null) {
+                                    newOrder.coupon_lines = listOf(it.data!![0])
+//                                    newOrder.discount_total = it.data!![0].discount
+                                    customerRepository.updateOrder(newOrder, orderId.value!!)
+                                        .let { update ->
+                                            couponStatus.postValue(update.status)
+                                            if (update.status == Status.SUCCESSFUL) {
+                                                orderItems.value = update.data?.line_items
+                                                total.value = update.data?.total
+                                            }
+                                        }
+                                }
+                            }else couponStatus.postValue(order.status)
+                        }
+                    } else couponStatus.postValue(Status.EMPTY_CART)
+                } else couponStatus.postValue(it.status)
+            }
+        }
+    }
+
+    fun resetStatuses() {
+        completeShoppingStatus.postValue(null)
+        couponStatus.postValue(null)
     }
 }

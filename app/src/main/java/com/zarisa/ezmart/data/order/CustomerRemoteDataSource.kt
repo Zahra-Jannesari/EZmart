@@ -3,6 +3,7 @@ package com.zarisa.ezmart.data.order
 import com.zarisa.ezmart.data.network.ApiService
 import com.zarisa.ezmart.domain.NetworkCall
 import com.zarisa.ezmart.domain.Resource
+import com.zarisa.ezmart.model.Coupon
 import com.zarisa.ezmart.model.Customer
 import com.zarisa.ezmart.model.Order
 import retrofit2.Response
@@ -45,6 +46,14 @@ class CustomerRemoteDataSource @Inject constructor(private val apiService: ApiSe
         return object : NetworkCall<Customer>() {
             override suspend fun createCall(): Response<Customer> {
                 return apiService.getCustomer(id = customerId)
+            }
+        }.fetch()
+    }
+
+    suspend fun retrieveCoupon(coupon: String): Resource<List<Coupon>> {
+        return object : NetworkCall<List<Coupon>>() {
+            override suspend fun createCall(): Response<List<Coupon>> {
+                return apiService.retrieveCoupon(coupon)
             }
         }.fetch()
     }

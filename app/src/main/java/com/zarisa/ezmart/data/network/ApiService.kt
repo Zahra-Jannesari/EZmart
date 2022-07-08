@@ -174,4 +174,10 @@ interface ApiService {
         @Path("id") id: Int,
         @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
     ): Response<Customer>
+
+    @GET("coupons")
+    suspend fun retrieveCoupon(
+        @Query("coupon") coupon: String,
+        @QueryMap options: Map<String, String> = NetworkParams.getBaseOptions()
+    ): Response<List<Coupon>>
 }

@@ -1,6 +1,7 @@
 package com.zarisa.ezmart.data.order
 
 import com.zarisa.ezmart.domain.Resource
+import com.zarisa.ezmart.model.Coupon
 import com.zarisa.ezmart.model.Customer
 import com.zarisa.ezmart.model.Order
 import javax.inject.Inject
@@ -24,5 +25,9 @@ class CustomerRepository @Inject constructor(private val customerRemoteDataSourc
 
     suspend fun getCustomer(customerId: Int): Resource<Customer> {
         return customerRemoteDataSource.getCustomer(customerId)
+    }
+
+    suspend fun retrieveCoupon(coupon: String): Resource<List<Coupon>>  {
+        return customerRemoteDataSource.retrieveCoupon(coupon)
     }
 }

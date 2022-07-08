@@ -43,4 +43,8 @@
     <string name="addAddress">ذخیره آدرس</string>
     <string name="addressOnMap">انتخاب بر روی نقشه</string>
     <string name="getCurrentLocation">دریافت موقعیت فعلی</string>
+    <string name="have_coupon">کد تخفیف دارید؟ وارد کنید.</string>
+    <string name="check_coupon">اعمال تخفیف</string>
+    <string name="final_price">قیمت نهایی:</string>
+    <string name="register_order">ثبت سفارش</string>
 </resources>
