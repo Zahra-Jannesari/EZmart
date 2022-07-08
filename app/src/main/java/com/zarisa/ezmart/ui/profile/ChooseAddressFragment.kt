@@ -11,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.zarisa.ezmart.adapter.AddressListAdapter
 import com.zarisa.ezmart.databinding.FragmentChooseAddressBinding
 import com.zarisa.ezmart.model.ADDRESSES
-import com.zarisa.ezmart.model.CUSTOMER
+import com.zarisa.ezmart.model.EZ_SHARED_PREF
 import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +37,7 @@ class ChooseAddressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
+        sharedPref = requireActivity().getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
         bindView()
     }
 

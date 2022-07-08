@@ -31,7 +31,7 @@ import com.zarisa.ezmart.MapsActivity
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentAddAddressBinding
 import com.zarisa.ezmart.model.ADDRESSES
-import com.zarisa.ezmart.model.CUSTOMER
+import com.zarisa.ezmart.model.EZ_SHARED_PREF
 import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -79,7 +79,7 @@ class AddAddressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
+        sharedPref = requireActivity().getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
         onClicks()
     }
 

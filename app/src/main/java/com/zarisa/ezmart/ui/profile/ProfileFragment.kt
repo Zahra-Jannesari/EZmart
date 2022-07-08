@@ -18,6 +18,7 @@ import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentProfileBinding
 import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
+import com.zarisa.ezmart.ui.appTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,6 +48,17 @@ class ProfileFragment : Fragment() {
         bindView()
         setDataInView()
         observeStatus()
+        initTheme()
+    }
+
+    private fun initTheme() {
+        val theme = sharedPref.getInt(APP_THEME, R.style.Theme_EZmart)
+        binding.btnTheme.isSelected = theme == R.style.dark_mode
+        binding.btnTheme.setOnClickListener {
+            appTheme = if (it.isSelected) R.style.Theme_EZmart else R.style.dark_mode
+            sharedPref.edit().putInt(APP_THEME, appTheme).apply()
+            activity?.recreate()
+        }
     }
 
     private fun bindView() {
@@ -213,7 +225,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initSharedPref() {
-        sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
+        sharedPref = requireActivity().getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
         customerId = sharedPref.getInt(CUSTOMER_ID, 0)
     }
 

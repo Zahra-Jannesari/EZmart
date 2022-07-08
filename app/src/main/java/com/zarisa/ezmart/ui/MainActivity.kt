@@ -1,6 +1,7 @@
 package com.zarisa.ezmart.ui
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
@@ -14,12 +15,21 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.ActivityMainBinding
+import com.zarisa.ezmart.model.APP_THEME
+import com.zarisa.ezmart.model.EZ_SHARED_PREF
 import dagger.hilt.android.AndroidEntryPoint
+
+var appTheme = R.style.Theme_EZmart
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var sharedPref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        sharedPref = this.getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
+        appTheme = sharedPref.getInt(APP_THEME, R.style.Theme_EZmart)
+        setTheme(appTheme)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -1,169 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/btn_theme"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:padding="20dp"
-        tools:context=".ui.profile.ProfileFragment">
+        android:layout_margin="10dp"
+        android:background="@drawable/theme_button_selector"
+        android:minWidth="48dp"
+        android:minHeight="48dp" />
 
-        <ImageView
-            android:id="@+id/imageView_avatar"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:scaleType="fitCenter" />
+            android:orientation="vertical"
+            android:padding="20dp"
+            tools:context=".ui.profile.ProfileFragment">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_name"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp">
+            <ImageView
+                android:id="@+id/imageView_avatar"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_name"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/name"
-                android:inputType="none"
-                android:maxLines="1" />
+                android:layout_marginTop="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name"
+                    android:inputType="none"
+                    android:maxLines="1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_email"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_email"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1" />
+                android:layout_marginTop="10dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_addressOne"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layoutDirection="rtl"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:endIconDrawable="@drawable/ic_close"
-            app:endIconMode="custom">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_addressOne"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_addressOne"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="@string/address_one"
-                android:inputType="textEmailAddress"
-                android:maxLines="1" />
+                android:layout_marginTop="10dp"
+                android:layoutDirection="rtl"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:endIconDrawable="@drawable/ic_close"
+                app:endIconMode="custom">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_addressOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="@string/address_one"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_addressTwo"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layoutDirection="rtl"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:endIconDrawable="@drawable/ic_close"
-            app:endIconMode="custom">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_addressTwo"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_addressTwo"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="@string/address_two"
-                android:inputType="textEmailAddress"
-                android:maxLines="1" />
+                android:layout_marginTop="10dp"
+                android:layoutDirection="rtl"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:endIconDrawable="@drawable/ic_close"
+                app:endIconMode="custom">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_addressTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="@string/address_two"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
 
-        <LinearLayout
-            android:id="@+id/l_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_addNewAddress"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/l_address"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_location"
-                android:gravity="left|center_vertical"
-                android:text="@string/add_new_address"
-                android:textAllCaps="false" />
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_saveAddress"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="0dp"
+                <Button
+                    android:id="@+id/btn_addNewAddress"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_location"
+                    android:gravity="left|center_vertical"
+                    android:text="@string/add_new_address"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btn_saveAddress"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/save_address" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l_btnsRegister"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right|center_vertical"
-                android:text="@string/save_address" />
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_login"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="@string/already_have_an_an_account"
+                    android:textAllCaps="false"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btn_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="@string/register" />
+            </LinearLayout>
         </LinearLayout>
+    </ScrollView>
+</LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/l_btnsRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btn_login"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:text="@string/already_have_an_an_account"
-                android:textAllCaps="false"
-                android:textSize="12sp" />
-
-            <Button
-                android:id="@+id/btn_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:text="@string/register" />
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>

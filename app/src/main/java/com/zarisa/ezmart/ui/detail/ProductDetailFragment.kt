@@ -55,7 +55,7 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
     }
 
     private fun initSharedPref() {
-        sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
+        sharedPref = requireActivity().getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
         customerId = sharedPref.getInt(CUSTOMER_ID, 0)
         orderId = sharedPref.getInt(ORDER_ID, 0)
         viewModel.customerName = sharedPref.getString(USER_NAME, "")

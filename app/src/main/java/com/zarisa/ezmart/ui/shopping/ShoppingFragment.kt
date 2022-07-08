@@ -80,7 +80,7 @@ class ShoppingFragment : Fragment() {
     }
 
     private fun initCart() {
-        sharedPref = requireActivity().getSharedPreferences(CUSTOMER, Context.MODE_PRIVATE)
+        sharedPref = requireActivity().getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
         viewModel.customerId = sharedPref.getInt(CUSTOMER_ID, 0)
         viewModel.orderId.postValue(sharedPref.getInt(ORDER_ID, 0))
     }
