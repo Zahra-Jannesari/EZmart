@@ -195,6 +195,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layoutDirection="rtl"
+                                    android:progressBackgroundTint="@color/drawable_tint"
                                     android:progressTint="@color/golden"
                                     android:stepSize="0.5"
                                     app:setRate="@{viewModel.currentProduct.average_rating}" />

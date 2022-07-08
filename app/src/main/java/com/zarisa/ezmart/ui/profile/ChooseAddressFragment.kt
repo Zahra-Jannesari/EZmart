@@ -42,9 +42,16 @@ class ChooseAddressFragment : Fragment() {
     }
 
     private fun bindView() {
-        val adapter = AddressListAdapter { address -> onAddressClick(address) }
-        binding.rvAddress.adapter = adapter
-        adapter.submitList(sharedPref.getStringSet(ADDRESSES, emptySet())?.toList())
+        val addressList=sharedPref.getStringSet(ADDRESSES, emptySet())?.toList()
+        if (addressList.isNullOrEmpty()){
+            binding.imageViewNoAddress.visibility=View.VISIBLE
+        }
+        else{
+            binding.imageViewNoAddress.visibility=View.GONE
+            val adapter = AddressListAdapter { address -> onAddressClick(address) }
+            binding.rvAddress.adapter = adapter
+            adapter.submitList(addressList)
+        }
     }
 
     private fun onAddressClick(address: String) {
