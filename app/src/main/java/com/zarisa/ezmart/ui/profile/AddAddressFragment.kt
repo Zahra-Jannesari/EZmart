@@ -1,8 +1,8 @@
 package com.zarisa.ezmart.ui.profile
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
@@ -17,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.gms.common.ConnectionResult
@@ -25,9 +24,12 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_LOW_POWER
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
-import com.zarisa.ezmart.MapsActivity
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentAddAddressBinding
 import com.zarisa.ezmart.model.ADDRESSES
@@ -42,15 +44,16 @@ class AddAddressFragment : Fragment() {
     val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var sharedPref: SharedPreferences
+    private lateinit var map: GoogleMap
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                getLocation()
+                getCurrentLocation()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                getLocation()
+                getCurrentLocation()
             }
             else -> {
                 Toast.makeText(
@@ -79,8 +82,13 @@ class AddAddressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedPref = requireActivity().getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
+        initVariables()
         onClicks()
+    }
+
+    private fun initVariables() {
+        sharedPref = requireActivity().getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
     }
 
     private fun onClicks() {
@@ -88,16 +96,10 @@ class AddAddressFragment : Fragment() {
             val eTAddress = binding.editTextAddress
             if (eTAddress.text.isNullOrBlank())
                 eTAddress.error = "برای افزایش دقت لطفا آدرس را وارد کنید."
-            else {
-                saveNewAddressInSharedPref(eTAddress)
-            }
+            else saveNewAddressInSharedPref(eTAddress)
         }
         binding.btnGetCurrentLocation.setOnClickListener {
-            if (checkGooglePlayServices()) {
-                getLocationPermission()
-                fusedLocationClient =
-                    LocationServices.getFusedLocationProviderClient(requireContext())
-            }
+            if (checkGooglePlayServices()) getLocationPermission()
         }
     }
 
@@ -132,21 +134,13 @@ class AddAddressFragment : Fragment() {
             when {
                 //if user already granted the permission
                 ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED -> {
-                    getLocation()
-                }
+                    requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED -> getCurrentLocation()
                 //if user already denied the permission once
                 ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.CAMERA
-                ) -> {
-                    showRationSnackbar()
-                }
-                else -> {
-                    launchPermissions()
-                }
+                    requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION
+                ) -> showRationSnackbar()
+                else -> launchPermissions()
             }
         }
     }
@@ -172,8 +166,8 @@ class AddAddressFragment : Fragment() {
         )
     }
 
-    private fun getLocation() {
-        Toast.makeText(requireContext(), "در حال بارگزاری...", Toast.LENGTH_SHORT).show()
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -194,19 +188,33 @@ class AddAddressFragment : Fragment() {
             .addOnSuccessListener { location: Location? ->
                 location?.let {
                     viewModel.newLatLong = "$it.latitude,$it.longitude"
-//                    showDialog(it.latitude, it.longitude)
-                    val intent = Intent(requireActivity(), MapsActivity::class.java)
-                    val bundle = bundleOf("latLong" to LatLng(it.latitude, it.longitude))
-                    intent.putExtra("latLong", bundle)
-                    startActivity(intent)
+                    showCurrentLocationOnMap(LatLng(it.latitude, it.longitude))
                 }
             }
     }
-    /*
-    private fun showDialog(lat:Double , long: Double) {
-        val dialog = MapDialog(lat, long)
-        activity?.supportFragmentManager?.let { dialog.show(it, "NoticeDialogFragment") }
-    }
-     */
 
+    private fun showCurrentLocationOnMap(latLng: LatLng) {
+        binding.lMap.visibility = View.VISIBLE
+        val mapFragment = childFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync { readyMap ->
+            map = readyMap
+            showLocationOnMap(latLng)
+        }
+        binding.tvUserLat.text = "عرض جغرافیایی: ${latLng.latitude}"
+        binding.tvUserLong.text = "طول جغرافیایی: ${latLng.longitude}"
+    }
+
+    private fun showLocationOnMap(latLng: LatLng) {
+        map.setMinZoomPreference(6.0f)
+        map.setMaxZoomPreference(14.0f)
+        map.addMarker(
+            MarkerOptions()
+                .position(latLng)
+                .title("موقعیت")
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
+                .zIndex(2.0f)
+        )
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+    }
 }

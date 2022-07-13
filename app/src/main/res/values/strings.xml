@@ -37,7 +37,7 @@
     <string name="address_two">آدرس دوم</string>
     <string name="add_new_address">افزودن آدرس جدید</string>
     <string name="save_address">انتخاب آدرس</string>
-    <string name="permission_required">برای دریافت موقعیت شما به لوکیشن نیاز است.</string>
+    <string name="permission_required">برای دریافت موقعیت شما به مجوز لوکیشن نیاز است.</string>
     <string name="got_it">متوجه شدم</string>
     <string name="enterAddress">جزئیات دقیق آدرس را وارد کنید.</string>
     <string name="addAddress">ذخیره آدرس</string>
@@ -47,4 +47,5 @@
     <string name="check_coupon">اعمال تخفیف</string>
     <string name="final_price">قیمت نهایی:</string>
     <string name="register_order">ثبت سفارش</string>
+    <string name="new_address">آدرس جدید</string>
 </resources>
