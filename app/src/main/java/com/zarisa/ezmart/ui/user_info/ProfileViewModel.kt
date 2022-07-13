@@ -25,7 +25,7 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
         viewModelScope.launch {
             statusLiveData.value = Status.LOADING
             customerRepository.createCustomer(customer).let {
-                statusMessage = it.message
+                statusMessage = it.serverMessage?.message ?: it.message
                 statusLiveData.value = it.status
                 if (it.status == Status.SUCCESSFUL) {
                     customerLiveData.postValue(it.data)
@@ -34,11 +34,11 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
         }
     }
 
-    fun automaticLogin(customerId: Int) {
+    private fun automaticLogin(customerId: Int) {
         viewModelScope.launch {
             statusLiveData.value = Status.LOADING
             customerRepository.getCustomer(customerId).let {
-                statusMessage = it.message
+                statusMessage = it.serverMessage?.message ?: it.message
                 statusLiveData.value = it.status
                 if (it.status == Status.SUCCESSFUL) {
                     customerLiveData.postValue(it.data)

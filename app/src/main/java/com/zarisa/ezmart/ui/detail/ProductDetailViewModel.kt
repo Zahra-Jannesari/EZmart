@@ -34,8 +34,8 @@ class ProductDetailViewModel @Inject constructor(
         statusLiveData.value = Status.LOADING
         viewModelScope.launch {
             productRepository.getProductById(id).let {
+                statusMessage = it.serverMessage?.message ?: it.message
                 statusLiveData.value = it.status
-                statusMessage = it.message
                 if (it.status == Status.SUCCESSFUL) {
                     currentProduct.value = it.data
                     getSideOptions()

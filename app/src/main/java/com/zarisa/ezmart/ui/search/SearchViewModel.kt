@@ -42,7 +42,6 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
 
     fun getAttrTerms() {
         viewModelScope.launch {
-
             attrTermStatus.postValue(Status.LOADING)
             if (selectedAttr?.id != 0 && selectedAttr?.id != null)
                 searchRepository.getListOfAttributeTerms(selectedAttr!!.id).let {
@@ -69,7 +68,7 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
                     )
 
                 resource.let {
-                    statusMessage = it.message
+                    statusMessage = it.serverMessage?.message ?: it.message
                     statusLiveData.value = it.status
                     if (it.status == Status.SUCCESSFUL)
                         if (it.data.isNullOrEmpty()) {

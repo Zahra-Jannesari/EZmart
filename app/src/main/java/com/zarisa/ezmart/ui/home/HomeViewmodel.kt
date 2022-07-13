@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zarisa.ezmart.data.network.NetworkParams
 import com.zarisa.ezmart.data.product.ProductRepository
-import com.zarisa.ezmart.model.Status
 import com.zarisa.ezmart.model.Product
+import com.zarisa.ezmart.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,13 +30,16 @@ class HomeViewModel @Inject constructor(private val productRepository: ProductRe
             if (highRateProducts.status == Status.SUCCESSFUL) {
                 if (newestProducts.status == bestSellerProducts.status && newestProducts.status == Status.SUCCESSFUL) {
                     statusLiveData.value = Status.SUCCESSFUL
-                    highRateProductsList.value = highRateProducts.data?.filter { it.id!=NetworkParams.SPECIAL_OFFERS }
-                    bestSellerProductsList.value = bestSellerProducts.data?.filter { it.id!=NetworkParams.SPECIAL_OFFERS }
-                    newestProductsList.value = newestProducts.data?.filter { it.id!=NetworkParams.SPECIAL_OFFERS }
+                    highRateProductsList.value =
+                        highRateProducts.data?.filter { it.id != NetworkParams.SPECIAL_OFFERS }
+                    bestSellerProductsList.value =
+                        bestSellerProducts.data?.filter { it.id != NetworkParams.SPECIAL_OFFERS }
+                    newestProductsList.value =
+                        newestProducts.data?.filter { it.id != NetworkParams.SPECIAL_OFFERS }
                     specialOffersList.value = specialOffers.data
                 }
             } else {
-                statusMessage = highRateProducts.message
+                statusMessage = highRateProducts.serverMessage?.message ?: highRateProducts.message
                 statusLiveData.value = highRateProducts.status
             }
         }

@@ -41,7 +41,7 @@ class ShoppingViewModel @Inject constructor(
 
     private suspend fun getOrderById() {
         customerRepository.retrieveOrder(orderId.value!!).let {
-            statusMessage = it.message
+            statusMessage = it.serverMessage?.message ?: it.message
             statusLiveData.value = it.status
             if (it.status == Status.SUCCESSFUL)
                 it.data?.let { order ->

@@ -20,7 +20,7 @@ class CategoriesViewModel @Inject constructor(private val categoryRepository: Ca
         statusLiveData.value = Status.LOADING
         viewModelScope.launch {
             categoryRepository.getCategoriesList().let {
-                statusMessage = it.message
+                statusMessage = it.serverMessage?.message ?: it.message
                 statusLiveData.value = it.status
                 if (it.status == Status.SUCCESSFUL)
                     categoryList.value = it.data
