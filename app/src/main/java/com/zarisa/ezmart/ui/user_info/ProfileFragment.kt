@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentProfileBinding
+import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.ui.appTheme
@@ -80,14 +81,11 @@ class ProfileFragment : Fragment() {
     private fun observeStatus() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
             if (it != null)
-                Toast.makeText(
-                    requireContext(),
-                    when (it) {
-                        Status.LOADING -> "در حال بارگذاری..."
-                        Status.SUCCESSFUL -> "عملیات با موفقیت انجام شد."
-                        else -> viewModel.statusMessage
-                    }, Toast.LENGTH_SHORT
-                ).show()
+                NetworkStatusViewHandler(
+                    it,
+                    binding.lMain,
+                    binding.lStatus, { initProfile() }, viewModel.statusMessage
+                )
         }
         viewModel.isRegistered.observe(viewLifecycleOwner) {
             if (it) {

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.user_info.ProfileFragment">
 
     <ImageButton
         android:id="@+id/btn_theme"
@@ -13,26 +14,39 @@
         android:layout_margin="10dp"
         android:background="@drawable/theme_button_selector"
         android:minWidth="48dp"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/l_status"
+        layout="@layout/layout_network_status"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/l_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:orientation="vertical"
-            android:padding="20dp"
-            tools:context=".ui.user_info.ProfileFragment">
+            android:padding="20dp">
 
             <ImageView
                 android:id="@+id/imageView_avatar"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:scaleType="fitCenter" />
+                android:layout_gravity="center" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textField_name"
@@ -50,7 +64,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
-                    android:inputType="none"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -82,9 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:enabled="false"
                 android:layoutDirection="rtl"
-                android:visibility="gone"
                 app:boxCornerRadiusBottomEnd="10dp"
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopEnd="10dp"
@@ -96,8 +107,8 @@
                     android:id="@+id/editText_addressOne"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:hint="@string/address_one"
-                    android:inputType="textEmailAddress"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -108,9 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:enabled="false"
                 android:layoutDirection="rtl"
-                android:visibility="gone"
                 app:boxCornerRadiusBottomEnd="10dp"
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopEnd="10dp"
@@ -122,8 +131,8 @@
                     android:id="@+id/editText_addressTwo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:hint="@string/address_two"
-                    android:inputType="textEmailAddress"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -186,4 +195,5 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
