@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_margin="20dp"
         android:orientation="vertical"
-        tools:context="ui.profile.AddAddressFragment">
+        tools:context="ui.user_info.AddAddressFragment">
 
         <TextView
             style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -70,14 +70,12 @@
                 <TextView
                     android:id="@+id/tv_userLong"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="طول جغرافیایی: " />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/tv_userLat"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="عرض جغرافیایی: " />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </FrameLayout>
 

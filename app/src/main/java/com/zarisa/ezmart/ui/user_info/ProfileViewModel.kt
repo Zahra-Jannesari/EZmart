@@ -1,4 +1,4 @@
-package com.zarisa.ezmart.ui.profile
+package com.zarisa.ezmart.ui.user_info
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

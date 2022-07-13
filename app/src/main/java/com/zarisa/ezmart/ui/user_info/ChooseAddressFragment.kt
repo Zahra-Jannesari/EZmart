@@ -1,4 +1,4 @@
-package com.zarisa.ezmart.ui.profile
+package com.zarisa.ezmart.ui.user_info
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.zarisa.ezmart.adapter.AddressListAdapter
@@ -42,12 +43,11 @@ class ChooseAddressFragment : Fragment() {
     }
 
     private fun bindView() {
-        val addressList=sharedPref.getStringSet(ADDRESSES, emptySet())?.toList()
-        if (addressList.isNullOrEmpty()){
-            binding.imageViewNoAddress.visibility=View.VISIBLE
-        }
-        else{
-            binding.imageViewNoAddress.visibility=View.GONE
+        val addressList = sharedPref.getStringSet(ADDRESSES, emptySet())?.toList()
+        if (addressList.isNullOrEmpty()) {
+            binding.imageViewNoAddress.visibility = View.VISIBLE
+        } else {
+            binding.imageViewNoAddress.visibility = View.GONE
             val adapter = AddressListAdapter { address -> onAddressClick(address) }
             binding.rvAddress.adapter = adapter
             adapter.submitList(addressList)
@@ -55,9 +55,18 @@ class ChooseAddressFragment : Fragment() {
     }
 
     private fun onAddressClick(address: String) {
-        if (viewModel.addressOne.value == "")
-            viewModel.addressOne.postValue(address)
-        else if (viewModel.addressOne.value != address) viewModel.addressTwo.postValue(address)
-        activity?.onBackPressed()
+        if (viewModel.isRegistered.value == true) {
+            Toast.makeText(
+                requireContext(),
+                "شما قبلا آدرس خود را ثبت کرده اید.",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        } else {
+            if (viewModel.addressOne.value == "")
+                viewModel.addressOne.postValue(address)
+            else if (viewModel.addressOne.value != address) viewModel.addressTwo.postValue(address)
+            activity?.onBackPressed()
+        }
     }
 }

@@ -1,13 +1,15 @@
-package com.zarisa.ezmart.ui.profile
+package com.zarisa.ezmart.ui.user_info
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -27,13 +30,17 @@ import com.google.android.gms.location.Priority.PRIORITY_LOW_POWER
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.FragmentAddAddressBinding
 import com.zarisa.ezmart.model.ADDRESSES
 import com.zarisa.ezmart.model.EZ_SHARED_PREF
+import com.zarisa.ezmart.model.IRAN_LAT
+import com.zarisa.ezmart.model.IRAN_LONG
 import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -101,6 +108,9 @@ class AddAddressFragment : Fragment() {
         binding.btnGetCurrentLocation.setOnClickListener {
             if (checkGooglePlayServices()) getLocationPermission()
         }
+        binding.btnAddressOnMap.setOnClickListener {
+            if (checkGooglePlayServices()) showLocationOnMap(LatLng(IRAN_LAT, IRAN_LONG))
+        }
     }
 
     private fun saveNewAddressInSharedPref(eTAddress: EditText) {
@@ -111,7 +121,7 @@ class AddAddressFragment : Fragment() {
         sharedPref.edit().putStringSet(ADDRESSES, newAddresses).apply()
         eTAddress.setText("")
         viewModel.newLatLong = ""
-        Toast.makeText(requireContext(), "آدرس جدید ذخیره شد.", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.action_addAddressFragment_to_chooseAddressFragment)
     }
 
     private fun checkGooglePlayServices(): Boolean {
@@ -128,7 +138,6 @@ class AddAddressFragment : Fragment() {
         return true
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun getLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when {
@@ -183,38 +192,56 @@ class AddAddressFragment : Fragment() {
                 "لطفا لوکیشن خود را روشن کنید.",
                 Toast.LENGTH_SHORT
             ).show()
+            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
         }
         fusedLocationClient.getCurrentLocation(PRIORITY_LOW_POWER, null)
             .addOnSuccessListener { location: Location? ->
                 location?.let {
-                    viewModel.newLatLong = "$it.latitude,$it.longitude"
-                    showCurrentLocationOnMap(LatLng(it.latitude, it.longitude))
+                    viewModel.newLatLong = "${it.latitude},${it.longitude}"
+                    showLocationOnMap(LatLng(it.latitude, it.longitude))
                 }
             }
     }
 
-    private fun showCurrentLocationOnMap(latLng: LatLng) {
+    private fun showLocationOnMap(latLng: LatLng) {
         binding.lMap.visibility = View.VISIBLE
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync { readyMap ->
             map = readyMap
-            showLocationOnMap(latLng)
+            onMapsReady(latLng)
         }
         binding.tvUserLat.text = "عرض جغرافیایی: ${latLng.latitude}"
         binding.tvUserLong.text = "طول جغرافیایی: ${latLng.longitude}"
     }
 
-    private fun showLocationOnMap(latLng: LatLng) {
-        map.setMinZoomPreference(6.0f)
+    private fun onMapsReady(latLng: LatLng) {
+        map.clear()
+        map.setMinZoomPreference(4.0f)
         map.setMaxZoomPreference(14.0f)
         map.addMarker(
             MarkerOptions()
                 .position(latLng)
                 .title("موقعیت")
-//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
+                .draggable(true)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.img_map_marker))
                 .zIndex(2.0f)
         )
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        map.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
+            override fun onMarkerDrag(p0: Marker) {
+            }
+
+            override fun onMarkerDragEnd(marker: Marker) {
+                viewModel.newLatLong = "${marker.position.latitude},${marker.position.longitude}"
+                binding.tvUserLong.text = "طول جغرافیایی: ${marker.position.longitude.toString()}"
+                binding.tvUserLat.text = "عرض جغرافیایی: ${marker.position.latitude.toString()}"
+            }
+
+            override fun onMarkerDragStart(p0: Marker) {
+                binding.tvUserLong.text = ""
+                binding.tvUserLat.text = ""
+            }
+        })
     }
 }

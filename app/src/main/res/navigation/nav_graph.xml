@@ -73,7 +73,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.zarisa.ezmart.ui.profile.ProfileFragment"
+        android:name="com.zarisa.ezmart.ui.user_info.ProfileFragment"
         android:label="پروفایل"
         tools:layout="@layout/fragment_profile">
         <action
@@ -85,12 +85,16 @@
     </fragment>
     <fragment
         android:id="@+id/addAddressFragment"
-        android:name="com.zarisa.ezmart.ui.profile.AddAddressFragment"
+        android:name="com.zarisa.ezmart.ui.user_info.AddAddressFragment"
         android:label=""
-        tools:layout="@layout/fragment_add_address" />
+        tools:layout="@layout/fragment_add_address">
+        <action
+            android:id="@+id/action_addAddressFragment_to_chooseAddressFragment"
+            app:destination="@id/chooseAddressFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chooseAddressFragment"
-        android:name="com.zarisa.ezmart.ui.profile.ChooseAddressFragment"
+        android:name="com.zarisa.ezmart.ui.user_info.ChooseAddressFragment"
         android:label=""
         tools:layout="@layout/fragment_choose_address" />
 </navigation>

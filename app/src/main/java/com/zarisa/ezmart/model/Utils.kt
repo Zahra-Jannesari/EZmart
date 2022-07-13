@@ -39,6 +39,8 @@ const val CUSTOMER_ID = "Customer Id"
 const val ORDER_ID = "order id"
 const val USER_EMAIL = "user name"
 const val USER_NAME = "name"
-const val USER_AVATAR = "avatar"
 const val ADDRESSES = "addresses"
 const val APP_THEME = "app theme"
+
+const val IRAN_LAT = 32.0
+const val IRAN_LONG = 54.0
