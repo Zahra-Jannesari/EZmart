@@ -46,6 +46,7 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
             }
         }
     }
+
     fun removeAddress(index: Int) {
         if (index == 1) {
             if (addressTwo.value != "") {
@@ -57,11 +58,17 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
             addressTwo.postValue("")
         }
     }
+
     fun initProfile(customerId: Int) {
         if (customerId != 0) {
             isRegistered.postValue(true)
             if (customerLiveData.value == null)
                 automaticLogin(customerId)
         }
+    }
+
+    fun logout() {
+        customerLiveData.postValue(Customer())
+        isRegistered.postValue(false)
     }
 }

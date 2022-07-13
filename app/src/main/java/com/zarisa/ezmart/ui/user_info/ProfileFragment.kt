@@ -76,11 +76,16 @@ class ProfileFragment : Fragment() {
         binding.textFieldAddressTwo.setEndIconOnClickListener {
             viewModel.removeAddress(2)
         }
+        binding.btnLogOut.setOnClickListener {
+            viewModel.logout()
+        }
     }
 
     private fun observeStatus() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
-            if (it != null)
+            if (it == null) {
+                binding.lStatus.root.visibility = View.GONE
+            } else
                 NetworkStatusViewHandler(
                     it,
                     binding.lMain,
@@ -92,12 +97,14 @@ class ProfileFragment : Fragment() {
                 binding.btnSaveAddress.visibility = View.GONE
                 binding.lBtnsRegister.visibility = View.GONE
                 binding.imageViewAvatar.visibility = View.VISIBLE
+                binding.btnLogOut.visibility = View.VISIBLE
                 binding.textFieldAddressOne.isEndIconVisible = false
                 binding.textFieldAddressTwo.isEndIconVisible = false
             } else {
                 binding.btnSaveAddress.visibility = View.VISIBLE
                 binding.lBtnsRegister.visibility = View.VISIBLE
                 binding.imageViewAvatar.visibility = View.GONE
+                binding.btnLogOut.visibility = View.GONE
                 binding.textFieldAddressOne.isEndIconVisible = true
                 binding.textFieldAddressTwo.isEndIconVisible = true
             }
