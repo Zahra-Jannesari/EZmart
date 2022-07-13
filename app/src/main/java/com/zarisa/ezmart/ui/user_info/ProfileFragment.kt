@@ -26,7 +26,6 @@ class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
     val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var sharedPref: SharedPreferences
-    private var customerId = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,7 +42,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSharedPref()
         initProfile()
         bindView()
         setDataInView()
@@ -72,22 +70,10 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_chooseAddressFragment)
         }
         binding.textFieldAddressOne.setEndIconOnClickListener {
-            removeAddress(1)
+            viewModel.removeAddress(1)
         }
         binding.textFieldAddressTwo.setEndIconOnClickListener {
-            removeAddress(2)
-        }
-    }
-
-    private fun removeAddress(index: Int) {
-        if (index == 1) {
-            if (viewModel.addressTwo.value != "") {
-                viewModel.addressOne.postValue(viewModel.addressTwo.value)
-                viewModel.addressTwo.postValue("")
-            } else
-                viewModel.addressOne.postValue("")
-        } else {
-            viewModel.addressTwo.postValue("")
+            viewModel.removeAddress(2)
         }
     }
 
@@ -117,14 +103,6 @@ class ProfileFragment : Fragment() {
                 binding.textFieldAddressOne.isEndIconVisible = true
                 binding.textFieldAddressTwo.isEndIconVisible = true
             }
-        }
-    }
-
-    private fun initProfile() {
-        if (customerId != 0) {
-            viewModel.isRegistered.postValue(true)
-            if (viewModel.customerLiveData.value == null)
-                viewModel.automaticLogin(customerId)
         }
     }
 
@@ -216,7 +194,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun saveDataInSharedPref(customer: Customer) {
-
         val editor = sharedPref.edit()
         editor.putInt(CUSTOMER_ID, customer.id)
         editor.putString(USER_NAME, customer.first_name)
@@ -224,9 +201,9 @@ class ProfileFragment : Fragment() {
         editor.apply()
     }
 
-    private fun initSharedPref() {
+    private fun initProfile() {
         sharedPref = requireActivity().getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
-        customerId = sharedPref.getInt(CUSTOMER_ID, 0)
+        viewModel.initProfile(sharedPref.getInt(CUSTOMER_ID, 0))
     }
 
     override fun onDestroy() {

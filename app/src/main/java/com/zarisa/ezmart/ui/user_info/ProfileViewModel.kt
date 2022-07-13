@@ -46,4 +46,22 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
             }
         }
     }
+    fun removeAddress(index: Int) {
+        if (index == 1) {
+            if (addressTwo.value != "") {
+                addressOne.postValue(addressTwo.value)
+                addressTwo.postValue("")
+            } else
+                addressOne.postValue("")
+        } else {
+            addressTwo.postValue("")
+        }
+    }
+    fun initProfile(customerId: Int) {
+        if (customerId != 0) {
+            isRegistered.postValue(true)
+            if (customerLiveData.value == null)
+                automaticLogin(customerId)
+        }
+    }
 }
