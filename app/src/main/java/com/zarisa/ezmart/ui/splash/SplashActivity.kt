@@ -1,16 +1,18 @@
 package com.zarisa.ezmart.ui.splash
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.ActivitySplashScreenBinding
 import com.zarisa.ezmart.ui.MainActivity
-import java.net.UnknownHostException
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -28,7 +30,7 @@ class SplashActivity : AppCompatActivity() {
         binding.iconSplashScreen.let {
             it.alpha = 0f
             it.animate().setDuration(1500).alpha(1f).let { animation ->
-                if (isInternetAvailable())
+                if (isInternetAvailable(this))
                     animation.withEndAction {
                         intentToMainActivity()
                     }
@@ -53,21 +55,40 @@ class SplashActivity : AppCompatActivity() {
 
     private fun onRefreshClick(view: View) {
         view.visibility = View.INVISIBLE
-        if (isInternetAvailable())
+        if (isInternetAvailable(this))
             intentToMainActivity()
         else
             view.visibility = View.VISIBLE
     }
 
-    private fun isInternetAvailable(): Boolean {
-        try {
-            val command = "ping -c 1 google.com"
-            return Runtime.getRuntime().exec(command).waitFor() == 0
-        } catch (e: UnknownHostException) {
-            Log.d("TAG", "isInternetAvailable: false")
-        } catch (e: Exception) {
-            Log.d("TAG", "unknown exception")
+    @SuppressLint("MissingPermission")
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return when {
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                else -> false
+            }
+        } else {
+            @Suppress("DEPRECATION") val networkInfo =
+                connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION")
+            return networkInfo.isConnected
         }
-        return false
     }
+//    private fun isInternetAvailable(): Boolean {
+//        try {
+//            val command = "ping -c 1 google.com"
+//            return Runtime.getRuntime().exec(command).waitFor() == 0
+//        } catch (e: UnknownHostException) {
+//            Log.d("TAG", "isInternetAvailable: false")
+//        } catch (e: Exception) {
+//            Log.d("TAG", "unknown exception")
+//        }
+//        return false
+//    }
 }
