@@ -144,8 +144,9 @@ class ProductDetailViewModel @Inject constructor(
             )
             productRepository.createReview(reviewBody).let {
                 reviewStatus.postValue(it.status)
-//                if (it.status == Status.SUCCESSFUL)
-//                    getReviews()
+                if (it.status == Status.SUCCESSFUL) {
+                    reviewsList.postValue(reviewsList.value?.plus(reviewBody) ?: listOf(reviewBody))
+                }
             }
         }
     }
@@ -155,8 +156,11 @@ class ProductDetailViewModel @Inject constructor(
         viewModelScope.launch {
             productRepository.deleteReview(reviewId).let {
                 reviewStatus.postValue(it.status)
-//                if(it.data?.deleted == true)
-//                    getReviews()
+                if (it.data?.deleted == true) {
+                    reviewsList.postValue(reviewsList.value?.toMutableList()?.filter { review ->
+                        review.id != reviewId
+                    })
+                }
             }
         }
     }
@@ -166,8 +170,14 @@ class ProductDetailViewModel @Inject constructor(
         viewModelScope.launch {
             productRepository.updateReview(review).let {
                 reviewStatus.postValue(it.status)
-//                if (it.status == Status.SUCCESSFUL)
-//                    getReviews()
+                if (it.status == Status.SUCCESSFUL) {
+                    val newList = mutableListOf<Review>()
+                    reviewsList.value?.let { list ->
+                        for (i in list)
+                            newList.add(if (i.id == review.id) review else i)
+                    }
+                    reviewsList.postValue(newList)
+                }
             }
         }
     }

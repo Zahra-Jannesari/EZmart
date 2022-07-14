@@ -88,7 +88,7 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
                     requireContext(),
                     when (it) {
                         Status.LOADING -> "در حال انجام عملیات..."
-                        Status.SUCCESSFUL -> "عملیات با موفقیت انجام شد. فرایند بروزرسانی مدت زمانی طول میکشد."
+                        Status.SUCCESSFUL -> "عملیات با موفقیت انجام شد."
                         Status.NETWORK_ERROR -> "لطفا اتصال اینترنت خود را چک کنید."
                         else -> "خطایی رخ داده است. لطفا مجددا تلاش کنید."
                     }, Toast.LENGTH_SHORT
@@ -108,6 +108,7 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
                     { review -> editReview(review) }).let { adapter ->
                     binding.rvSideOptions.adapter = adapter
                     viewModel.reviewsList.observe(viewLifecycleOwner) { list ->
+                        adapter.submitList(null)
                         adapter.submitList(list)
                     }
                 }
