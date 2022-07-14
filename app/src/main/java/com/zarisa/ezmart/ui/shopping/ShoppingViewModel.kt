@@ -147,7 +147,7 @@ class ShoppingViewModel @Inject constructor(
                                             }
                                         }
                                 }
-                            }else couponStatus.postValue(order.status)
+                            } else couponStatus.postValue(order.status)
                         }
                     } else couponStatus.postValue(Status.EMPTY_CART)
                 } else couponStatus.postValue(it.status)

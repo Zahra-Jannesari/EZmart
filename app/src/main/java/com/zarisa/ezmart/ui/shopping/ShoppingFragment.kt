@@ -62,6 +62,10 @@ class ShoppingFragment : Fragment() {
         binding.btnCompleteShopping.setOnClickListener {
             completeShopping()
         }
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getOrder()
+            binding.swipeRefresh.isRefreshing=false
+        }
     }
 
     private fun completeShopping() {

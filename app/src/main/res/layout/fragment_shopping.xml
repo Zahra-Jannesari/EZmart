@@ -46,19 +46,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvOrderItems"
+                android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:orderItemListData="@{viewModel.orderItems}"
-                tools:listitem="@layout/item_shopping_cart" />
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvOrderItems"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:orderItemListData="@{viewModel.orderItems}"
+                    tools:listitem="@layout/item_shopping_cart" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
