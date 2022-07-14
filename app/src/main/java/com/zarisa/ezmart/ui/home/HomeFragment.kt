@@ -7,14 +7,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.zarisa.ezmart.R
+import com.zarisa.ezmart.adapter.ProductVerticalViewRecyclerViewAdapter
+import com.zarisa.ezmart.adapter.SliderAdapter
 import com.zarisa.ezmart.databinding.FragmentHomeBinding
+import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.model.ITEM_ID
 import com.zarisa.ezmart.model.SEARCH_IN_ALL
 import com.zarisa.ezmart.model.SEARCH_ORIGIN
 import com.zarisa.ezmart.ui.MainActivity
-import com.zarisa.ezmart.domain.NetworkStatusViewHandler
-import com.zarisa.ezmart.adapter.ProductVerticalViewRecyclerViewAdapter
-import com.zarisa.ezmart.adapter.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,6 +43,17 @@ class HomeFragment : Fragment() {
         statusObserver()
     }
 
+    private fun bindSpecialsSlider() {
+        val adapter = SliderAdapter(this, mutableListOf())
+        binding.specialsImgViewPager.adapter = adapter
+        viewModel.specialOffersList.observe(viewLifecycleOwner) {
+            it?.let { product ->
+                adapter.newImageList(product.images)
+            }
+            binding.circleIndicator.setViewPager(binding.specialsImgViewPager)
+        }
+    }
+
     private fun getHomeLists() {
         viewModel.getMainProductsLists()
     }
@@ -66,7 +77,7 @@ class HomeFragment : Fragment() {
             ProductVerticalViewRecyclerViewAdapter { id -> onProductItemClick(id) }
         binding.rvHighRates.adapter =
             ProductVerticalViewRecyclerViewAdapter { id -> onProductItemClick(id) }
-        bindViewPager()
+        bindSpecialsSlider()
     }
 
     private fun onProductItemClick(id: Int) {
@@ -74,18 +85,11 @@ class HomeFragment : Fragment() {
         findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment, bundle)
     }
 
-    private fun bindViewPager() {
-        viewModel.specialOffersList.observe(viewLifecycleOwner) { product ->
-            binding.specialsImgViewPager.let { viewPager ->
-                viewPager.adapter = product?.images?.let { ViewPagerAdapter(it, requireContext()) }
-                binding.circleIndicator.setViewPager(viewPager)
-            }
-        }
-    }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.option_menu,menu)
+        inflater.inflate(R.menu.option_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_search -> {
@@ -96,4 +100,5 @@ class HomeFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 }
