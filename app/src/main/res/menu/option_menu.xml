@@ -2,8 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_search"
+    <item
+        android:id="@+id/menu_search"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always"
-        android:title="@string/search" />
+        android:title="@string/search"
+        android:visible="false"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_setting_brightness"
+        android:icon="@drawable/ic_settings_brightness"
+        android:title="@string/settings_brightness"
+        android:visible="false"
+        app:showAsAction="always" />
 </menu>

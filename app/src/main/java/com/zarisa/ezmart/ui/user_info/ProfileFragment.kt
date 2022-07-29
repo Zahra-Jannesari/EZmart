@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Patterns
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,7 +17,6 @@ import com.zarisa.ezmart.databinding.FragmentProfileBinding
 import com.zarisa.ezmart.domain.NetworkStatusViewHandler
 import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
-import com.zarisa.ezmart.ui.appTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,7 +35,7 @@ class ProfileFragment : Fragment() {
 
     private fun setupAppbar() {
         (requireActivity() as MainActivity).supportActionBar?.show()
-        setHasOptionsMenu(false)
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,17 +44,6 @@ class ProfileFragment : Fragment() {
         bindView()
         setDataInView()
         observeStatus()
-        initTheme()
-    }
-
-    private fun initTheme() {
-        val theme = sharedPref.getInt(APP_THEME, R.style.Theme_EZmart)
-        binding.btnTheme.isSelected = theme == R.style.dark_mode
-        binding.btnTheme.setOnClickListener {
-            appTheme = if (it.isSelected) R.style.Theme_EZmart else R.style.dark_mode
-            sharedPref.edit().putInt(APP_THEME, appTheme).apply()
-            activity?.recreate()
-        }
     }
 
     private fun bindView() {
@@ -209,6 +195,22 @@ class ProfileFragment : Fragment() {
     private fun initProfile() {
         sharedPref = requireActivity().getSharedPreferences(EZ_SHARED_PREF, Context.MODE_PRIVATE)
         viewModel.initProfile(sharedPref.getInt(CUSTOMER_ID, 0))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.option_menu, menu)
+        menu.findItem(R.id.menu_setting_brightness).isVisible = true
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_setting_brightness -> {
+                findNavController().navigate(R.id.action_profileFragment_to_settingFragment)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroy() {

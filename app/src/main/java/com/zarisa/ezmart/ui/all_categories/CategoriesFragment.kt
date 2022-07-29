@@ -2,16 +2,19 @@ package com.zarisa.ezmart.ui.all_categories
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.zarisa.ezmart.R
-import com.zarisa.ezmart.databinding.FragmentCategoriesBinding
-import com.zarisa.ezmart.model.*
-import com.zarisa.ezmart.ui.MainActivity
 import com.zarisa.ezmart.adapter.CategoryListRecyclerView
+import com.zarisa.ezmart.databinding.FragmentCategoriesBinding
 import com.zarisa.ezmart.domain.NetworkStatusViewHandler
+import com.zarisa.ezmart.model.CATEGORY_ITEM
+import com.zarisa.ezmart.model.Category
+import com.zarisa.ezmart.model.SEARCH_IN_ALL
+import com.zarisa.ezmart.model.SEARCH_ORIGIN
+import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,10 +63,13 @@ class CategoriesFragment : Fragment() {
         val bundle = bundleOf(CATEGORY_ITEM to category)
         findNavController().navigate(R.id.action_categoriesFragment_to_categoryFragment, bundle)
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.option_menu,menu)
+        inflater.inflate(R.menu.option_menu, menu)
+        menu.findItem(R.id.menu_search).isVisible = true
         super.onCreateOptionsMenu(menu, inflater)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_search -> {

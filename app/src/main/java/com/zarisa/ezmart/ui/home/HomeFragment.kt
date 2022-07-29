@@ -85,11 +85,14 @@ class HomeFragment : Fragment() {
         findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment, bundle)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.option_menu, menu)
+        menu.findItem(R.id.menu_search).isVisible = true
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_search -> {

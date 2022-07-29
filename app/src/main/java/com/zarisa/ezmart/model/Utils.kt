@@ -44,3 +44,7 @@ const val APP_THEME = "app theme"
 
 const val IRAN_LAT = 32.0
 const val IRAN_LONG = 54.0
+
+const val DARK_THEME = 100
+const val LIGHT_THEME = 101
+const val AUTO_THEME = 102

@@ -49,4 +49,9 @@
     <string name="register_order">ثبت سفارش</string>
     <string name="new_address">آدرس جدید</string>
     <string name="logout">خروج از حساب کاربری</string>
+    <string name="settings_brightness">تنظیمات روشنایی</string>
+    <string name="app_theme">تم برنامه</string>
+    <string name="auto_theme">خودکار</string>
+    <string name="dark_theme">تاریک</string>
+    <string name="light_theme">روشن</string>
 </resources>

@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_profileFragment_to_chooseAddressFragment"
             app:destination="@id/chooseAddressFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAddressFragment"
@@ -97,4 +100,9 @@
         android:name="com.zarisa.ezmart.ui.user_info.ChooseAddressFragment"
         android:label=""
         tools:layout="@layout/fragment_choose_address" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.zarisa.ezmart.SettingFragment"
+        android:label=""
+        tools:layout="@layout/fragment_setting" />
 </navigation>

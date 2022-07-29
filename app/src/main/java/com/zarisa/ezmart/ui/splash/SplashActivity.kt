@@ -9,20 +9,40 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.databinding.ActivitySplashScreenBinding
+import com.zarisa.ezmart.model.*
 import com.zarisa.ezmart.ui.MainActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
     lateinit var binding: ActivitySplashScreenBinding
+    private val sharedPref by lazy {
+        this.getSharedPreferences(
+            EZ_SHARED_PREF,
+            Context.MODE_PRIVATE
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        setTheme()
         setupSplashScreen()
+    }
+
+    private fun setTheme() {
+        sharedPref.getInt(APP_THEME, AUTO_THEME).let {
+            when (it) {
+                DARK_THEME -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                LIGHT_THEME -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
+        }
     }
 
     private fun setupSplashScreen() {
