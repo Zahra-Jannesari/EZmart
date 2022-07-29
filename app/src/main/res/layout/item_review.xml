@@ -17,6 +17,8 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:strokeColor="@color/drawable_tint"
+            app:strokeWidth="0.25dp"
             android:layout_margin="8dp"
             android:layoutDirection="rtl">
 

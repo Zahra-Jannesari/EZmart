@@ -99,9 +99,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="5dp"
+                        android:paddingHorizontal="10dp"
                         android:paddingVertical="2dp"
-                        android:text="@{viewModel.currentProduct.price!=``? viewModel.currentProduct.price+` تومان`:``}"
+                        android:text="@{viewModel.currentProduct.price!=null? @string/price_format(Integer.parseInt(viewModel.currentProduct.price)):``}"
                         tools:text="20 هزار" />
 
                     <View

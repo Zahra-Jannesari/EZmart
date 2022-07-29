@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.adapter.ProductVerticalViewRecyclerViewAdapter
@@ -101,8 +102,19 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
         when (it) {
             REVIEWS -> {
                 binding.lReview.visibility = View.VISIBLE
-                binding.tvReview.isSelected = true
-                binding.tvRelatedProducts.isSelected = false
+                binding.tvReview.let {
+                    it.isSelected = true
+                    it.setTextColor(
+                        MaterialColors.getColor(
+                            it,
+                            com.airbnb.lottie.R.attr.colorPrimary
+                        )
+                    )
+                }
+                binding.tvRelatedProducts.let {
+                    it.isSelected = false
+                    it.setTextColor(resources.getColor(R.color.drawable_tint))
+                }
                 ReviewAdapter(viewModel.customerEmail,
                     { reviewId -> deleteReview(reviewId) },
                     { review -> editReview(review) }).let { adapter ->
@@ -115,8 +127,19 @@ class ProductDetailFragment : Fragment(), ReviewDialog.DialogListener {
             }
             RELATED_PRODUCTS -> {
                 binding.lReview.visibility = View.GONE
-                binding.tvReview.isSelected = false
-                binding.tvRelatedProducts.isSelected = true
+                binding.tvReview.let {
+                    it.isSelected = false
+                    it.setTextColor(resources.getColor(R.color.drawable_tint))
+                }
+                binding.tvRelatedProducts.let {
+                    it.isSelected = true
+                    it.setTextColor(
+                        MaterialColors.getColor(
+                            it,
+                            com.airbnb.lottie.R.attr.colorPrimary
+                        )
+                    )
+                }
                 ProductVerticalViewRecyclerViewAdapter { id -> viewModel.initialProduct(id) }.let { adapter ->
                     binding.rvSideOptions.adapter = adapter
                     viewModel.relatedProductsList.observe(viewLifecycleOwner) { list ->
