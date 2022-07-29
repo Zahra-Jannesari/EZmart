@@ -54,4 +54,5 @@
     <string name="auto_theme">خودکار</string>
     <string name="dark_theme">تاریک</string>
     <string name="light_theme">روشن</string>
+    <string name="price_format">%,d تومان</string>
 </resources>

@@ -68,7 +68,7 @@ class ProfileViewModel @Inject constructor(private val customerRepository: Custo
     }
 
     fun logout() {
-        customerLiveData.postValue(Customer())
         isRegistered.postValue(false)
+        customerLiveData.postValue(Customer())
     }
 }

@@ -69,14 +69,14 @@ class ProfileFragment : Fragment() {
 
     private fun observeStatus() {
         viewModel.statusLiveData.observe(viewLifecycleOwner) {
-            if (it == null) {
-                binding.lStatus.root.visibility = View.GONE
-            } else
+            if (it != null) {
+                binding.lStatus.root.visibility = View.VISIBLE
                 NetworkStatusViewHandler(
                     it,
                     binding.lMain,
                     binding.lStatus, { initProfile() }, viewModel.statusMessage
                 )
+            }
         }
         viewModel.isRegistered.observe(viewLifecycleOwner) {
             if (it) {
@@ -86,6 +86,8 @@ class ProfileFragment : Fragment() {
                 binding.btnLogOut.visibility = View.VISIBLE
                 binding.textFieldAddressOne.isEndIconVisible = false
                 binding.textFieldAddressTwo.isEndIconVisible = false
+                binding.editTextName.isEnabled = false
+                binding.editTextEmail.isEnabled = false
             } else {
                 binding.btnSaveAddress.visibility = View.VISIBLE
                 binding.lBtnsRegister.visibility = View.VISIBLE
@@ -93,6 +95,8 @@ class ProfileFragment : Fragment() {
                 binding.btnLogOut.visibility = View.GONE
                 binding.textFieldAddressOne.isEndIconVisible = true
                 binding.textFieldAddressTwo.isEndIconVisible = true
+                binding.editTextName.isEnabled = true
+                binding.editTextEmail.isEnabled = true
             }
         }
     }
@@ -197,12 +201,14 @@ class ProfileFragment : Fragment() {
         viewModel.initProfile(sharedPref.getInt(CUSTOMER_ID, 0))
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.option_menu, menu)
         menu.findItem(R.id.menu_setting_brightness).isVisible = true
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_setting_brightness -> {

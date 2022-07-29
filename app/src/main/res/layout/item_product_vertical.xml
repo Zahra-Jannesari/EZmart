@@ -85,7 +85,7 @@
                         android:maxLines="1"
                         android:padding="2dp"
                         android:singleLine="true"
-                        android:text="@{product.price!=``? product.price+` تومان`:``}"
+                        android:text="@{product.price!=``? @string/price_format(Integer.parseInt(product.price)):``}"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         tools:ignore="RtlHardcoded"

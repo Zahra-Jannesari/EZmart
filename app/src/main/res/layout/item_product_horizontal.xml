@@ -108,7 +108,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{product.price!=``? product.price+` تومان`:``}"
+                android:text="@{product.price!=``? @string/price_format(Integer.parseInt(product.price)):``}"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/black"
                 tools:text="20 هزار تومان" />
