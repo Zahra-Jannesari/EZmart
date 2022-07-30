@@ -5,7 +5,7 @@
 
 | Splash Screen | Home Page(light & dark mode) | Categories Page |
 |--|--|--|
-|<p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181878123-af8423d6-9c1b-4338-9e47-88019cfd4edd.jpg" width=175px> </p>| <p align="center"><img src="https://user-images.githubusercontent.com/98989834/181878195-52b6457f-8ddf-4f1c-ab2d-0d4e6c8ab97b.jpg" width=175px> <img src="https://user-images.githubusercontent.com/98989834/181878179-026d774f-a6f9-4268-aa2b-f16693a7d916.jpg" width=175px > </p> | <p align="center"><img src="https://user-images.githubusercontent.com/98989834/181878505-9d5edd28-9f18-415b-b1b4-ab4793202b6c.jpg" width=175px> </p>|
+|<p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181878123-af8423d6-9c1b-4338-9e47-88019cfd4edd.jpg" width=150px> </p>| <p align="center"><img src="https://user-images.githubusercontent.com/98989834/181878195-52b6457f-8ddf-4f1c-ab2d-0d4e6c8ab97b.jpg" width=150px> <img src="https://user-images.githubusercontent.com/98989834/181878179-026d774f-a6f9-4268-aa2b-f16693a7d916.jpg" width=150px > </p> | <p align="center"><img src="https://user-images.githubusercontent.com/98989834/181878505-9d5edd28-9f18-415b-b1b4-ab4793202b6c.jpg" width=150px> </p>|
 
 | Category Items | Product Details | Shopping Cart(Empty & filled) |
 |--|--|--|
