@@ -1,11 +1,16 @@
 package com.zarisa.ezmart.ui.home
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
 import com.zarisa.ezmart.R
 import com.zarisa.ezmart.adapter.ProductVerticalViewRecyclerViewAdapter
 import com.zarisa.ezmart.adapter.SliderAdapter
@@ -16,12 +21,20 @@ import com.zarisa.ezmart.model.SEARCH_IN_ALL
 import com.zarisa.ezmart.model.SEARCH_ORIGIN
 import com.zarisa.ezmart.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
+    val sliderHandler = Handler()
+    val sliderRunnable by lazy {
+        Runnable {
+            binding.specialsImgViewPager.currentItem = binding.specialsImgViewPager.currentItem + 1
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,8 +57,30 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindSpecialsSlider() {
-        val adapter = SliderAdapter(this, mutableListOf())
-        binding.specialsImgViewPager.adapter = adapter
+        val adapter = SliderAdapter(this, mutableListOf(), binding.specialsImgViewPager)
+        binding.specialsImgViewPager.let {
+            it.adapter = adapter
+            it.offscreenPageLimit = 3
+            it.clipChildren = false
+            it.clipToPadding = false
+            it.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            val transformer = CompositePageTransformer().apply {
+                this.addTransformer(MarginPageTransformer(40))
+                this.addTransformer { page, position ->
+                    val r = 1 - abs(position)
+                    page.scaleY = 0.85f + r * 0.14f
+                }
+            }
+            it.setPageTransformer(transformer)
+            it.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    sliderHandler.removeCallbacks { sliderRunnable }
+                    sliderHandler.postDelayed(sliderRunnable, 5000)
+                }
+            })
+
+        }
         viewModel.specialOffersList.observe(viewLifecycleOwner) {
             it?.let { product ->
                 adapter.newImageList(product.images)
@@ -104,4 +139,13 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        sliderHandler.removeCallbacks(sliderRunnable)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sliderHandler.postDelayed(sliderRunnable, 5000)
+    }
 }
