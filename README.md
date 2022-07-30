@@ -9,11 +9,11 @@
 
 | Category Items | Product Details | Shopping Cart(Empty & filled) |
 |--|--|--|
-| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181878733-d97e4b2c-e600-4e05-b3c7-8bff069dc477.jpg" width=175px> </p>| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181878786-cade7b9e-881a-43ea-96dc-460f84e053a0.jpg" width=175px> </p>| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181878818-40edd563-7b0f-4f43-ad6b-b3c4d2783ce1.jpg" width=175px> <img src="https://user-images.githubusercontent.com/98989834/181878824-93dbca1f-f0d1-4fe6-8bdc-775da11bdec4.jpg" width=175px> </p> |
+| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181878733-d97e4b2c-e600-4e05-b3c7-8bff069dc477.jpg" width=170px> </p>| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181878786-cade7b9e-881a-43ea-96dc-460f84e053a0.jpg" width=170px> </p>| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181878818-40edd563-7b0f-4f43-ad6b-b3c4d2783ce1.jpg" width=170px> <img src="https://user-images.githubusercontent.com/98989834/181878824-93dbca1f-f0d1-4fe6-8bdc-775da11bdec4.jpg" width=170px> </p> |
 
 | Search(Filter View & Loading View) | Profile(Registered) | Address(Map) |
 |--|--|--|
-| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181879697-bc571be1-b974-4312-b10d-c0fef58b2cf9.jpg" width=175px> <img src="https://user-images.githubusercontent.com/98989834/181879716-dc79f208-fd6b-4eec-98ce-be2427b43884.jpg" width=175px></p>| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181879760-08cde1b1-3027-4b99-a6e9-ac1f57a4f657.jpg" width=175px> </p>| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181879810-95a06a05-cb41-4cdf-9090-7a77ece300ba.jpg" width=175px> </p> |
+| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181879697-bc571be1-b974-4312-b10d-c0fef58b2cf9.jpg" width=170px> <img src="https://user-images.githubusercontent.com/98989834/181879716-dc79f208-fd6b-4eec-98ce-be2427b43884.jpg" width=170px></p>| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181879760-08cde1b1-3027-4b99-a6e9-ac1f57a4f657.jpg" width=170px> </p>| <p align="center"> <img src="https://user-images.githubusercontent.com/98989834/181879810-95a06a05-cb41-4cdf-9090-7a77ece300ba.jpg" width=170px> </p> |
 ***
  - Application : Single Activity with designed SplashScreed, custom AppBar and Bottom Navigation as well as two themes to choose and save as defult.
  - Home Page :  Show newest, best seller, popular And special products with an Auto Slider.
