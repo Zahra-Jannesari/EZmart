@@ -28,7 +28,7 @@
 <br>
 
  ## Features & Components
- - Custom Daialog
+ - Custom Dialog
  - Dependency Injection
  - ViewPager & indicator
  - Interseptor
