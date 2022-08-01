@@ -1,4 +1,4 @@
-# EZmart: Shopping is EAZY (Online Shop)
+# EZmart: Shopping is EAZY (Online Store)
 
 ### Basic Online Android Project By Kotlin 
 <br>
@@ -21,14 +21,14 @@
  - Product Details : Show all product images and it's details such as name, description, similar products, reviews, etc. with possibility of Adding to shopping cart (even if not registered) and adding review as well as edit and delete option for THE REGISTERED USER reviews.
  - Shopping Cart : Show added Items with possibility of increasing, decreasing and removing Item. The final price is shown and completing the shopping process (with adding discount coupon feature) is available for registered user
  - Search Page : Show category of searching process (all or specific category) and filter and sort options to user and returen sorted matched products from server after a beautiful Shimmer Loader.
- - Profile Page : Require name and valid email to register.There is address options to add and sava address andlocation(optional), also choose frome saved addresses to save in server during register.
+ - Profile Page : Require name and valid email to register. There is address options to add and sava address and location (optional), also choose frome saved addresses to save in server during register.
 ***
  - MVVM Architecture
  - Using LiveData, KotlinCoroutines, DataBinding and GitFlow
 <br>
 
  ## Features & Components
- - Custom Dialog
+ - Custom Daialog
  - Dependency Injection
  - ViewPager & indicator
  - Interseptor
